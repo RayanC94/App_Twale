@@ -13,7 +13,12 @@ export const EVENT = {
   tagline: "Sport, Santé, Prévention",
   venue: "Stade Jean Bouin",
   city: "Choisy",
+  address: "39-41 Rue Pompadour, 94600 Choisy-le-Roi",
 } as const;
+
+export const VENUE_MAPS_URL = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(
+  `${EVENT.venue}, ${EVENT.address}`
+)}`;
 
 export const ASSO = {
   email: "contact@omas.fr",
@@ -58,10 +63,27 @@ export const TOURNAMENT_CONFIG = {
 export type HealthStandSlug = (typeof HEALTH_STANDS)[number]["slug"];
 
 /**
- * Sponsors / partenaires affichés dans le bandeau défilant.
- * Source des logos : `public/sponsors/`.
+ * Sponsors / partenaires affichés dans le bandeau défilant et sur la page /sponsors.
+ * Source des logos : `public/sponsors/`. Sert de fallback si la table `sponsors` Supabase est vide.
  */
-export const SPONSORS = [
-  { name: "Ville de Choisy-le-Roi",  logo: "/sponsors/ville-choisy.jpeg" },
-  { name: "ASCR Choisy-le-Roi",      logo: "/sponsors/ascr-choisy.jpeg"  },
-] as const;
+export type SponsorEntry = {
+  name: string;
+  logo: string;
+  description: string;
+  website: string | null;
+};
+
+export const SPONSORS: readonly SponsorEntry[] = [
+  {
+    name: "Ville de Choisy-le-Roi",
+    logo: "/sponsors/ville-choisy.jpeg",
+    description: "Commune d'accueil du tournoi — mise à disposition du Stade Jean Bouin et soutien à l'organisation de la journée.",
+    website: null,
+  },
+  {
+    name: "ASCR Choisy-le-Roi",
+    logo: "/sponsors/ascr-choisy.jpeg",
+    description: "Club sportif partenaire — appui à l'encadrement et à la logistique du tournoi.",
+    website: null,
+  },
+];

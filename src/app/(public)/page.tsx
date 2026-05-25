@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { TOURNOI_DATE_LABEL, TOURNOI_HOURS, EVENT, ASSO, TOURNAMENT_CONFIG, HEALTH_STANDS, SPONSORS } from "@/lib/constants";
+import { TOURNOI_DATE_LABEL, TOURNOI_HOURS, EVENT, ASSO, TOURNAMENT_CONFIG, HEALTH_STANDS, SPONSORS, VENUE_MAPS_URL } from "@/lib/constants";
 
 const QUICK_LINKS = [
   { href: "/tournoi",  label: "Tournoi",       icon: "🏆", desc: "Foot · Volley · Athlé" },
@@ -53,9 +53,16 @@ export default function HomePage() {
             <div className="rounded-full bg-white/15 backdrop-blur px-4 py-1.5 text-sm font-medium ring-1 ring-white/25">
               {TOURNOI_DATE_LABEL} · {TOURNOI_HOURS}
             </div>
-            <div className="rounded-full bg-white/15 backdrop-blur px-4 py-1.5 text-xs ring-1 ring-white/25">
+            <a
+              href={VENUE_MAPS_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Itinéraire vers ${EVENT.venue}, ${EVENT.address}`}
+              className="rounded-full bg-white/15 backdrop-blur px-4 py-1.5 text-xs ring-1 ring-white/25 hover:bg-white/25 active:bg-white/30 transition inline-flex items-center gap-1.5"
+            >
               📍 {EVENT.venue}, {EVENT.city}
-            </div>
+              <span aria-hidden className="opacity-80">→</span>
+            </a>
           </div>
 
           <p className="mt-7 max-w-xs text-white/90 text-balance leading-relaxed">
