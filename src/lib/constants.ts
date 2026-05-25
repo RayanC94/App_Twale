@@ -40,4 +40,21 @@ export const HEALTH_STANDS = [
   { slug: "kine",          name: "Kiné / Ostéo" },
 ] as const;
 
+/**
+ * Configuration officielle du tournoi (source : Feuille de Route OMAS).
+ * Sert de défaut à l'UI admin pour le tirage des poules.
+ */
+export const TOURNAMENT_CONFIG = {
+  foot: {
+    H: { teams: 12, pools: 3, teams_per_pool: 4 },
+    F: { teams: 6,  pools: 2, teams_per_pool: 3 },
+  },
+  volley: {
+    mixte: { teams: 12, pools: 3, teams_per_pool: 4 },
+  },
+  athletics: {
+    events: 22, // séries + finales × H/F
+  },
+} as const;
+
 export type HealthStandSlug = (typeof HEALTH_STANDS)[number]["slug"];

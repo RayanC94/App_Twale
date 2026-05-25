@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { TOURNOI_DATE_LABEL, TOURNOI_HOURS, EVENT, ASSO } from "@/lib/constants";
+import { TOURNOI_DATE_LABEL, TOURNOI_HOURS, EVENT, ASSO, TOURNAMENT_CONFIG, HEALTH_STANDS } from "@/lib/constants";
 
 const QUICK_LINKS = [
   { href: "/tournoi",  label: "Tournoi",       icon: "🏆", desc: "Foot · Volley · Athlé" },
@@ -93,14 +93,29 @@ export default function HomePage() {
           ))}
         </ul>
 
-        {/* Bloc programme à venir */}
+        {/* Bloc "Au programme" */}
         <div className="mt-8 rounded-2xl bg-[color:var(--color-surface)] p-5 ring-1 ring-[color:var(--color-border)]">
           <h3 className="font-[family-name:var(--font-outfit)] text-lg font-semibold text-[color:var(--color-omas-navy)]">
-            Bientôt — le programme
+            Au programme
           </h3>
-          <p className="mt-1 text-sm text-[color:var(--color-muted)]">
-            Le déroulé heure par heure (ouverture, matchs, animations, podiums) sera affiché ici dès qu'il sera figé.
-          </p>
+          <ul className="mt-3 space-y-2 text-sm">
+            <li className="flex items-center gap-3">
+              <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[color:var(--color-omas-teal)]/10 text-[color:var(--color-omas-teal)]">⚽</span>
+              <span><strong>Foot</strong> · {TOURNAMENT_CONFIG.foot.H.teams} équipes hommes + {TOURNAMENT_CONFIG.foot.F.teams} équipes femmes</span>
+            </li>
+            <li className="flex items-center gap-3">
+              <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[color:var(--color-omas-teal)]/10 text-[color:var(--color-omas-teal)]">🏐</span>
+              <span><strong>Volley</strong> · {TOURNAMENT_CONFIG.volley.mixte.teams} équipes mixtes</span>
+            </li>
+            <li className="flex items-center gap-3">
+              <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[color:var(--color-omas-teal)]/10 text-[color:var(--color-omas-teal)]">🏃</span>
+              <span><strong>Athlétisme</strong> · 100m, 400m, 800m, 3km, relais 4×100 & 4×400 (H/F)</span>
+            </li>
+            <li className="flex items-center gap-3">
+              <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[color:var(--color-omas-teal)]/10 text-[color:var(--color-omas-teal)]">💚</span>
+              <span><strong>Village santé</strong> · {HEALTH_STANDS.length} stands : {HEALTH_STANDS.map(s => s.name).join(" · ")}</span>
+            </li>
+          </ul>
         </div>
 
         {/* Footer signature */}
