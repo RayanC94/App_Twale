@@ -16,15 +16,15 @@ const outfit = Outfit({
 
 export const metadata: Metadata = {
   title: {
-    default: "La TWALE — Tournoi & Village Santé",
-    template: "%s · La TWALE",
+    default: "Tournoi OMAS — Sport, Santé, Prévention",
+    template: "%s · OMAS",
   },
   description:
-    "Tournoi sportif et forum santé de l'association La TWALE — 14 juin 2026. Scores en direct, planning, village santé et plus.",
-  applicationName: "La TWALE",
+    "Tournoi multisports OMAS organisé par l'association La TWALE — dimanche 14 juin 2026, Stade Jean Bouin (Choisy). Foot, volley, athlétisme et village santé.",
+  applicationName: "Tournoi OMAS",
   openGraph: {
-    title: "La TWALE — Tournoi & Village Santé",
-    description: "14 juin 2026 · Foot, volley, athlétisme et village santé.",
+    title: "Tournoi OMAS — Sport, Santé, Prévention",
+    description: "Dimanche 14 juin 2026 · Stade Jean Bouin, Choisy · Foot, volley, athlétisme et village santé.",
     locale: "fr_FR",
     type: "website",
   },

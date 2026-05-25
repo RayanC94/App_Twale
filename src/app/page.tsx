@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-
-const TOURNOI_DATE = "Samedi 14 juin 2026";
+import { TOURNOI_DATE_LABEL, TOURNOI_HOURS, EVENT, ASSO } from "@/lib/constants";
 
 const QUICK_LINKS = [
   { href: "/tournoi", label: "Tournoi", icon: "🏆", desc: "Foot · Volley · Athlé" },
@@ -30,16 +29,24 @@ export default function HomePage() {
             />
           </div>
           <h1 className="mt-6 font-[family-name:var(--font-outfit)] text-3xl sm:text-4xl font-bold tracking-tight text-balance">
-            La TWALE
+            {EVENT.name}
           </h1>
           <p className="mt-2 text-sm uppercase tracking-[0.18em] text-white/80">
-            Tournoi & Village Santé
+            {EVENT.tagline}
           </p>
-          <div className="mt-6 rounded-full bg-white/10 backdrop-blur px-4 py-1.5 text-sm font-medium ring-1 ring-white/20">
-            {TOURNOI_DATE}
+          <div className="mt-6 flex flex-col items-center gap-2">
+            <div className="rounded-full bg-white/10 backdrop-blur px-4 py-1.5 text-sm font-medium ring-1 ring-white/20">
+              {TOURNOI_DATE_LABEL} · {TOURNOI_HOURS}
+            </div>
+            <div className="rounded-full bg-white/10 backdrop-blur px-4 py-1.5 text-xs ring-1 ring-white/20">
+              📍 {EVENT.venue}, {EVENT.city}
+            </div>
           </div>
           <p className="mt-6 max-w-xs text-white/90 text-balance">
-            Ensemble pour le sport et la santé. Suivez les scores en direct, retrouvez le programme et toutes les infos pratiques.
+            Foot, volley, athlétisme et village santé — toute la journée sur un même site. Scores en direct, programme et infos pratiques ici.
+          </p>
+          <p className="mt-3 text-xs uppercase tracking-widest text-white/60">
+            Organisé par l'association {ASSO.name}
           </p>
         </div>
         {/* Vague décorative */}
@@ -94,7 +101,9 @@ export default function HomePage() {
 
         {/* Footer signature */}
         <p className="mt-10 text-center text-xs text-[color:var(--color-muted)]">
-          Association La TWALE · contact@latwale.fr
+          Tournoi {EVENT.name} · organisé par {ASSO.full_name}
+          <br />
+          <span className="opacity-70">{ASSO.email}</span>
         </p>
       </section>
     </main>
