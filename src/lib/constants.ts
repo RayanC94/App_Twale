@@ -8,16 +8,14 @@ export const TOURNOI_DATE_LABEL = "Dimanche 14 juin 2026";
 export const TOURNOI_HOURS = "9h – 19h";
 
 export const EVENT = {
-  name: "Tournoi OMAS",
-  full_name: "Tournoi multisports OMAS",
+  name: "Tournoi multisports",
+  full_name: "Tournoi multisports — Édition 2026",
   tagline: "Sport, Santé, Prévention",
   venue: "Stade Jean Bouin",
   city: "Choisy",
 } as const;
 
 export const ASSO = {
-  name: "OMAS",
-  full_name: "Organisation Musulmane des Acteurs de Santé",
   email: "contact@omas.fr",
 } as const;
 
@@ -41,7 +39,7 @@ export const HEALTH_STANDS = [
 ] as const;
 
 /**
- * Configuration officielle du tournoi (source : Feuille de Route OMAS).
+ * Configuration officielle du tournoi (source : Feuille de Route).
  * Sert de défaut à l'UI admin pour le tirage des poules.
  */
 export const TOURNAMENT_CONFIG = {

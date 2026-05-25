@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  /* Palette OMAS — Organisation Musulmane des Acteurs de Santé */
+  /* Palette principale — teal + navy */
   --color-omas-teal: #1F9E94;
   --color-omas-teal-dark: #14685F;
   --color-omas-teal-light: #5DC0B7;
@@ -12,6 +12,12 @@
   --color-omas-surface: #FFFFFF;
   --color-omas-ink: #0F2940;
 
+  /* Palette Twale — association partenaire (violet + crème chaud) */
+  --color-twale-purple: #5B2A86;
+  --color-twale-purple-dark: #3E1A5E;
+  --color-twale-purple-light: #8B5BB5;
+  --color-twale-cream: #F2EAD3;
+
   /* Tokens sémantiques */
   --color-background: var(--color-omas-cream);
   --color-surface: var(--color-omas-surface);
@@ -20,6 +26,7 @@
   --color-primary: var(--color-omas-teal);
   --color-primary-foreground: #FFFFFF;
   --color-accent: var(--color-omas-navy);
+  --color-accent-2: var(--color-twale-purple);
   --color-border: rgba(31, 158, 148, 0.18);
 
   /* Polices */
@@ -51,11 +58,15 @@
   .text-balance {
     text-wrap: balance;
   }
-  /* Dégradé signature OMAS (teal → navy) pour les héros */
+  /* Dégradé signature (teal → navy) pour les héros */
   .bg-omas-gradient {
     background: linear-gradient(135deg, var(--color-omas-teal) 0%, var(--color-omas-navy) 100%);
   }
   .bg-omas-gradient-soft {
     background: linear-gradient(135deg, var(--color-omas-teal-dark) 0%, var(--color-omas-navy-dark) 100%);
+  }
+  /* Dégradé mixte (teal → navy → violet TWALE) pour le co-branding */
+  .bg-mixte-gradient {
+    background: linear-gradient(135deg, var(--color-omas-teal) 0%, var(--color-omas-navy) 55%, var(--color-twale-purple) 100%);
   }
 }

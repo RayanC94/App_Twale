@@ -1,7 +1,7 @@
 -- =========================================================
--- Seed initial — Tournoi OMAS (organisé par La TWALE)
+-- Seed initial — Tournoi multisports (co-organisé)
 -- 14 juin 2026, Stade Jean Bouin, Choisy.
--- Source : Feuille de Route TOURNOI OMAS.
+-- Source : Feuille de Route TOURNOI.
 -- À appliquer APRÈS la migration 0001_init.sql.
 -- Idempotent grâce aux ON CONFLICT.
 -- =========================================================
@@ -93,8 +93,8 @@ insert into app_settings (key, value) values
     'note', 'À mettre à jour avec le numéro réel avant le 14 juin'
   )),
   ('event', jsonb_build_object(
-    'name', 'Tournoi OMAS',
-    'organizer', 'Association La TWALE',
+    'name', 'Tournoi multisports',
+    'organizer', '',
     'tagline', 'Sport, Santé, Prévention',
     'date', '2026-06-14',
     'opens_at', '2026-06-14T09:00:00+02:00',

@@ -16,14 +16,14 @@ const outfit = Outfit({
 
 export const metadata: Metadata = {
   title: {
-    default: "Tournoi OMAS — Sport, Santé, Prévention",
-    template: "%s · OMAS",
+    default: "Tournoi multisports — Sport, Santé, Prévention",
+    template: "%s · Tournoi multisports",
   },
   description:
-    "Tournoi multisports de l'OMAS (Organisation Musulmane des Acteurs de Santé) — dimanche 14 juin 2026, Stade Jean Bouin (Choisy). Foot, volley, athlétisme et village santé.",
-  applicationName: "Tournoi OMAS",
+    "Tournoi multisports — dimanche 14 juin 2026, Stade Jean Bouin (Choisy). Foot, volley, athlétisme et village santé.",
+  applicationName: "Tournoi multisports",
   openGraph: {
-    title: "Tournoi OMAS — Sport, Santé, Prévention",
+    title: "Tournoi multisports — Sport, Santé, Prévention",
     description: "Dimanche 14 juin 2026 · Stade Jean Bouin, Choisy · Foot, volley, athlétisme et village santé.",
     locale: "fr_FR",
     type: "website",

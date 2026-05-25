@@ -14,19 +14,32 @@ const QUICK_LINKS = [
 export default function HomePage() {
   return (
     <main className="min-h-dvh">
-      {/* Hero — dégradé teal → navy OMAS */}
-      <section className="relative overflow-hidden bg-omas-gradient text-white">
+      {/* Hero — dégradé mixte teal → navy → violet TWALE */}
+      <section className="relative overflow-hidden bg-mixte-gradient text-white">
         <div className="relative mx-auto max-w-screen-sm px-6 pt-10 pb-14 flex flex-col items-center text-center">
-          {/* Logo OMAS sur disque blanc */}
-          <div className="rounded-full bg-white p-3 ring-4 ring-white/15 shadow-xl">
-            <Image
-              src="/logo-omas.jpg"
-              alt="Logo OMAS — Organisation Musulmane des Acteurs de Santé"
-              width={120}
-              height={120}
-              className="rounded-full"
-              priority
-            />
+          {/* Co-branding : les 2 logos côte à côte */}
+          <div className="flex items-center gap-4">
+            <div className="rounded-full bg-white p-2.5 ring-4 ring-white/15 shadow-xl">
+              <Image
+                src="/logo-omas.jpg"
+                alt=""
+                width={88}
+                height={88}
+                className="rounded-full"
+                priority
+              />
+            </div>
+            <span aria-hidden className="text-white/40 text-2xl font-light select-none">×</span>
+            <div className="rounded-full bg-[color:var(--color-twale-cream)] p-2.5 ring-4 ring-white/15 shadow-xl">
+              <Image
+                src="/logo-twale.jpeg"
+                alt=""
+                width={88}
+                height={88}
+                className="rounded-full"
+                priority
+              />
+            </div>
           </div>
 
           <h1 className="mt-6 font-[family-name:var(--font-outfit)] text-4xl sm:text-5xl font-bold tracking-tight text-balance">
@@ -47,9 +60,6 @@ export default function HomePage() {
 
           <p className="mt-7 max-w-xs text-white/90 text-balance leading-relaxed">
             Foot, volley, athlétisme et village santé sur un même site. Scores en direct, programme et infos pratiques ici.
-          </p>
-          <p className="mt-4 text-[11px] uppercase tracking-[0.2em] text-white/65">
-            {ASSO.full_name}
           </p>
         </div>
 
@@ -93,7 +103,7 @@ export default function HomePage() {
           ))}
         </ul>
 
-        {/* Bloc "Au programme" */}
+        {/* Bloc "Au programme" — accents alternés teal / violet */}
         <div className="mt-8 rounded-2xl bg-[color:var(--color-surface)] p-5 ring-1 ring-[color:var(--color-border)]">
           <h3 className="font-[family-name:var(--font-outfit)] text-lg font-semibold text-[color:var(--color-omas-navy)]">
             Au programme
@@ -104,7 +114,7 @@ export default function HomePage() {
               <span><strong>Foot</strong> · {TOURNAMENT_CONFIG.foot.H.teams} équipes hommes + {TOURNAMENT_CONFIG.foot.F.teams} équipes femmes</span>
             </li>
             <li className="flex items-center gap-3">
-              <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[color:var(--color-omas-teal)]/10 text-[color:var(--color-omas-teal)]">🏐</span>
+              <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[color:var(--color-twale-purple)]/10 text-[color:var(--color-twale-purple)]">🏐</span>
               <span><strong>Volley</strong> · {TOURNAMENT_CONFIG.volley.mixte.teams} équipes mixtes</span>
             </li>
             <li className="flex items-center gap-3">
@@ -112,7 +122,7 @@ export default function HomePage() {
               <span><strong>Athlétisme</strong> · 100m, 400m, 800m, 3km, relais 4×100 & 4×400 (H/F)</span>
             </li>
             <li className="flex items-center gap-3">
-              <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[color:var(--color-omas-teal)]/10 text-[color:var(--color-omas-teal)]">💚</span>
+              <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[color:var(--color-twale-purple)]/10 text-[color:var(--color-twale-purple)]">💚</span>
               <span><strong>Village santé</strong> · {HEALTH_STANDS.length} stands : {HEALTH_STANDS.map(s => s.name).join(" · ")}</span>
             </li>
           </ul>
@@ -120,7 +130,7 @@ export default function HomePage() {
 
         {/* Footer signature */}
         <p className="mt-10 text-center text-xs text-[color:var(--color-muted)]">
-          {EVENT.name} · {ASSO.full_name}
+          {EVENT.full_name}
           <br />
           <span className="opacity-70">{ASSO.email}</span>
         </p>
