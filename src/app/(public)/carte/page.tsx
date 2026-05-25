@@ -1,4 +1,5 @@
 import { createServiceClient } from "@/lib/supabase/service";
+import SiteMap from "@/components/public/SiteMap";
 
 export const revalidate = 120;
 export const metadata = { title: "Plan du site" };
@@ -62,12 +63,11 @@ export default async function CartePage() {
         </div>
       </header>
 
+      {/* Plan visuel interactif */}
+      <SiteMap />
+
       <section className="mx-auto max-w-screen-sm px-4 py-6">
-        {pois.length === 0 ? (
-          <p className="text-center text-sm text-[color:var(--color-muted)] py-12">
-            Les points d'intérêt seront ajoutés avant le 14 juin.
-          </p>
-        ) : (
+        {pois.length === 0 ? null : (
           <div className="space-y-6">
             {groups.map((g) => {
               const meta = KIND_META[g.kind];
@@ -104,9 +104,6 @@ export default async function CartePage() {
           </div>
         )}
 
-        <p className="mt-8 text-center text-xs text-[color:var(--color-muted)]">
-          Plan détaillé interactif à venir.
-        </p>
       </section>
     </main>
   );
