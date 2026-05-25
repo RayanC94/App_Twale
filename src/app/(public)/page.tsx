@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { TOURNOI_DATE_LABEL, TOURNOI_HOURS, EVENT, ASSO, TOURNAMENT_CONFIG, HEALTH_STANDS } from "@/lib/constants";
+import { TOURNOI_DATE_LABEL, TOURNOI_HOURS, EVENT, ASSO, TOURNAMENT_CONFIG, HEALTH_STANDS, SPONSORS } from "@/lib/constants";
 
 const QUICK_LINKS = [
   { href: "/tournoi",  label: "Tournoi",       icon: "🏆", desc: "Foot · Volley · Athlé" },
@@ -126,6 +126,33 @@ export default function HomePage() {
               <span><strong>Village santé</strong> · {HEALTH_STANDS.length} stands : {HEALTH_STANDS.map(s => s.name).join(" · ")}</span>
             </li>
           </ul>
+        </div>
+
+        {/* Bandeau partenaires défilant */}
+        <div className="mt-8">
+          <h3 className="px-2 text-xs font-semibold uppercase tracking-widest text-[color:var(--color-muted)]">
+            Avec le soutien de
+          </h3>
+          <div className="mt-3 overflow-hidden rounded-2xl bg-[color:var(--color-surface)] ring-1 ring-[color:var(--color-border)] py-4">
+            <div className="flex w-max items-center gap-10 animate-marquee">
+              {[...SPONSORS, ...SPONSORS, ...SPONSORS, ...SPONSORS].map((s, i) => (
+                <div key={`${s.name}-${i}`} className="shrink-0 px-2">
+                  <Image
+                    src={s.logo}
+                    alt={s.name}
+                    width={72}
+                    height={72}
+                    className="h-16 w-auto object-contain"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+          <p className="mt-2 text-center text-[11px] text-[color:var(--color-muted)]">
+            <Link href="/sponsors" className="underline underline-offset-2 hover:text-[color:var(--color-omas-teal)]">
+              Voir tous les partenaires
+            </Link>
+          </p>
         </div>
 
         {/* Footer signature */}

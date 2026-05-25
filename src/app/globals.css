@@ -69,4 +69,15 @@
   .bg-mixte-gradient {
     background: linear-gradient(135deg, var(--color-omas-teal) 0%, var(--color-omas-navy) 55%, var(--color-twale-purple) 100%);
   }
+  /* Marquee défilant — logos partenaires en boucle */
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  .animate-marquee {
+    animation: marquee 40s linear infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .animate-marquee { animation: none; }
+  }
 }

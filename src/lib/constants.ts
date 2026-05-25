@@ -56,3 +56,12 @@ export const TOURNAMENT_CONFIG = {
 } as const;
 
 export type HealthStandSlug = (typeof HEALTH_STANDS)[number]["slug"];
+
+/**
+ * Sponsors / partenaires affichés dans le bandeau défilant.
+ * Source des logos : `public/sponsors/`.
+ */
+export const SPONSORS = [
+  { name: "Ville de Choisy-le-Roi",  logo: "/sponsors/ville-choisy.jpeg" },
+  { name: "ASCR Choisy-le-Roi",      logo: "/sponsors/ascr-choisy.jpeg"  },
+] as const;
