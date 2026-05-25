@@ -1,0 +1,59 @@
+@import "tailwindcss";
+
+@theme {
+  /* Palette La TWALE — tirée du logo */
+  --color-twale-purple: #5B2A8C;
+  --color-twale-purple-dark: #3D1B5E;
+  --color-twale-purple-light: #8B5DBA;
+  --color-twale-cream: #F2E8D5;
+  --color-twale-cream-light: #FAF4E8;
+  --color-twale-cream-dark: #E8DBC0;
+  --color-twale-ink: #2A1145;
+
+  /* Tokens sémantiques */
+  --color-background: var(--color-twale-cream);
+  --color-surface: var(--color-twale-cream-light);
+  --color-foreground: var(--color-twale-ink);
+  --color-muted: #6B5B7A;
+  --color-primary: var(--color-twale-purple);
+  --color-primary-foreground: #FFFFFF;
+  --color-border: rgba(91, 42, 140, 0.12);
+
+  /* Polices */
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-display: var(--font-outfit), var(--font-inter), system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    background: var(--color-background);
+    color: var(--color-foreground);
+  }
+  body {
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+  }
+  ::selection {
+    background: var(--color-twale-purple);
+    color: #fff;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  /* Motif toile d'araignée subtil (clin d'œil au logo) */
+  .bg-twale-web {
+    background-image:
+      radial-gradient(circle at 50% 50%, transparent 38%, rgba(91, 42, 140, 0.04) 39%, transparent 40%),
+      radial-gradient(circle at 50% 50%, transparent 28%, rgba(91, 42, 140, 0.04) 29%, transparent 30%),
+      radial-gradient(circle at 50% 50%, transparent 18%, rgba(91, 42, 140, 0.04) 19%, transparent 20%);
+    background-size: 240px 240px;
+  }
+}
