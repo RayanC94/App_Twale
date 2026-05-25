@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createServiceClient } from "@/lib/supabase/service";
 
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 type StandRow = {
   id: string;

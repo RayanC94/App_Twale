@@ -1,7 +1,7 @@
 import { createServiceClient } from "@/lib/supabase/service";
 import SurveyForm from "@/components/public/SurveyForm";
 
-export const revalidate = 300;
+export const dynamic = "force-dynamic";
 export const metadata = { title: "Sondage de fin" };
 
 type Stand = {

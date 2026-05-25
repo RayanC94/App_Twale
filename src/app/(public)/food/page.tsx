@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { createServiceClient } from "@/lib/supabase/service";
 
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 export const metadata = { title: "Food truck" };
 
 type FoodItem = {

@@ -1,7 +1,7 @@
 import { createServiceClient } from "@/lib/supabase/service";
 import SiteMap from "@/components/public/SiteMap";
 
-export const revalidate = 120;
+export const dynamic = "force-dynamic";
 export const metadata = { title: "Plan du site" };
 
 type PoiKind = "field" | "health" | "foodtruck" | "infirmary" | "wc" | "water" | "entrance" | "other";

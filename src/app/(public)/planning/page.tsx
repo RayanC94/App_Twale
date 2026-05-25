@@ -1,6 +1,6 @@
 import { createServiceClient } from "@/lib/supabase/service";
 
-export const revalidate = 30;
+export const dynamic = "force-dynamic";
 
 type ScheduleItem = {
   id: string;

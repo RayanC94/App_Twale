@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { createServiceClient } from "@/lib/supabase/service";
 import LiveScore from "@/components/public/LiveScore";
 
-export const revalidate = 0;
+export const dynamic = "force-dynamic";
 
 type Status = "scheduled" | "live" | "finished" | "cancelled";
 

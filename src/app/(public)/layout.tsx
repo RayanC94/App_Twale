@@ -2,8 +2,8 @@ import { createServiceClient } from "@/lib/supabase/service";
 import BottomNav from "@/components/public/BottomNav";
 import SponsorsMarquee from "@/components/public/SponsorsMarquee";
 
-// Revalide périodiquement le shell (sponsors) côté serveur.
-export const revalidate = 60;
+// Rendu à la requête — données live (tournoi temps réel).
+export const dynamic = "force-dynamic";
 
 async function getSponsors() {
   try {

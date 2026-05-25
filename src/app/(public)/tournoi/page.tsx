@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { createServiceClient } from "@/lib/supabase/service";
 
-export const revalidate = 30;
+export const dynamic = "force-dynamic";
 
 type SportSummary = {
   key: "foot" | "volley" | "athle";

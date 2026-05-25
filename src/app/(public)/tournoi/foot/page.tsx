@@ -3,7 +3,7 @@ import { createServiceClient } from "@/lib/supabase/service";
 import PoolStandings from "@/components/public/PoolStandings";
 import MatchCard, { type MatchCardData } from "@/components/public/MatchCard";
 
-export const revalidate = 30;
+export const dynamic = "force-dynamic";
 
 type Gender = "H" | "F";
 

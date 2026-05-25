@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { createServiceClient } from "@/lib/supabase/service";
 
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 type Stand = {
   slug: string;
