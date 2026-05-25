@@ -16,9 +16,9 @@ export const EVENT = {
 } as const;
 
 export const ASSO = {
-  name: "La TWALE",
-  full_name: "Association La TWALE",
-  email: "contact@latwale.fr",
+  name: "OMAS",
+  full_name: "Organisation Musulmane des Acteurs de Santé",
+  email: "contact@omas.fr",
 } as const;
 
 /**

@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     template: "%s · OMAS",
   },
   description:
-    "Tournoi multisports OMAS organisé par l'association La TWALE — dimanche 14 juin 2026, Stade Jean Bouin (Choisy). Foot, volley, athlétisme et village santé.",
+    "Tournoi multisports de l'OMAS (Organisation Musulmane des Acteurs de Santé) — dimanche 14 juin 2026, Stade Jean Bouin (Choisy). Foot, volley, athlétisme et village santé.",
   applicationName: "Tournoi OMAS",
   openGraph: {
     title: "Tournoi OMAS — Sport, Santé, Prévention",
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#5B2A8C",
+  themeColor: "#1F9E94",
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,

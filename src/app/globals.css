@@ -1,23 +1,26 @@
 @import "tailwindcss";
 
 @theme {
-  /* Palette La TWALE — tirée du logo */
-  --color-twale-purple: #5B2A8C;
-  --color-twale-purple-dark: #3D1B5E;
-  --color-twale-purple-light: #8B5DBA;
-  --color-twale-cream: #F2E8D5;
-  --color-twale-cream-light: #FAF4E8;
-  --color-twale-cream-dark: #E8DBC0;
-  --color-twale-ink: #2A1145;
+  /* Palette OMAS — Organisation Musulmane des Acteurs de Santé */
+  --color-omas-teal: #1F9E94;
+  --color-omas-teal-dark: #14685F;
+  --color-omas-teal-light: #5DC0B7;
+  --color-omas-navy: #2B2C82;
+  --color-omas-navy-dark: #1A1B5C;
+  --color-omas-navy-light: #5759A3;
+  --color-omas-cream: #FAF7F1;
+  --color-omas-surface: #FFFFFF;
+  --color-omas-ink: #0F2940;
 
   /* Tokens sémantiques */
-  --color-background: var(--color-twale-cream);
-  --color-surface: var(--color-twale-cream-light);
-  --color-foreground: var(--color-twale-ink);
-  --color-muted: #6B5B7A;
-  --color-primary: var(--color-twale-purple);
+  --color-background: var(--color-omas-cream);
+  --color-surface: var(--color-omas-surface);
+  --color-foreground: var(--color-omas-ink);
+  --color-muted: #5A6C7A;
+  --color-primary: var(--color-omas-teal);
   --color-primary-foreground: #FFFFFF;
-  --color-border: rgba(91, 42, 140, 0.12);
+  --color-accent: var(--color-omas-navy);
+  --color-border: rgba(31, 158, 148, 0.18);
 
   /* Polices */
   --font-sans: var(--font-inter), system-ui, sans-serif;
@@ -39,7 +42,7 @@
     letter-spacing: -0.01em;
   }
   ::selection {
-    background: var(--color-twale-purple);
+    background: var(--color-omas-teal);
     color: #fff;
   }
 }
@@ -48,12 +51,11 @@
   .text-balance {
     text-wrap: balance;
   }
-  /* Motif toile d'araignée subtil (clin d'œil au logo) */
-  .bg-twale-web {
-    background-image:
-      radial-gradient(circle at 50% 50%, transparent 38%, rgba(91, 42, 140, 0.04) 39%, transparent 40%),
-      radial-gradient(circle at 50% 50%, transparent 28%, rgba(91, 42, 140, 0.04) 29%, transparent 30%),
-      radial-gradient(circle at 50% 50%, transparent 18%, rgba(91, 42, 140, 0.04) 19%, transparent 20%);
-    background-size: 240px 240px;
+  /* Dégradé signature OMAS (teal → navy) pour les héros */
+  .bg-omas-gradient {
+    background: linear-gradient(135deg, var(--color-omas-teal) 0%, var(--color-omas-navy) 100%);
+  }
+  .bg-omas-gradient-soft {
+    background: linear-gradient(135deg, var(--color-omas-teal-dark) 0%, var(--color-omas-navy-dark) 100%);
   }
 }
