@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { TOURNOI_DATE_LABEL, TOURNOI_HOURS, EVENT, ASSO, TOURNAMENT_CONFIG, HEALTH_STANDS, SPONSORS, VENUE_MAPS_URL } from "@/lib/constants";
+import { TOURNOI_DATE_LABEL, TOURNOI_HOURS, EVENT, TOURNAMENT_CONFIG, HEALTH_STANDS, SPONSORS, VENUE_MAPS_URL } from "@/lib/constants";
 
 const QUICK_LINKS = [
   { href: "/tournoi",  label: "Tournoi",       icon: "🏆", desc: "Foot · Volley · Athlé" },
@@ -165,8 +165,6 @@ export default function HomePage() {
         {/* Footer signature */}
         <p className="mt-10 text-center text-xs text-[color:var(--color-muted)]">
           {EVENT.full_name}
-          <br />
-          <span className="opacity-70">{ASSO.email}</span>
         </p>
       </section>
     </main>

@@ -20,10 +20,6 @@ export const VENUE_MAPS_URL = `https://www.google.com/maps/dir/?api=1&destinatio
   `${EVENT.venue}, ${EVENT.address}`
 )}`;
 
-export const ASSO = {
-  email: "contact@omas.fr",
-} as const;
-
 /**
  * Fallback SOS — utilisé si app_settings.sos n'est pas accessible.
  * À synchroniser manuellement avec la valeur en base avant le jour J.
