@@ -16,14 +16,14 @@ const outfit = Outfit({
 
 export const metadata: Metadata = {
   title: {
-    default: "Tournoi multisports — Sport, Santé, Prévention",
-    template: "%s · Tournoi multisports",
+    default: "Village santé & Tournoi multisports — Sport, Santé, Prévention",
+    template: "%s · Village santé & Tournoi multisports",
   },
   description:
-    "Tournoi multisports — dimanche 14 juin 2026, Stade Jean Bouin (Choisy). Foot, volley, athlétisme et village santé.",
-  applicationName: "Tournoi multisports",
+    "Village santé & Tournoi multisports — dimanche 14 juin 2026, Stade Jean Bouin (Choisy). Foot, volley, athlétisme et 5 stands santé.",
+  applicationName: "Village santé & Tournoi multisports",
   openGraph: {
-    title: "Tournoi multisports — Sport, Santé, Prévention",
+    title: "Village santé & Tournoi multisports — Sport, Santé, Prévention",
     description: "Dimanche 14 juin 2026 · Stade Jean Bouin, Choisy · Foot, volley, athlétisme et village santé.",
     locale: "fr_FR",
     type: "website",

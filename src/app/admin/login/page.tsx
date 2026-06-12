@@ -57,7 +57,7 @@ export default async function AdminLoginPage() {
         </div>
 
         <p className="mt-auto pt-10 text-center text-[11px] text-white/60">
-          Tournoi multisports · 14 juin 2026
+          Village santé & Tournoi multisports · 14 juin 2026
         </p>
       </div>
     </main>

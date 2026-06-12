@@ -10,8 +10,11 @@ export const TOURNOI_HOURS = "10h – 18h";
 export const TOURNOI_HOURS_PLAYERS = "8h – 18h";
 
 export const EVENT = {
-  name: "Tournoi multisports",
-  full_name: "Tournoi multisports — Édition 2026",
+  name: "Village santé & Tournoi multisports",
+  /** Les deux lignes du titre, affichées séparément sur le hero. */
+  name_line1: "Village santé",
+  name_line2: "& Tournoi multisports",
+  full_name: "Village santé & Tournoi multisports — Édition 2026",
   tagline: "Sport, Santé, Prévention",
   venue: "Stade Jean Bouin",
   city: "Choisy",
@@ -80,49 +83,39 @@ export type FoodTruck = {
   name: string;
   kind: "Salé" | "Sucré";
   tagline: string;
-  phone_label: string;
-  phone_href: string;
+  phone_label?: string;
+  phone_href?: string;
   poster: string;
   note?: string;
   items: readonly FoodTruckMenuItem[];
 };
 
+/** Menus officiels reçus le 12 juin 2026 (affiches dans public/food/). */
 export const FOOD_TRUCKS: readonly FoodTruck[] = [
   {
-    slug: "tanly",
-    name: "TanLy' Food Truck",
+    slug: "sale",
+    name: "Menu Salé",
     kind: "Salé",
-    tagline: "Produits frais et de qualité",
-    phone_label: "06 58 88 78 82",
-    phone_href: "tel:+33658887882",
-    poster: "/food/menu-tanly.jpeg",
+    tagline: "Paella, sandwichs et frites",
+    poster: "/food/menu-sale.jpeg",
     items: [
-      { name: "Croquettes de poulet frites", price: "7 €" },
-      { name: "Riz cantonais au bœuf", price: "7 €" },
-      { name: "Sandwich merguez", detail: "Frites + boisson incluses", price: "7 €" },
-      { name: "Box nems poulet au fromage (2 p.)", detail: "+ samoussas au bœuf (2 p.)", price: "5 €" },
-      { name: "Box watan frites (5 p.)", price: "5 €" },
-      { name: "Salade de fruits frais", price: "5 €" },
-      { name: "Café", price: "1 €" },
-      { name: "Boisson", price: "1 €" },
+      { name: "Paella", price: "10 €" },
+      { name: "Sandwich frites merguez", price: "6,50 €" },
+      { name: "Croque monsieur", price: "6,50 €" },
+      { name: "Frites", price: "3 €" },
     ],
   },
   {
-    slug: "douceurs",
-    name: "Les Douceurs",
+    slug: "crepes",
+    name: "Menu Crêpes",
     kind: "Sucré",
-    tagline: "Des douceurs pour tous les goûts !",
-    phone_label: "07 44 59 65 77",
-    phone_href: "tel:+33744596577",
-    poster: "/food/menu-douceurs.jpeg",
-    note: "Tarifs affichés sur place.",
+    tagline: "Crêpes, gourmandises et sandwich chaud",
+    poster: "/food/menu-crepes.jpeg",
     items: [
-      { name: "Crêpes" },
-      { name: "Gaufres" },
-      { name: "Churros" },
-      { name: "Beignets" },
-      { name: "Barbe à papa" },
-      { name: "Granita & glaces" },
+      { name: "Crêpe au sucre", detail: "La classique", price: "3 €" },
+      { name: "Crêpe gourmande", detail: "Nutella · Caramel · Confiture · Sucre & citron", price: "4 €" },
+      { name: "Crêpe spéciale", detail: "Nutella & banane", price: "5 €" },
+      { name: "Sandwich chaud", detail: "Raclette & jambon", price: "5 €" },
     ],
   },
 ];

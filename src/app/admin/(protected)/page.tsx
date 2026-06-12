@@ -67,7 +67,7 @@ export default async function AdminDashboardPage() {
           Bienvenue, {staff.display_name}
         </h1>
         <p className="mt-2 text-sm text-white/85">
-          Tournoi multisports · dimanche 14 juin 2026
+          Village santé & Tournoi multisports · dimanche 14 juin 2026
         </p>
       </section>
 

@@ -42,8 +42,9 @@ export default function HomePage() {
             </div>
           </div>
 
-          <h1 className="mt-6 font-[family-name:var(--font-outfit)] text-4xl sm:text-5xl font-bold tracking-tight text-balance">
-            {EVENT.name}
+          <h1 className="mt-6 font-[family-name:var(--font-outfit)] tracking-tight text-balance">
+            <span className="block text-4xl sm:text-5xl font-bold">{EVENT.name_line1}</span>
+            <span className="mt-1.5 block text-2xl sm:text-3xl font-semibold text-white/90">{EVENT.name_line2}</span>
           </h1>
           <p className="mt-2 text-sm uppercase tracking-[0.22em] text-white/85">
             {EVENT.tagline}
@@ -141,27 +142,30 @@ export default function HomePage() {
             En cas d&apos;urgence
           </h3>
           <p className="mt-1 text-xs text-[color:var(--color-muted)]">{SOS_FALLBACK.location_label}</p>
-          <div className="mt-3 grid grid-cols-3 gap-2 text-center text-sm font-semibold">
+          <div className="mt-3 grid grid-cols-3 gap-2 text-center">
             <a
               href={SOS_FALLBACK.phone_href}
-              className="rounded-xl bg-[color:var(--color-omas-teal)] px-2 py-3 text-white transition active:scale-[0.98]"
+              className="flex flex-col items-center gap-0.5 rounded-xl bg-[color:var(--color-omas-teal)] px-1 py-3 text-white transition active:scale-[0.98]"
             >
-              📞 Organisation
-              <span className="mt-0.5 block text-[11px] font-normal text-white/85">{SOS_FALLBACK.phone}</span>
+              <span aria-hidden>📞</span>
+              <span className="text-xs font-semibold leading-tight">Organisation</span>
+              <span className="text-[10px] font-normal text-white/85 whitespace-nowrap">{SOS_FALLBACK.phone}</span>
             </a>
             <a
               href={`tel:${SOS_FALLBACK.samu}`}
-              className="rounded-xl bg-[color:var(--color-omas-navy)] px-2 py-3 text-white transition active:scale-[0.98]"
+              className="flex flex-col items-center gap-0.5 rounded-xl bg-[color:var(--color-omas-navy)] px-1 py-3 text-white transition active:scale-[0.98]"
             >
-              🚑 SAMU
-              <span className="mt-0.5 block text-[11px] font-normal text-white/85">{SOS_FALLBACK.samu}</span>
+              <span aria-hidden>🚑</span>
+              <span className="text-xs font-semibold leading-tight">SAMU</span>
+              <span className="text-[10px] font-normal text-white/85">{SOS_FALLBACK.samu}</span>
             </a>
             <a
               href={`tel:${SOS_FALLBACK.pompiers}`}
-              className="rounded-xl bg-[color:var(--color-twale-purple)] px-2 py-3 text-white transition active:scale-[0.98]"
+              className="flex flex-col items-center gap-0.5 rounded-xl bg-[color:var(--color-twale-purple)] px-1 py-3 text-white transition active:scale-[0.98]"
             >
-              🚒 Pompiers
-              <span className="mt-0.5 block text-[11px] font-normal text-white/85">{SOS_FALLBACK.pompiers}</span>
+              <span aria-hidden>🚒</span>
+              <span className="text-xs font-semibold leading-tight">Pompiers</span>
+              <span className="text-[10px] font-normal text-white/85">{SOS_FALLBACK.pompiers}</span>
             </a>
           </div>
         </div>
