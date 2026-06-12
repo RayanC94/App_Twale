@@ -175,30 +175,25 @@ function SiteMapSvg() {
       {/* Cluster haut : foot 1 + foot 2 */}
       <rect x="420" y="85" width="425" height="280" rx="16" fill="none" stroke="#1F2937" strokeWidth="3" opacity="0.55" />
 
-      {/* ============ VOLLEY (2×2) — largeur alignée à F3 (280) ============ */}
+      {/* ============ FOOT 3 (haut de la colonne gauche) ============ */}
       <g>
-        <rect x="120" y="140" width="280" height="200" rx="10" fill="#FFE9A8" stroke="#D4B85A" strokeWidth="3" />
-        <line x1="260" y1="150" x2="260" y2="330" stroke="#D4B85A" strokeWidth="2" strokeDasharray="6 4" />
-        <line x1="130" y1="240" x2="390" y2="240" stroke="#D4B85A" strokeWidth="2" strokeDasharray="6 4" />
-        {/* Filets blancs (4 petits traits centrés sur chaque court) */}
-        <line x1="155" y1="190" x2="225" y2="190" stroke="#fff" strokeWidth="2.5" />
-        <line x1="295" y1="190" x2="365" y2="190" stroke="#fff" strokeWidth="2.5" />
-        <line x1="155" y1="290" x2="225" y2="290" stroke="#fff" strokeWidth="2.5" />
-        <line x1="295" y1="290" x2="365" y2="290" stroke="#fff" strokeWidth="2.5" />
+        <rect x="120" y="140" width="280" height="200" rx="10" fill="#C8E6A8" stroke="#7DAA52" strokeWidth="3" />
+        <line x1="260" y1="140" x2="260" y2="340" stroke="#fff" strokeWidth="2" />
+        <circle cx="260" cy="240" r="22" fill="none" stroke="#fff" strokeWidth="2" />
       </g>
 
       {/* ============ FOOT 1 + 2 (haut) ============ */}
       <g>
-        <rect x="430" y="100" width="195" height="250" rx="10" fill="#C8E6A8" stroke="#7DAA52" strokeWidth="3" />
-        <line x1="430" y1="225" x2="625" y2="225" stroke="#fff" strokeWidth="2" />
-        <circle cx="527" cy="225" r="22" fill="none" stroke="#fff" strokeWidth="2" />
+        <rect x="430" y="100" width="190" height="250" rx="10" fill="#C8E6A8" stroke="#7DAA52" strokeWidth="3" />
+        <line x1="430" y1="225" x2="620" y2="225" stroke="#fff" strokeWidth="2" />
+        <circle cx="525" cy="225" r="22" fill="none" stroke="#fff" strokeWidth="2" />
 
-        <rect x="640" y="100" width="195" height="250" rx="10" fill="#C8E6A8" stroke="#7DAA52" strokeWidth="3" />
-        <line x1="640" y1="225" x2="835" y2="225" stroke="#fff" strokeWidth="2" />
-        <circle cx="737" cy="225" r="22" fill="none" stroke="#fff" strokeWidth="2" />
+        <rect x="645" y="100" width="190" height="250" rx="10" fill="#C8E6A8" stroke="#7DAA52" strokeWidth="3" />
+        <line x1="645" y1="225" x2="835" y2="225" stroke="#fff" strokeWidth="2" />
+        <circle cx="740" cy="225" r="22" fill="none" stroke="#fff" strokeWidth="2" />
       </g>
 
-      {/* ============ FOOT 3 (sous le volley) — orientation horizontale, ligne centrale verticale ============ */}
+      {/* ============ ESPACE JEUNESSE (même gabarit qu'un terrain de foot, sous F3) ============ */}
       <g>
         <rect x="120" y="380" width="280" height="220" rx="10" fill="#C8E6A8" stroke="#7DAA52" strokeWidth="3" />
         <line x1="260" y1="380" x2="260" y2="600" stroke="#fff" strokeWidth="2" />
@@ -215,26 +210,40 @@ function SiteMapSvg() {
         <rect x="540" y="450" width="40" height="40" rx="4" fill="#fff" stroke="#9C6BB8" strokeWidth="1.5" />
       </g>
 
-      {/* ============ INFIRMERIE (croix rouge, à droite du village santé) ============ */}
+      {/* ============ CHÂTEAU GONFLABLE (à droite du village santé) ============ */}
       <g>
-        <rect x="640" y="425" width="90" height="60" rx="8" fill="#fff" stroke="#D04444" strokeWidth="3" />
-        <line x1="685" y1="438" x2="685" y2="472" stroke="#D04444" strokeWidth="5" />
-        <line x1="668" y1="455" x2="702" y2="455" stroke="#D04444" strokeWidth="5" />
+        <circle cx="652" cy="427" r="8" fill="#FFCF8F" stroke="#D4942B" strokeWidth="2.5" />
+        <circle cx="677" cy="423" r="9" fill="#FFCF8F" stroke="#D4942B" strokeWidth="2.5" />
+        <circle cx="702" cy="427" r="8" fill="#FFCF8F" stroke="#D4942B" strokeWidth="2.5" />
+        <rect x="635" y="425" width="85" height="60" rx="10" fill="#FFCF8F" stroke="#D4942B" strokeWidth="2.5" />
+      </g>
+
+      {/* ============ INFIRMERIE / POSTE DE SECOURS (entre l'ancienne buvette et le food truck) ============ */}
+      <g>
+        <rect x="590" y="715" width="90" height="55" rx="8" fill="#fff" stroke="#D04444" strokeWidth="3" />
+        <line x1="635" y1="726" x2="635" y2="759" stroke="#D04444" strokeWidth="5" />
+        <line x1="618" y1="742" x2="652" y2="742" stroke="#D04444" strokeWidth="5" />
       </g>
 
       {/* ============ PISTE ATHLÉ (ovale rouge brique + pelouse) — descendu ============ */}
-      <g transform="translate(970,580)">
+      <g transform="translate(940,580)">
         <ellipse cx="0" cy="0" rx="250" ry="220" fill="#C84F3A" stroke="#9C3A28" strokeWidth="3" />
         <ellipse cx="0" cy="0" rx="190" ry="160" fill="#C8E6A8" stroke="#7DAA52" strokeWidth="2" />
         <ellipse cx="0" cy="0" rx="220" ry="190" fill="none" stroke="#fff" strokeWidth="1.2" opacity="0.55" />
       </g>
 
-      {/* ============ POINT D'EAU dans l'espace entre F3 et vestiaire ============ */}
+      {/* ============ VOLLEY — terrain unique vertical, extrémité gauche de la pelouse intérieure ============ */}
       <g>
-        <rect x="225" y="618" width="70" height="32" rx="8" fill="#B8DDE8" stroke="#5A92A8" strokeWidth="2" />
+        <rect x="775" y="525" width="70" height="110" rx="8" fill="#FFE9A8" stroke="#D4B85A" strokeWidth="3" />
+        <line x1="782" y1="580" x2="838" y2="580" stroke="#fff" strokeWidth="2.5" />
+      </g>
+
+      {/* ============ POINT D'EAU dans l'espace entre l'espace jeunesse et le vestiaire ============ */}
+      <g>
+        <rect x="225" y="628" width="70" height="32" rx="8" fill="#B8DDE8" stroke="#5A92A8" strokeWidth="2" />
         {/* Petit robinet */}
-        <line x1="260" y1="618" x2="260" y2="610" stroke="#5A92A8" strokeWidth="2" />
-        <circle cx="260" cy="608" r="2.5" fill="#5A92A8" />
+        <line x1="260" y1="628" x2="260" y2="620" stroke="#5A92A8" strokeWidth="2" />
+        <circle cx="260" cy="618" r="2.5" fill="#5A92A8" />
       </g>
 
       {/* ============ BÂTIMENTS (vestiaire descendu / buvette au centre) ============ */}
@@ -242,8 +251,8 @@ function SiteMapSvg() {
         {/* Vestiaire — décalé vers le bas pour laisser place au point d'eau */}
         <rect x="240" y="680" width="150" height="90" rx="8" fill="#D9C3A0" stroke="#8A7144" strokeWidth="2.5" />
 
-        {/* Buvette — inchangée */}
-        <rect x="600" y="650" width="110" height="90" rx="8" fill="#D9C3A0" stroke="#8A7144" strokeWidth="2.5" />
+        {/* Ancienne buvette — fermée le jour J, conservée comme repère visuel */}
+        <rect x="560" y="610" width="110" height="90" rx="8" fill="#D9C3A0" stroke="#8A7144" strokeWidth="2.5" />
       </g>
 
       {/* ============ ENTRÉE (sud) + flèche ============ */}
@@ -252,11 +261,11 @@ function SiteMapSvg() {
         <path d="M 530 770 L 555 805 L 540 805 L 540 880 L 520 880 L 520 805 L 505 805 Z" fill="#1F9E94" opacity="0.85" />
       </g>
 
-      {/* ============ FOOD TRUCK (entre buvette, entrée et athlé) ============ */}
+      {/* ============ FOOD TRUCK (entre l'entrée et la piste) ============ */}
       <g>
-        <rect x="725" y="760" width="110" height="60" rx="10" fill="#FFE0B0" stroke="#D4942B" strokeWidth="2.5" />
-        <circle cx="750" cy="826" r="6" fill="#444" />
-        <circle cx="810" cy="826" r="6" fill="#444" />
+        <rect x="700" y="790" width="110" height="60" rx="10" fill="#FFE0B0" stroke="#D4942B" strokeWidth="2.5" />
+        <circle cx="725" cy="856" r="6" fill="#444" />
+        <circle cx="785" cy="856" r="6" fill="#444" />
       </g>
 
       {/* Boussole nord */}

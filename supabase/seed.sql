@@ -126,6 +126,6 @@ on conflict (id) do nothing;
 -- -----------------------------
 insert into sponsors (name, description, logo_url, website_url, tier, position, show_in_marquee)
 values
-  ('Ville de Choisy-le-Roi', 'Soutien institutionnel',          '/sponsors/ville-choisy.jpeg', 'https://www.choisyleroi.fr', 'institutionnel', 10, true),
-  ('ASCR Choisy-le-Roi',    'Partenaire sportif local',          '/sponsors/ascr-choisy.jpeg',  null,                       'sportif',        20, true)
+  ('Ville de Choisy-le-Roi', 'Soutien institutionnel',          '/sponsors/ville-choisy.png', 'https://www.choisyleroi.fr', 'institutionnel', 10, true),
+  ('ASCR Choisy-le-Roi',    'Partenaire sportif local',          '/sponsors/ascr-choisy.png',  null,                       'sportif',        20, true)
 on conflict do nothing;

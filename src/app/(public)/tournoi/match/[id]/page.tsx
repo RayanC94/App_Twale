@@ -2,6 +2,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createServiceClient } from "@/lib/supabase/service";
 import LiveScore from "@/components/public/LiveScore";
+import LiveStreamBanner from "@/components/public/LiveStreamBanner";
+import { XBOTGO_STREAMS } from "@/lib/constants";
 
 export const dynamic = "force-dynamic";
 
@@ -114,10 +116,7 @@ export default async function MatchDetailPage({ params }: { params: Promise<{ id
   const home = match.team_home?.name ?? match.placeholder_home ?? "À définir";
   const away = match.team_away?.name ?? match.placeholder_away ?? "À définir";
   const sportPath = match.sport === "foot" ? "/tournoi/foot" : "/tournoi/volley";
-  const backHref =
-    match.sport === "foot"
-      ? `/tournoi/foot?cat=${match.gender === "F" ? "F" : "H"}`
-      : "/tournoi/volley";
+  const backHref = sportPath;
 
   return (
     <main className="min-h-dvh">
@@ -157,6 +156,11 @@ export default async function MatchDetailPage({ params }: { params: Promise<{ id
           </div>
         ) : (
           <>
+            <LiveStreamBanner
+              href={XBOTGO_STREAMS[match.sport]}
+              label="Voir le match en vidéo"
+              sublabel="Diffusion en direct XbotGo"
+            />
             <LiveScore
               matchId={match.id}
               initialScoreHome={match.score_home}

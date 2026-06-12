@@ -1,13 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
-import { TOURNOI_DATE_LABEL, TOURNOI_HOURS, EVENT, TOURNAMENT_CONFIG, HEALTH_STANDS, SPONSORS, VENUE_MAPS_URL } from "@/lib/constants";
+import { TOURNOI_DATE_LABEL, TOURNOI_HOURS, EVENT, TOURNAMENT_CONFIG, HEALTH_STANDS, SPONSORS, VENUE_MAPS_URL, SOS_FALLBACK } from "@/lib/constants";
 
 const QUICK_LINKS = [
   { href: "/tournoi",  label: "Tournoi",       icon: "🏆", desc: "Foot · Volley · Athlé" },
   { href: "/planning", label: "Planning",      icon: "📅", desc: "Tous les matchs" },
   { href: "/sante",    label: "Village santé", icon: "💚", desc: "5 stands · Fiches PDF" },
-  { href: "/carte",    label: "Carte du site", icon: "🗺️", desc: "Terrains, food truck…" },
-  { href: "/galerie",  label: "Galerie photo", icon: "📷", desc: "Vivez la journée" },
+  { href: "/carte",    label: "Carte du site", icon: "🗺️", desc: "Terrains, food trucks…" },
+  { href: "/live",     label: "Live",          icon: "🔴", desc: "Vidéo & scores en direct" },
   { href: "/sondage",  label: "Sondage de fin",icon: "💬", desc: "Donnez votre avis" },
 ];
 
@@ -26,7 +26,7 @@ export default function HomePage() {
                 width={88}
                 height={88}
                 className="rounded-full"
-                priority
+                preload
               />
             </div>
             <span aria-hidden className="text-white/40 text-2xl font-light select-none">×</span>
@@ -37,7 +37,7 @@ export default function HomePage() {
                 width={88}
                 height={88}
                 className="rounded-full"
-                priority
+                preload
               />
             </div>
           </div>
@@ -118,21 +118,52 @@ export default function HomePage() {
           <ul className="mt-3 space-y-2 text-sm">
             <li className="flex items-center gap-3">
               <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[color:var(--color-omas-teal)]/10 text-[color:var(--color-omas-teal)]">⚽</span>
-              <span><strong>Foot</strong> · {TOURNAMENT_CONFIG.foot.H.teams} équipes hommes + {TOURNAMENT_CONFIG.foot.F.teams} équipes femmes</span>
+              <span><strong>Foot</strong> · {TOURNAMENT_CONFIG.foot.teams} équipes · {TOURNAMENT_CONFIG.foot.fields} terrains</span>
             </li>
             <li className="flex items-center gap-3">
               <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[color:var(--color-twale-purple)]/10 text-[color:var(--color-twale-purple)]">🏐</span>
-              <span><strong>Volley</strong> · {TOURNAMENT_CONFIG.volley.mixte.teams} équipes mixtes</span>
+              <span><strong>Volley</strong> · {TOURNAMENT_CONFIG.volley.teams} équipes · {TOURNAMENT_CONFIG.volley.fields} terrains</span>
             </li>
             <li className="flex items-center gap-3">
               <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[color:var(--color-omas-teal)]/10 text-[color:var(--color-omas-teal)]">🏃</span>
-              <span><strong>Athlétisme</strong> · 100m, 400m, 800m, 3km, relais 4×100 & 4×400 (H/F)</span>
+              <span><strong>Athlétisme</strong> · 100m, 400m, 800m, 3km, relais — inscription libre sur place</span>
             </li>
             <li className="flex items-center gap-3">
               <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[color:var(--color-twale-purple)]/10 text-[color:var(--color-twale-purple)]">💚</span>
               <span><strong>Village santé</strong> · {HEALTH_STANDS.length} stands : {HEALTH_STANDS.map(s => s.name).join(" · ")}</span>
             </li>
           </ul>
+        </div>
+
+        {/* SOS / Urgences */}
+        <div className="mt-8 rounded-2xl bg-[color:var(--color-surface)] p-5 ring-1 ring-[color:var(--color-border)]">
+          <h3 className="font-[family-name:var(--font-outfit)] text-lg font-semibold text-[color:var(--color-omas-navy)]">
+            En cas d&apos;urgence
+          </h3>
+          <p className="mt-1 text-xs text-[color:var(--color-muted)]">{SOS_FALLBACK.location_label}</p>
+          <div className="mt-3 grid grid-cols-3 gap-2 text-center text-sm font-semibold">
+            <a
+              href={SOS_FALLBACK.phone_href}
+              className="rounded-xl bg-[color:var(--color-omas-teal)] px-2 py-3 text-white transition active:scale-[0.98]"
+            >
+              📞 Organisation
+              <span className="mt-0.5 block text-[11px] font-normal text-white/85">{SOS_FALLBACK.phone}</span>
+            </a>
+            <a
+              href={`tel:${SOS_FALLBACK.samu}`}
+              className="rounded-xl bg-[color:var(--color-omas-navy)] px-2 py-3 text-white transition active:scale-[0.98]"
+            >
+              🚑 SAMU
+              <span className="mt-0.5 block text-[11px] font-normal text-white/85">{SOS_FALLBACK.samu}</span>
+            </a>
+            <a
+              href={`tel:${SOS_FALLBACK.pompiers}`}
+              className="rounded-xl bg-[color:var(--color-twale-purple)] px-2 py-3 text-white transition active:scale-[0.98]"
+            >
+              🚒 Pompiers
+              <span className="mt-0.5 block text-[11px] font-normal text-white/85">{SOS_FALLBACK.pompiers}</span>
+            </a>
+          </div>
         </div>
 
         {/* Bandeau partenaires défilant */}
@@ -147,9 +178,9 @@ export default function HomePage() {
                   <Image
                     src={s.logo}
                     alt={s.name}
-                    width={72}
-                    height={72}
-                    className="h-16 w-auto object-contain"
+                    width={64}
+                    height={64}
+                    className="h-16 w-16 object-contain"
                   />
                 </div>
               ))}

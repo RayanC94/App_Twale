@@ -2,6 +2,8 @@ import Link from "next/link";
 import { createServiceClient } from "@/lib/supabase/service";
 import PoolStandings from "@/components/public/PoolStandings";
 import MatchCard, { type MatchCardData } from "@/components/public/MatchCard";
+import LiveStreamBanner from "@/components/public/LiveStreamBanner";
+import { XBOTGO_STREAMS } from "@/lib/constants";
 
 export const dynamic = "force-dynamic";
 
@@ -88,12 +90,18 @@ export default async function VolleyPage() {
             <h1 className="font-[family-name:var(--font-outfit)] text-3xl font-bold">Volley</h1>
           </div>
           <p className="mt-2 text-sm text-white/85">
-            12 équipes mixtes · 3 poules de 4 · Phase finale à 8.
+            12 équipes · 3 terrains. Poules puis phase finale.
           </p>
         </div>
       </header>
 
       <section className="mx-auto max-w-screen-sm px-4 py-6 space-y-8">
+        <LiveStreamBanner
+          href={XBOTGO_STREAMS.volley}
+          label="Matchs de volley en direct vidéo"
+          sublabel="Suivi live des terrains (XbotGo)"
+        />
+
         <div>
           <h2 className="px-2 text-xs font-semibold uppercase tracking-widest text-[color:var(--color-muted)]">
             Phase de poules

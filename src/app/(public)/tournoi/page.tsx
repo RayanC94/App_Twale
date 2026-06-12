@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { createServiceClient } from "@/lib/supabase/service";
+import LiveStreamBanner from "@/components/public/LiveStreamBanner";
+import { XBOTGO_STREAMS } from "@/lib/constants";
 
 export const dynamic = "force-dynamic";
 
@@ -123,6 +125,20 @@ export default async function TournoiPage() {
       </header>
 
       <section className="mx-auto max-w-screen-sm px-4 py-6">
+        {(XBOTGO_STREAMS.foot || XBOTGO_STREAMS.volley) && (
+          <div className="mb-4 space-y-2">
+            <LiveStreamBanner
+              href={XBOTGO_STREAMS.foot}
+              label="Foot en direct vidéo"
+              sublabel="Diffusion live des matchs (XbotGo)"
+            />
+            <LiveStreamBanner
+              href={XBOTGO_STREAMS.volley}
+              label="Volley en direct vidéo"
+              sublabel="Diffusion live des matchs (XbotGo)"
+            />
+          </div>
+        )}
         <ul className="space-y-3">
           {summaries.map((s) => (
             <li key={s.key}>

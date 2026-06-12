@@ -8,7 +8,7 @@ const NAV = [
   { href: "/tournoi",  label: "Tournoi",   icon: "🏆", match: (p: string) => p.startsWith("/tournoi") },
   { href: "/planning", label: "Planning",  icon: "📅", match: (p: string) => p.startsWith("/planning") },
   { href: "/sante",    label: "Santé",     icon: "💚", match: (p: string) => p.startsWith("/sante") },
-  { href: "/carte",    label: "Carte",     icon: "🗺️", match: (p: string) => p.startsWith("/carte") || p.startsWith("/galerie") || p.startsWith("/food") || p.startsWith("/sponsors") || p.startsWith("/sondage") },
+  { href: "/carte",    label: "Carte",     icon: "🗺️", match: (p: string) => p.startsWith("/carte") || p.startsWith("/galerie") || p.startsWith("/food") || p.startsWith("/sponsors") || p.startsWith("/sondage") || p.startsWith("/live") },
 ];
 
 export default function BottomNav() {

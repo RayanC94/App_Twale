@@ -2,10 +2,10 @@ import Link from "next/link";
 import { createServiceClient } from "@/lib/supabase/service";
 import PoolStandings from "@/components/public/PoolStandings";
 import MatchCard, { type MatchCardData } from "@/components/public/MatchCard";
+import LiveStreamBanner from "@/components/public/LiveStreamBanner";
+import { XBOTGO_STREAMS } from "@/lib/constants";
 
 export const dynamic = "force-dynamic";
-
-type Gender = "H" | "F";
 
 const STAGES_BRACKET = ["qf", "sf", "final", "third"] as const;
 
@@ -46,7 +46,7 @@ function normalize(rows: RawMatch[]): (MatchCardData & { stage: string })[] {
   }));
 }
 
-async function getMatches(gender: Gender) {
+async function getMatches() {
   const supabase = createServiceClient();
   const { data } = await supabase
     .from("matches")
@@ -57,21 +57,15 @@ async function getMatches(gender: Gender) {
         "field:fields(name)",
     )
     .eq("sport", "foot")
-    .eq("gender", gender)
+    .eq("gender", "H")
     .order("scheduled_at", { ascending: true });
   return normalize((data ?? []) as unknown as RawMatch[]);
 }
 
 export const metadata = { title: "Foot — Tournoi" };
 
-export default async function FootPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ cat?: string }>;
-}) {
-  const sp = await searchParams;
-  const gender: Gender = sp.cat === "F" ? "F" : "H";
-  const matches = await getMatches(gender);
+export default async function FootPage() {
+  const matches = await getMatches();
 
   const bracket = matches.filter((m) => (STAGES_BRACKET as readonly string[]).includes(m.stage));
   const nowIso = new Date().toISOString();
@@ -97,40 +91,25 @@ export default async function FootPage({
             <h1 className="font-[family-name:var(--font-outfit)] text-3xl font-bold">Foot</h1>
           </div>
           <p className="mt-2 text-sm text-white/85">
-            12 équipes hommes · 6 équipes femmes. Poules puis phase finale.
+            16 équipes · 3 terrains. Poules puis phase finale.
           </p>
-
-          <nav className="mt-5 inline-flex rounded-full bg-white/15 p-1 ring-1 ring-white/25 backdrop-blur">
-            <Link
-              href="/tournoi/foot?cat=H"
-              aria-current={gender === "H" ? "page" : undefined}
-              className={`rounded-full px-4 py-1.5 text-sm font-medium transition ${
-                gender === "H" ? "bg-white text-[color:var(--color-omas-navy)]" : "text-white/85 hover:text-white"
-              }`}
-            >
-              Hommes
-            </Link>
-            <Link
-              href="/tournoi/foot?cat=F"
-              aria-current={gender === "F" ? "page" : undefined}
-              className={`rounded-full px-4 py-1.5 text-sm font-medium transition ${
-                gender === "F" ? "bg-white text-[color:var(--color-omas-navy)]" : "text-white/85 hover:text-white"
-              }`}
-            >
-              Femmes
-            </Link>
-          </nav>
         </div>
       </header>
 
       <section className="mx-auto max-w-screen-sm px-4 py-6 space-y-8">
+        <LiveStreamBanner
+          href={XBOTGO_STREAMS.foot}
+          label="Matchs de foot en direct vidéo"
+          sublabel="Suivi live des terrains (XbotGo)"
+        />
+
         {/* Poules */}
         <div>
           <h2 className="px-2 text-xs font-semibold uppercase tracking-widest text-[color:var(--color-muted)]">
             Phase de poules
           </h2>
           <div className="mt-3">
-            <PoolStandings sport="foot" gender={gender} />
+            <PoolStandings sport="foot" gender="H" />
           </div>
         </div>
 

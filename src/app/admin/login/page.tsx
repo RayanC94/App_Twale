@@ -22,7 +22,7 @@ export default async function AdminLoginPage() {
               width={56}
               height={56}
               className="rounded-full"
-              priority
+              preload
             />
           </div>
           <span aria-hidden className="text-white/40 text-xl select-none">
@@ -35,7 +35,7 @@ export default async function AdminLoginPage() {
               width={56}
               height={56}
               className="rounded-full"
-              priority
+              preload
             />
           </div>
         </div>

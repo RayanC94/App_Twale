@@ -30,10 +30,15 @@ function isUuid(value: string): boolean {
   return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(value);
 }
 
+const MOMENT_VALUES = new Set(["foot", "volley", "athle", "village_sante", "famille", "food"]);
+const RETURN_VALUES = new Set(["oui", "peut_etre", "non"]);
+
 export async function submitSurvey(formData: FormData): Promise<SurveyState> {
   const rawStand = formData.get("favorite_stand_id");
   const rawRating = formData.get("rating");
   const rawComment = formData.get("comment");
+  const rawMoment = formData.get("favorite_moment");
+  const rawReturn = formData.get("would_return");
 
   const favoriteStandId =
     typeof rawStand === "string" && rawStand.length > 0 && isUuid(rawStand)
@@ -46,7 +51,12 @@ export async function submitSurvey(formData: FormData): Promise<SurveyState> {
   const comment =
     typeof rawComment === "string" ? rawComment.trim().slice(0, 500) : "";
 
-  if (!favoriteStandId && !rating && !comment) {
+  const favoriteMoment =
+    typeof rawMoment === "string" && MOMENT_VALUES.has(rawMoment) ? rawMoment : null;
+  const wouldReturn =
+    typeof rawReturn === "string" && RETURN_VALUES.has(rawReturn) ? rawReturn : null;
+
+  if (!favoriteStandId && !rating && !comment && !favoriteMoment && !wouldReturn) {
     return { error: "Merci de remplir au moins un champ." };
   }
 
@@ -66,16 +76,36 @@ export async function submitSurvey(formData: FormData): Promise<SurveyState> {
     return { error: "Merci, vous avez déjà répondu récemment." };
   }
 
-  const { error } = await supabase.from("survey_responses").insert({
+  const baseRow = {
     favorite_stand_id: favoriteStandId,
     rating,
     comment: comment.length > 0 ? comment : null,
     ip_hash: ipHash,
     approved: true,
+  };
+
+  const { error } = await supabase.from("survey_responses").insert({
+    ...baseRow,
+    favorite_moment: favoriteMoment,
+    would_return: wouldReturn,
   });
 
   if (error) {
-    return { error: "Une erreur est survenue. Réessayez." };
+    // Colonnes favorite_moment/would_return absentes tant que le SQL
+    // supabase/2026-06-12-sondage-partenaires.sql n'est pas appliqué :
+    // on enregistre au moins les champs historiques. Uniquement dans ce
+    // cas précis — toute autre erreur ne doit pas être masquée.
+    const missingColumn =
+      error.code === "PGRST204" ||
+      error.code === "42703" ||
+      /favorite_moment|would_return/.test(error.message ?? "");
+    if (!missingColumn) {
+      return { error: "Une erreur est survenue. Réessayez." };
+    }
+    const { error: retryError } = await supabase.from("survey_responses").insert(baseRow);
+    if (retryError) {
+      return { error: "Une erreur est survenue. Réessayez." };
+    }
   }
 
   return { success: true };

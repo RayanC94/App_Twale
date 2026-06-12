@@ -1,35 +1,13 @@
-import { createServiceClient } from "@/lib/supabase/service";
 import BottomNav from "@/components/public/BottomNav";
-import SponsorsMarquee from "@/components/public/SponsorsMarquee";
 
 // Rendu à la requête — données live (tournoi temps réel).
 export const dynamic = "force-dynamic";
 
-async function getSponsors() {
-  try {
-    const supabase = createServiceClient();
-    const { data } = await supabase
-      .from("sponsors")
-      .select("id,name,logo_url,website_url")
-      .eq("show_in_marquee", true)
-      .order("position", { ascending: true });
-    return data ?? [];
-  } catch {
-    return [];
-  }
-}
-
-export default async function PublicLayout({ children }: { children: React.ReactNode }) {
-  const sponsors = await getSponsors();
-  const hasSponsors = sponsors.length > 0;
-
+export default function PublicLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      {/* Padding-bottom adapté : bottom-nav (64px) + marquee (48px si présent) */}
-      <div style={{ paddingBottom: hasSponsors ? "112px" : "64px" }}>
-        {children}
-      </div>
-      {hasSponsors && <SponsorsMarquee sponsors={sponsors} />}
+      {/* Padding-bottom : hauteur de la bottom-nav (64px) */}
+      <div style={{ paddingBottom: "64px" }}>{children}</div>
       <BottomNav />
     </>
   );

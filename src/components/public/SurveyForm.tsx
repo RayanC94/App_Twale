@@ -10,10 +10,27 @@ type Stand = {
   color: string | null;
 };
 
+const MOMENTS = [
+  { value: "foot", label: "Tournoi de foot", icon: "⚽" },
+  { value: "volley", label: "Tournoi de volley", icon: "🏐" },
+  { value: "athle", label: "Athlétisme", icon: "🏃" },
+  { value: "village_sante", label: "Village santé", icon: "💚" },
+  { value: "famille", label: "Animations & famille", icon: "🎪" },
+  { value: "food", label: "Food trucks", icon: "🍽️" },
+] as const;
+
+const RETURN_OPTIONS = [
+  { value: "oui", label: "Oui !" },
+  { value: "peut_etre", label: "Peut-être" },
+  { value: "non", label: "Non" },
+] as const;
+
 export default function SurveyForm({ stands }: { stands: Stand[] }) {
   const [selectedStand, setSelectedStand] = useState<string>("");
   const [rating, setRating] = useState<number>(0);
   const [hoverRating, setHoverRating] = useState<number>(0);
+  const [favoriteMoment, setFavoriteMoment] = useState<string>("");
+  const [wouldReturn, setWouldReturn] = useState<string>("");
   const [comment, setComment] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
@@ -70,7 +87,7 @@ export default function SurveyForm({ stands }: { stands: Stand[] }) {
               return (
                 <li key={s.id}>
                   <label
-                    className={`flex items-center gap-3 rounded-xl p-3 ring-1 transition cursor-pointer ${
+                    className={`flex items-center gap-3 rounded-xl p-3 ring-1 transition cursor-pointer focus-within:ring-2 focus-within:ring-[color:var(--color-omas-teal)] ${
                       checked
                         ? "ring-[color:var(--color-omas-teal)] bg-[color:var(--color-omas-teal)]/5"
                         : "ring-[color:var(--color-border)] hover:ring-[color:var(--color-omas-teal)]/40"
@@ -144,6 +161,72 @@ export default function SurveyForm({ stands }: { stands: Stand[] }) {
         <p className="mt-2 text-center text-xs text-[color:var(--color-muted)]">
           {rating > 0 ? `${rating}/5` : "Cliquez sur une étoile"}
         </p>
+      </fieldset>
+
+      {/* Moment préféré */}
+      <fieldset className="rounded-2xl bg-white p-5 ring-1 ring-[color:var(--color-border)]">
+        <legend className="px-1 text-sm font-semibold text-[color:var(--color-omas-navy)]">
+          Qu’avez-vous préféré dans la journée ?
+        </legend>
+        <ul className="mt-3 grid grid-cols-2 gap-2">
+          {MOMENTS.map((m) => {
+            const checked = favoriteMoment === m.value;
+            return (
+              <li key={m.value}>
+                <label
+                  className={`flex items-center gap-2 rounded-xl p-3 ring-1 transition cursor-pointer focus-within:ring-2 focus-within:ring-[color:var(--color-omas-teal)] ${
+                    checked
+                      ? "ring-[color:var(--color-omas-teal)] bg-[color:var(--color-omas-teal)]/5"
+                      : "ring-[color:var(--color-border)] hover:ring-[color:var(--color-omas-teal)]/40"
+                  }`}
+                >
+                  <input
+                    type="radio"
+                    name="favorite_moment"
+                    value={m.value}
+                    checked={checked}
+                    onChange={() => setFavoriteMoment(m.value)}
+                    className="sr-only"
+                  />
+                  <span className="text-lg" aria-hidden>{m.icon}</span>
+                  <span className="text-xs font-medium text-[color:var(--color-foreground)]">{m.label}</span>
+                </label>
+              </li>
+            );
+          })}
+        </ul>
+      </fieldset>
+
+      {/* Reviendrez-vous ? */}
+      <fieldset className="rounded-2xl bg-white p-5 ring-1 ring-[color:var(--color-border)]">
+        <legend className="px-1 text-sm font-semibold text-[color:var(--color-omas-navy)]">
+          Reviendrez-vous l’année prochaine ?
+        </legend>
+        <div className="mt-3 grid grid-cols-3 gap-2" role="radiogroup" aria-label="Reviendrez-vous l’année prochaine ?">
+          {RETURN_OPTIONS.map((o) => {
+            const checked = wouldReturn === o.value;
+            return (
+              <label
+                key={o.value}
+                className={`flex items-center justify-center rounded-xl p-3 text-sm font-medium ring-1 transition cursor-pointer focus-within:ring-2 focus-within:ring-[color:var(--color-omas-teal)] ${
+                  checked
+                    ? "ring-[color:var(--color-omas-teal)] bg-[color:var(--color-omas-teal)] text-white"
+                    : "ring-[color:var(--color-border)] text-[color:var(--color-foreground)] hover:ring-[color:var(--color-omas-teal)]/40"
+                }`}
+              >
+                <input
+                  type="radio"
+                  name="would_return"
+                  value={o.value}
+                  checked={checked}
+                  onChange={() => setWouldReturn(o.value)}
+                  className="sr-only"
+                />
+                {o.label}
+              </label>
+            );
+          })}
+        </div>
       </fieldset>
 
       {/* Commentaire */}

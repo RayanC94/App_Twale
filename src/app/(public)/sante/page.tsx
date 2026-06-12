@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { createServiceClient } from "@/lib/supabase/service";
+import LiveStreamBanner from "@/components/public/LiveStreamBanner";
+import { SANTE_LIVE_URL } from "@/lib/constants";
 
 export const dynamic = "force-dynamic";
 
@@ -42,6 +44,13 @@ export default async function SantePage() {
 
       {/* Stands */}
       <section className="mx-auto max-w-screen-sm px-4 py-6">
+        <div className="mb-4 empty:hidden">
+          <LiveStreamBanner
+            href={SANTE_LIVE_URL}
+            label="Le village santé en direct"
+            sublabel="Interventions et ateliers diffusés en vidéo"
+          />
+        </div>
         <ul className="space-y-3">
           {stands.map((s) => (
             <li key={s.slug}>

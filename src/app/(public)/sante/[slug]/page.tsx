@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createServiceClient } from "@/lib/supabase/service";
+import Lightbox from "@/components/public/Lightbox";
+import { HEALTH_DOCS, type HealthDoc } from "@/lib/health-docs";
+import type { HealthStandSlug } from "@/lib/constants";
 
 export const dynamic = "force-dynamic";
 
@@ -61,6 +64,8 @@ export default async function StandPage({ params }: { params: Promise<{ slug: st
   if (!result) notFound();
   const { stand, speakers, documents } = result;
   const supabase = createServiceClient();
+  const staticDocs: readonly HealthDoc[] = HEALTH_DOCS[slug as HealthStandSlug] ?? [];
+  const posters = staticDocs.filter((d) => d.kind === "image");
 
   return (
     <main className="min-h-dvh">
@@ -107,17 +112,54 @@ export default async function StandPage({ params }: { params: Promise<{ slug: st
           )}
         </div>
 
-        {/* Fiches PDF */}
+        {/* Affiches du stand */}
+        {posters.length > 0 && (
+          <div>
+            <h2 className="px-2 text-xs font-semibold uppercase tracking-widest text-[color:var(--color-muted)]">
+              Les affiches du stand
+            </h2>
+            <div className="mt-3">
+              <Lightbox
+                photos={posters.map((p) => ({
+                  id: p.file,
+                  fullUrl: p.file,
+                  thumbUrl: p.thumb ?? p.file,
+                  caption: p.title,
+                }))}
+              />
+            </div>
+          </div>
+        )}
+
+        {/* Fiches à télécharger */}
         <div>
           <h2 className="px-2 text-xs font-semibold uppercase tracking-widest text-[color:var(--color-muted)]">
             À emporter
           </h2>
-          {documents.length === 0 ? (
+          {staticDocs.length === 0 && documents.length === 0 ? (
             <p className="mt-3 px-2 text-sm text-[color:var(--color-muted)]">
-              Pas encore de fiche disponible. Elles seront ajoutées avant le 14 juin.
+              Pas de fiche pour ce stand — venez échanger directement avec les professionnels sur place.
             </p>
           ) : (
             <ul className="mt-3 space-y-2">
+              {staticDocs.map((d) => (
+                <li key={d.file}>
+                  <a
+                    href={d.file}
+                    download
+                    className="flex items-center gap-3 rounded-xl bg-white p-3 ring-1 ring-[color:var(--color-border)] hover:ring-[color:var(--color-omas-teal)]/40 transition"
+                  >
+                    <div className="text-2xl" aria-hidden>{d.kind === "pdf" ? "📄" : "🖼️"}</div>
+                    <div className="flex-1 min-w-0">
+                      <div className="font-medium text-[color:var(--color-foreground)] truncate">{d.title}</div>
+                      <div className="text-xs text-[color:var(--color-muted)]">
+                        {d.kind === "pdf" ? "PDF" : "Image"} · {d.size_label}
+                      </div>
+                    </div>
+                    <div className="text-[color:var(--color-omas-teal)] font-medium text-sm">Télécharger</div>
+                  </a>
+                </li>
+              ))}
               {documents.map((d) => {
                 const { data: urlData } = supabase.storage.from("health-pdfs").getPublicUrl(d.file_path);
                 return (

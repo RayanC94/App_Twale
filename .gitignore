@@ -43,3 +43,12 @@ next-env.d.ts
 # claude code local config
 .claude/settings.local.json
 
+# sources des affiches du village santé (copies web dans public/sante/)
+/Village santé - 14 Juin 2026/
+
+# artefacts LaTeX (docs/)
+*.aux
+*.out
+texput.log
+docs/*.log
+

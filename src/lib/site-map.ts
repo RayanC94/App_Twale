@@ -31,28 +31,26 @@ export const CATEGORIES: Record<PoiCategory, { label: string; color: string; bg:
 };
 
 export const POIS: Poi[] = [
-  // === Sport — Volley (4 terrains en 2×2, nord-ouest) ===
-  { id: "v1", label: "Volley 1", shortLabel: "V1", detail: "Terrain de volley n°1 — zone nord-ouest.", category: "sport", icon: "🏐", x: 14.6, y: 19, href: "/tournoi/volley?terrain=1", hrefLabel: "Voir les matchs" },
-  { id: "v2", label: "Volley 2", shortLabel: "V2", detail: "Terrain de volley n°2 — zone nord-ouest.", category: "sport", icon: "🏐", x: 25.4, y: 19, href: "/tournoi/volley?terrain=2", hrefLabel: "Voir les matchs" },
-  { id: "v3", label: "Volley 3", shortLabel: "V3", detail: "Terrain de volley n°3 — zone nord-ouest.", category: "sport", icon: "🏐", x: 14.6, y: 29, href: "/tournoi/volley?terrain=3", hrefLabel: "Voir les matchs" },
-  { id: "v4", label: "Volley 4", shortLabel: "V4", detail: "Terrain de volley n°4 — zone nord-ouest.", category: "sport", icon: "🏐", x: 25.4, y: 29, href: "/tournoi/volley?terrain=4", hrefLabel: "Voir les matchs" },
+  // === Sport — Volley (terrain unique, pelouse intérieure de la piste, côté gauche) ===
+  { id: "volley", label: "Volley", detail: "Terrain de volley — extrémité gauche de la pelouse intérieure de la piste d'athlétisme.", category: "sport", icon: "🏐", x: 62.3, y: 58, href: "/tournoi/volley", hrefLabel: "Voir les matchs" },
 
-  // === Sport — Foot (2 en haut + 1 sous le volley) ===
+  // === Sport — Foot (2 en haut + F3 en haut de la colonne gauche) ===
   { id: "f1", label: "Foot 1", shortLabel: "F1", detail: "Terrain de football n°1 — pelouse nord, côté gauche. Touchez « Voir les matchs » pour le match en cours et la programmation.", category: "sport", icon: "⚽", x: 40.5, y: 22.5, href: "/tournoi/foot?terrain=1", hrefLabel: "Voir les matchs" },
-  { id: "f2", label: "Foot 2", shortLabel: "F2", detail: "Terrain de football n°2 — pelouse nord, côté droit.",   category: "sport", icon: "⚽", x: 56.7, y: 22.5, href: "/tournoi/foot?terrain=2", hrefLabel: "Voir les matchs" },
-  { id: "f3", label: "Foot 3", shortLabel: "F3", detail: "Terrain de football n°3 — pelouse sud-ouest.",         category: "sport", icon: "⚽", x: 20,   y: 49,   href: "/tournoi/foot?terrain=3", hrefLabel: "Voir les matchs" },
+  { id: "f2", label: "Foot 2", shortLabel: "F2", detail: "Terrain de football n°2 — pelouse nord, côté droit.",   category: "sport", icon: "⚽", x: 56.9, y: 22.5, href: "/tournoi/foot?terrain=2", hrefLabel: "Voir les matchs" },
+  { id: "f3", label: "Foot 3", shortLabel: "F3", detail: "Terrain de football n°3 — zone nord-ouest, au-dessus de l'espace jeunesse.", category: "sport", icon: "⚽", x: 20,   y: 24,   href: "/tournoi/foot?terrain=3", hrefLabel: "Voir les matchs" },
 
   // === Sport — Athlétisme ===
-  { id: "athle", label: "Athlétisme", shortLabel: "Athlé", detail: "Piste d'athlétisme — 100m, 400m, 800m, 3km, relais 4×100 et 4×400.", category: "sport", icon: "🏃", x: 74, y: 58, href: "/tournoi/athle", hrefLabel: "Voir le programme" },
+  { id: "athle", label: "Athlétisme", shortLabel: "Athlé", detail: "Piste d'athlétisme — 100m, 400m, 800m, 3km, relais 4×100 et 4×400.", category: "sport", icon: "🏃", x: 76, y: 75.5, href: "/tournoi/athle", hrefLabel: "Voir le programme" },
 
   // === Santé ===
   { id: "village",    label: "Village santé", detail: "5 stands : Orientation · Hygiène bucco-dentaire · Premiers secours · Addictologie · Kiné/Ostéo.", category: "sante", icon: "💚", x: 41, y: 46, href: "/sante", hrefLabel: "Voir les fiches santé" },
-  { id: "infirmerie", label: "Infirmerie",    detail: "Tente blanche jouxtant le village santé, côté est. Secouristes présents sur place toute la journée.", category: "sante", icon: "🚑", x: 52, y: 46 },
+  { id: "infirmerie", label: "Infirmerie",    detail: "Poste de secours — entre l'ancienne buvette et le food truck. Secouristes présents sur place toute la journée.", category: "sante", icon: "🚑", x: 48.8, y: 74.2 },
 
   // === Services ===
+  { id: "chateau",   label: "Château gonflable", detail: "Structure gonflable pour les enfants — à côté du village santé.", category: "service", icon: "🏰", x: 52.1, y: 46 },
+  { id: "jeunesse",  label: "Espace jeunesse", detail: "Animations foot et jeux collectifs encadrées par les animateurs jeunesse — accès libre.", category: "service", icon: "🧒", x: 20, y: 49 },
   { id: "entree",    label: "Entrée",          shortLabel: "Entrée", detail: "Entrée principale — Avenue Jean Bouin.",                  category: "service", icon: "🚪", x: 41,   y: 85 },
   { id: "vestiaire", label: "Vestiaires & WC", shortLabel: "Vestiaires", detail: "Vestiaires hommes / femmes et toilettes.",                                                     category: "service", icon: "🚻", x: 24, y: 73 },
-  { id: "eau",       label: "Points d'eau",    shortLabel: "Eau",        detail: "Robinets / fontaines à eau dans l'espace entre le terrain Foot 3 et le bâtiment vestiaires.", category: "service", icon: "💧", x: 20, y: 64 },
-  { id: "buvette",   label: "Buvette",         detail: "Boissons et collations.",                                                     category: "service", icon: "☕", x: 50.4, y: 70, href: "/food", hrefLabel: "Voir le menu" },
-  { id: "foodtruck", label: "Food truck",      detail: "Restauration sur place — entre la buvette, l'entrée et la piste d'athlétisme.", category: "service", icon: "🚚", x: 60,   y: 79, href: "/food", hrefLabel: "Voir le menu" },
+  { id: "eau",       label: "Points d'eau",    shortLabel: "Eau",        detail: "Robinets / fontaines à eau dans l'espace entre l'espace jeunesse et le bâtiment vestiaires.", category: "service", icon: "💧", x: 20, y: 64 },
+  { id: "foodtruck", label: "Food truck",      detail: "Restauration sur place — entre l'entrée et la piste d'athlétisme.",            category: "service", icon: "🚚", x: 58.1,   y: 82, href: "/food", hrefLabel: "Voir le menu" },
 ];
