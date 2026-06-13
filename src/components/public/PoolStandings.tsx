@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { createServiceClient } from "@/lib/supabase/service";
 
 type StandingRow = {
@@ -74,7 +75,7 @@ export default async function PoolStandings({
         <div key={g.pool_id} className="rounded-2xl bg-white ring-1 ring-[color:var(--color-border)] overflow-hidden">
           <div className="px-4 py-2.5 bg-[color:var(--color-omas-cream)] border-b border-[color:var(--color-border)]">
             <h3 className="font-[family-name:var(--font-outfit)] text-sm font-semibold text-[color:var(--color-omas-navy)]">
-              Poule {g.label}
+              {g.label}
             </h3>
           </div>
           {g.rows.length === 0 ? (
@@ -101,9 +102,15 @@ export default async function PoolStandings({
                         i === 0 ? "bg-[color:var(--color-omas-teal)]/5" : ""
                       }`}
                     >
-                      <td className="px-3 py-2 text-[color:var(--color-foreground)] font-medium truncate max-w-[140px]">
-                        <span className="inline-block w-4 text-[color:var(--color-muted)] tabular-nums">{i + 1}.</span>{" "}
-                        {r.name}
+                      <td className="px-3 py-2 max-w-[150px]">
+                        <Link
+                          href={`/tournoi/equipe/${r.team_id}`}
+                          className="flex items-center gap-1 font-medium text-[color:var(--color-foreground)] transition hover:text-[color:var(--color-omas-teal)]"
+                        >
+                          <span className="inline-block w-4 shrink-0 text-[color:var(--color-muted)] tabular-nums">{i + 1}.</span>
+                          <span className="truncate">{r.name}</span>
+                          <span className="shrink-0 text-[color:var(--color-muted)]" aria-hidden>›</span>
+                        </Link>
                       </td>
                       <td className="px-2 py-2 text-center font-mono tabular-nums text-[color:var(--color-muted)]">
                         {r.played ?? 0}
