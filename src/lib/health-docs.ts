@@ -116,12 +116,8 @@ export const HEALTH_DOCS: Partial<Record<HealthStandSlug, readonly HealthDoc[]>>
       kind: "pdf",
       size_label: "0,2 Mo",
     },
-    {
-      title: "Quiz santé bucco-dentaire",
-      file: "/sante/bucco/quiz-sante-bucco-dentaire.pdf",
-      kind: "pdf",
-      size_label: "0,7 Mo",
-    },
+    // Le « Quiz santé bucco-dentaire » (ex-PDF) est désormais interactif :
+    // voir /sante/bucco/quiz (CTA sur la page du stand).
   ],
   addictologie: [
     {

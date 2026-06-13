@@ -4,8 +4,15 @@ import { createServiceClient } from "@/lib/supabase/service";
 import Lightbox from "@/components/public/Lightbox";
 import { HEALTH_DOCS, type HealthDoc } from "@/lib/health-docs";
 import type { HealthStandSlug } from "@/lib/constants";
+import { QUIZ_BY_STAND } from "@/lib/quizzes";
 
 export const dynamic = "force-dynamic";
+
+/** Stands disposant d'un questionnaire numérique (CTA vers /sante/[slug]/quiz). */
+const QUIZ_CTA: Record<string, { label: string; sub: string; emoji: string }> = {
+  bucco: { label: "Teste tes connaissances", sub: "Quiz interactif · 13 questions", emoji: "🦷" },
+  addictologie: { label: "Êtes-vous dépendant·e aux écrans ?", sub: "Test interactif · 10 questions", emoji: "📱" },
+};
 
 type StandRow = {
   id: string;
@@ -66,6 +73,7 @@ export default async function StandPage({ params }: { params: Promise<{ slug: st
   const supabase = createServiceClient();
   const staticDocs: readonly HealthDoc[] = HEALTH_DOCS[slug as HealthStandSlug] ?? [];
   const posters = staticDocs.filter((d) => d.kind === "image");
+  const quizCta = QUIZ_BY_STAND[slug] ? QUIZ_CTA[slug] : undefined;
 
   return (
     <main className="min-h-dvh">
@@ -83,6 +91,29 @@ export default async function StandPage({ params }: { params: Promise<{ slug: st
       </header>
 
       <section className="mx-auto max-w-screen-sm px-4 py-6 space-y-6">
+        {/* Questionnaire numérique */}
+        {quizCta && (
+          <Link
+            href={`/sante/${slug}/quiz`}
+            className="flex items-center gap-4 rounded-2xl bg-white p-4 ring-1 ring-[color:var(--color-border)] shadow-sm transition active:scale-[0.99] hover:ring-[color:var(--color-omas-teal)]/50"
+          >
+            <span
+              className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-2xl"
+              style={{ backgroundColor: `${stand.color ?? "var(--color-omas-teal)"}1A` }}
+              aria-hidden
+            >
+              {quizCta.emoji}
+            </span>
+            <span className="flex-1 min-w-0">
+              <span className="block font-semibold text-[color:var(--color-omas-navy)]">{quizCta.label}</span>
+              <span className="block text-xs text-[color:var(--color-muted)]">{quizCta.sub}</span>
+            </span>
+            <span className="text-[color:var(--color-omas-teal)] text-sm font-medium" aria-hidden>
+              Commencer ›
+            </span>
+          </Link>
+        )}
+
         {/* Intervenants */}
         <div>
           <h2 className="px-2 text-xs font-semibold uppercase tracking-widest text-[color:var(--color-muted)]">

@@ -193,7 +193,7 @@ function SiteMapSvg() {
         <circle cx="740" cy="225" r="22" fill="none" stroke="#fff" strokeWidth="2" />
       </g>
 
-      {/* ============ ESPACE JEUNESSE (même gabarit qu'un terrain de foot, sous F3) ============ */}
+      {/* ============ ESPACE JEUNESSE (même gabarit qu'un terrain de foot, sous F1) ============ */}
       <g>
         <rect x="120" y="380" width="280" height="220" rx="10" fill="#C8E6A8" stroke="#7DAA52" strokeWidth="3" />
         <line x1="260" y1="380" x2="260" y2="600" stroke="#fff" strokeWidth="2" />

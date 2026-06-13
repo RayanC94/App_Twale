@@ -13,7 +13,7 @@ const ITEMS = [
   { href: "/admin/athle", label: "Athlé", icon: "🏃" },
   { href: "/admin/stands", label: "Stands", icon: "💚" },
   { href: "/admin/galerie", label: "Galerie", icon: "📷" },
-  { href: "/admin/sondage", label: "Sondage", icon: "💬" },
+  { href: "/admin/sondage", label: "Sondage & quiz", icon: "💬" },
   { href: "/admin/parametres", label: "Paramètres", icon: "⚙️" },
 ];
 

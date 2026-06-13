@@ -34,10 +34,10 @@ export const POIS: Poi[] = [
   // === Sport — Volley (terrain unique, pelouse intérieure de la piste, côté gauche) ===
   { id: "volley", label: "Volley", detail: "Terrain de volley — extrémité gauche de la pelouse intérieure de la piste d'athlétisme.", category: "sport", icon: "🏐", x: 62.3, y: 58, href: "/tournoi/volley", hrefLabel: "Voir les matchs" },
 
-  // === Sport — Foot (2 en haut + F3 en haut de la colonne gauche) ===
-  { id: "f1", label: "Foot 1", shortLabel: "F1", detail: "Terrain de football n°1 — pelouse nord, côté gauche. Touchez « Voir les matchs » pour le match en cours et la programmation.", category: "sport", icon: "⚽", x: 40.5, y: 22.5, href: "/tournoi/foot?terrain=1", hrefLabel: "Voir les matchs" },
-  { id: "f2", label: "Foot 2", shortLabel: "F2", detail: "Terrain de football n°2 — pelouse nord, côté droit.",   category: "sport", icon: "⚽", x: 56.9, y: 22.5, href: "/tournoi/foot?terrain=2", hrefLabel: "Voir les matchs" },
-  { id: "f3", label: "Foot 3", shortLabel: "F3", detail: "Terrain de football n°3 — zone nord-ouest, au-dessus de l'espace jeunesse.", category: "sport", icon: "⚽", x: 20,   y: 24,   href: "/tournoi/foot?terrain=3", hrefLabel: "Voir les matchs" },
+  // === Sport — Foot (F1 en haut de la colonne gauche + 2 en haut) ===
+  { id: "f1", label: "Foot 1", shortLabel: "F1", detail: "Terrain de football n°1 — zone nord-ouest, au-dessus de l'espace jeunesse. Touchez « Voir les matchs » pour le match en cours et la programmation.", category: "sport", icon: "⚽", x: 20,   y: 24,   href: "/tournoi/foot?terrain=1", hrefLabel: "Voir les matchs" },
+  { id: "f2", label: "Foot 2", shortLabel: "F2", detail: "Terrain de football n°2 — pelouse nord, côté gauche.", category: "sport", icon: "⚽", x: 40.5, y: 22.5, href: "/tournoi/foot?terrain=2", hrefLabel: "Voir les matchs" },
+  { id: "f3", label: "Foot 3", shortLabel: "F3", detail: "Terrain de football n°3 — pelouse nord, côté droit.",  category: "sport", icon: "⚽", x: 56.9, y: 22.5, href: "/tournoi/foot?terrain=3", hrefLabel: "Voir les matchs" },
 
   // === Sport — Athlétisme ===
   { id: "athle", label: "Athlétisme", shortLabel: "Athlé", detail: "Piste d'athlétisme — 100m, 400m, 800m, 3km, relais 4×100 et 4×400.", category: "sport", icon: "🏃", x: 76, y: 75.5, href: "/tournoi/athle", hrefLabel: "Voir le programme" },
