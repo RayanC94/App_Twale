@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { createServiceClient } from "@/lib/supabase/service";
 import LiveScore from "@/components/public/LiveScore";
 import LiveStreamBanner from "@/components/public/LiveStreamBanner";
-import { XBOTGO_STREAMS } from "@/lib/constants";
+import { getLiveStreams } from "@/lib/live";
 
 export const dynamic = "force-dynamic";
 
@@ -112,6 +112,7 @@ export default async function MatchDetailPage({ params }: { params: Promise<{ id
   const { id } = await params;
   const match = await getMatch(id);
   if (!match) notFound();
+  const streams = await getLiveStreams();
 
   const home = match.team_home?.name ?? match.placeholder_home ?? "À définir";
   const away = match.team_away?.name ?? match.placeholder_away ?? "À définir";
@@ -157,7 +158,7 @@ export default async function MatchDetailPage({ params }: { params: Promise<{ id
         ) : (
           <>
             <LiveStreamBanner
-              href={XBOTGO_STREAMS[match.sport]}
+              href={streams[match.sport]}
               label="Voir le match en vidéo"
               sublabel="Diffusion en direct XbotGo"
             />

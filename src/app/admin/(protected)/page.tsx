@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { requireStaff } from "@/lib/auth/require";
 import { createServiceClient } from "@/lib/supabase/service";
 
@@ -57,6 +58,14 @@ export default async function AdminDashboardPage() {
     purple: "text-[color:var(--color-twale-purple)]",
   };
 
+  const quickLinks: Array<{ href: string; icon: string; label: string; desc: string; adminOnly?: boolean }> = [
+    { href: "/admin/matchs", icon: "🏆", label: "Matchs", desc: "Démarrer, scores, terminer" },
+    { href: "/admin/equipes", icon: "👥", label: "Équipes", desc: "Inscriptions & poules" },
+    { href: "/admin/live", icon: "📺", label: "Live vidéo", desc: "Liens caméras XbotGo", adminOnly: true },
+    { href: "/admin/sondage", icon: "💬", label: "Sondage & quiz", desc: "Réponses du public", adminOnly: true },
+    { href: "/admin/athle", icon: "🏃", label: "Athlé", desc: "Épreuves & résultats" },
+  ].filter((l) => !l.adminOnly || staff.role === "admin");
+
   return (
     <div>
       <section className="rounded-3xl bg-omas-gradient p-6 text-white shadow-sm">
@@ -89,14 +98,23 @@ export default async function AdminDashboardPage() {
         ))}
       </section>
 
-      <section className="mt-6 rounded-2xl bg-[color:var(--color-surface)] p-5 ring-1 ring-[color:var(--color-border)]">
-        <h2 className="font-[family-name:var(--font-outfit)] text-lg font-semibold text-[color:var(--color-omas-navy)]">
-          Espace équipe
+      <section className="mt-6">
+        <h2 className="px-1 font-[family-name:var(--font-outfit)] text-lg font-semibold text-[color:var(--color-omas-navy)]">
+          Accès rapide
         </h2>
-        <p className="mt-2 text-sm text-[color:var(--color-muted)]">
-          Utilise le menu pour gérer les équipes, saisir les scores et configurer
-          la journée. Les sections détaillées seront activées d&apos;ici l&apos;événement.
-        </p>
+        <div className="mt-3 grid grid-cols-2 gap-3">
+          {quickLinks.map((l) => (
+            <Link
+              key={l.href}
+              href={l.href}
+              className="flex flex-col gap-1 rounded-2xl bg-[color:var(--color-surface)] p-4 ring-1 ring-[color:var(--color-border)] transition active:scale-[0.99] hover:ring-[color:var(--color-omas-teal)]/50"
+            >
+              <span className="text-2xl" aria-hidden>{l.icon}</span>
+              <span className="mt-1 text-sm font-semibold text-[color:var(--color-omas-navy)]">{l.label}</span>
+              <span className="text-xs text-[color:var(--color-muted)]">{l.desc}</span>
+            </Link>
+          ))}
+        </div>
       </section>
     </div>
   );

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { createServiceClient } from "@/lib/supabase/service";
 import LiveStreamBanner from "@/components/public/LiveStreamBanner";
-import { XBOTGO_STREAMS } from "@/lib/constants";
+import { getLiveStreams } from "@/lib/live";
 
 export const dynamic = "force-dynamic";
 
@@ -110,7 +110,7 @@ async function getTournoiSummaries(): Promise<SportSummary[]> {
 export const metadata = { title: "Tournoi" };
 
 export default async function TournoiPage() {
-  const summaries = await getTournoiSummaries();
+  const [summaries, streams] = await Promise.all([getTournoiSummaries(), getLiveStreams()]);
 
   return (
     <main className="min-h-dvh">
@@ -125,15 +125,15 @@ export default async function TournoiPage() {
       </header>
 
       <section className="mx-auto max-w-screen-sm px-4 py-6">
-        {(XBOTGO_STREAMS.foot || XBOTGO_STREAMS.volley) && (
+        {(streams.foot || streams.volley) && (
           <div className="mb-4 space-y-2">
             <LiveStreamBanner
-              href={XBOTGO_STREAMS.foot}
+              href={streams.foot}
               label="Foot en direct vidéo"
               sublabel="Diffusion live des matchs (XbotGo)"
             />
             <LiveStreamBanner
-              href={XBOTGO_STREAMS.volley}
+              href={streams.volley}
               label="Volley en direct vidéo"
               sublabel="Diffusion live des matchs (XbotGo)"
             />

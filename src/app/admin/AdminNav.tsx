@@ -10,11 +10,9 @@ const ITEMS = [
   { href: "/admin", label: "Tableau de bord", icon: "📊", exact: true },
   { href: "/admin/equipes", label: "Équipes", icon: "👥" },
   { href: "/admin/matchs", label: "Matchs", icon: "🏆" },
+  { href: "/admin/live", label: "Live vidéo", icon: "📺", adminOnly: true },
   { href: "/admin/athle", label: "Athlé", icon: "🏃" },
-  { href: "/admin/stands", label: "Stands", icon: "💚" },
-  { href: "/admin/galerie", label: "Galerie", icon: "📷" },
   { href: "/admin/sondage", label: "Sondage & quiz", icon: "💬", adminOnly: true },
-  { href: "/admin/parametres", label: "Paramètres", icon: "⚙️" },
 ];
 
 type Props = {

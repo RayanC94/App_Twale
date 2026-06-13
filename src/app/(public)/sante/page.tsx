@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { createServiceClient } from "@/lib/supabase/service";
 import LiveStreamBanner from "@/components/public/LiveStreamBanner";
-import { SANTE_LIVE_URL } from "@/lib/constants";
+import { getLiveStreams } from "@/lib/live";
 
 export const dynamic = "force-dynamic";
 
@@ -27,7 +27,7 @@ async function getStands(): Promise<Stand[]> {
 export const metadata = { title: "Village santé" };
 
 export default async function SantePage() {
-  const stands = await getStands();
+  const [stands, streams] = await Promise.all([getStands(), getLiveStreams()]);
 
   return (
     <main className="min-h-dvh">
@@ -46,7 +46,7 @@ export default async function SantePage() {
       <section className="mx-auto max-w-screen-sm px-4 py-6">
         <div className="mb-4 empty:hidden">
           <LiveStreamBanner
-            href={SANTE_LIVE_URL}
+            href={streams.sante}
             label="Le village santé en direct"
             sublabel="Interventions et ateliers diffusés en vidéo"
           />

@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { createServiceClient } from "@/lib/supabase/service";
 import MatchCard, { type MatchCardData } from "@/components/public/MatchCard";
-import LiveStreamBanner from "@/components/public/LiveStreamBanner";
-import { SANTE_LIVE_URL, XBOTGO_STREAMS } from "@/lib/constants";
+import LiveVideo from "@/components/public/LiveVideo";
+import { getLiveStreams } from "@/lib/live";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Live" };
@@ -53,8 +53,8 @@ async function getLiveMatches() {
 }
 
 export default async function LivePage() {
-  const liveMatches = await getLiveMatches();
-  const hasStream = Boolean(XBOTGO_STREAMS.foot || XBOTGO_STREAMS.volley || SANTE_LIVE_URL);
+  const [liveMatches, streams] = await Promise.all([getLiveMatches(), getLiveStreams()]);
+  const hasStream = Boolean(streams.foot || streams.volley || streams.sante);
 
   return (
     <main className="min-h-dvh">
@@ -81,19 +81,19 @@ export default async function LivePage() {
             Diffusion vidéo
           </h2>
           {hasStream ? (
-            <div className="mt-3 space-y-2">
-              <LiveStreamBanner
-                href={XBOTGO_STREAMS.foot}
+            <div className="mt-3 space-y-3">
+              <LiveVideo
+                url={streams.foot}
                 label="Foot en direct vidéo"
                 sublabel="Diffusion live des matchs (XbotGo)"
               />
-              <LiveStreamBanner
-                href={XBOTGO_STREAMS.volley}
+              <LiveVideo
+                url={streams.volley}
                 label="Volley en direct vidéo"
                 sublabel="Diffusion live des matchs (XbotGo)"
               />
-              <LiveStreamBanner
-                href={SANTE_LIVE_URL}
+              <LiveVideo
+                url={streams.sante}
                 label="Le village santé en direct"
                 sublabel="Interventions et ateliers diffusés en vidéo"
               />

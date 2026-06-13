@@ -3,7 +3,7 @@ import { createServiceClient } from "@/lib/supabase/service";
 import PoolStandings from "@/components/public/PoolStandings";
 import MatchCard, { type MatchCardData } from "@/components/public/MatchCard";
 import LiveStreamBanner from "@/components/public/LiveStreamBanner";
-import { XBOTGO_STREAMS } from "@/lib/constants";
+import { getLiveStreams } from "@/lib/live";
 
 export const dynamic = "force-dynamic";
 
@@ -65,7 +65,7 @@ async function getMatches() {
 export const metadata = { title: "Foot — Tournoi" };
 
 export default async function FootPage() {
-  const matches = await getMatches();
+  const [matches, streams] = await Promise.all([getMatches(), getLiveStreams()]);
 
   const bracket = matches.filter((m) => (STAGES_BRACKET as readonly string[]).includes(m.stage));
   const nowIso = new Date().toISOString();
@@ -98,7 +98,7 @@ export default async function FootPage() {
 
       <section className="mx-auto max-w-screen-sm px-4 py-6 space-y-8">
         <LiveStreamBanner
-          href={XBOTGO_STREAMS.foot}
+          href={streams.foot}
           label="Matchs de foot en direct vidéo"
           sublabel="Suivi live des terrains (XbotGo)"
         />
