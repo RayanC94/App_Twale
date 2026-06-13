@@ -11,7 +11,7 @@ const QUICK_LINKS = [
   { href: "/sante",    label: "Village santé", icon: "💚", desc: "5 stands · Fiches PDF" },
   { href: "/carte",    label: "Carte du site", icon: "🗺️", desc: "Terrains, food trucks…" },
   { href: "/live",     label: "Live",          icon: "🔴", desc: "Vidéo & scores en direct" },
-  { href: "/sondage",  label: "Sondage de fin",icon: "💬", desc: "Donnez votre avis" },
+  { href: "/sondage",  label: "Votre avis",    icon: "💬", desc: "Sport & Village santé" },
 ];
 
 export default function HomePage() {
@@ -196,9 +196,9 @@ export default function HomePage() {
                   <Image
                     src={s.logo}
                     alt={s.name}
-                    width={64}
-                    height={64}
-                    className="h-16 w-16 rounded-lg object-contain"
+                    width={80}
+                    height={80}
+                    className="h-20 w-20 rounded-lg object-contain"
                   />
                 </div>
               ))}
