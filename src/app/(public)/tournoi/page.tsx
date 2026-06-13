@@ -80,7 +80,7 @@ async function getTournoiSummaries(): Promise<SportSummary[]> {
       href: "/tournoi/foot",
       icon: "⚽",
       title: "Foot",
-      subtitle: "Hommes & Femmes",
+      subtitle: "Hommes",
       count: footCount ? `${footCount} équipes` : "Équipes à confirmer",
       next: nextMatchLabel(footNext?.[0]),
     },
