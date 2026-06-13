@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { redirect } from "next/navigation";
 import { getSessionToken } from "./cookies";
 import { verifySessionToken, type StaffSession } from "./session";
@@ -7,11 +8,14 @@ type RequireOptions = {
   sport?: "foot" | "volley";
 };
 
-export async function getCurrentStaff(): Promise<StaffSession | null> {
+// Mémoïsé par requête (React cache) : le layout admin ET la page rendue
+// appellent tous deux requireStaff(). Sans ça, chaque navigation déclenche
+// 2 requêtes Supabase de session en série ; cache() les fusionne en une seule.
+export const getCurrentStaff = cache(async (): Promise<StaffSession | null> => {
   const token = await getSessionToken();
   if (!token) return null;
   return verifySessionToken(token);
-}
+});
 
 export async function requireStaff(options: RequireOptions = {}): Promise<StaffSession> {
   const session = await getCurrentStaff();
