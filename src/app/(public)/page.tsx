@@ -44,13 +44,13 @@ export default function HomePage() {
               />
             </div>
             <span aria-hidden className="text-white/40 text-2xl font-light select-none">×</span>
-            <div className="rounded-full bg-white p-2.5 ring-4 ring-white/15 shadow-xl">
+            <div className="flex h-[108px] w-[108px] items-center justify-center rounded-full bg-white ring-4 ring-white/15 shadow-xl">
               <Image
                 src="/sponsors/ville-choisy.png"
                 alt=""
-                width={88}
-                height={88}
-                className="rounded-full"
+                width={76}
+                height={76}
+                className="object-contain"
                 preload
               />
             </div>
