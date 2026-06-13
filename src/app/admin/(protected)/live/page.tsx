@@ -23,8 +23,8 @@ export default async function AdminLivePage() {
       <section className="mt-6 rounded-2xl bg-[color:var(--color-surface)] p-5 ring-1 ring-[color:var(--color-border)]">
         <LiveLinksForm initial={streams} />
         <ul className="mt-5 space-y-1.5 text-xs text-[color:var(--color-muted)]">
-          <li>• Un lien <strong>YouTube</strong> s&apos;affiche en lecteur vidéo intégré.</li>
-          <li>• Un autre lien s&apos;affiche en bouton « Regarder en direct ».</li>
+          <li>• Colle le <strong>lien de partage XbotGo</strong> (cloud.xbotgo.net) : il s&apos;affiche en vidéo intégrée dans la page.</li>
+          <li>• Un lien YouTube fonctionne aussi ; tout autre lien devient un bouton « Regarder en direct ».</li>
           <li>• Laisse un champ <strong>vide</strong> pour masquer la diffusion correspondante.</li>
         </ul>
       </section>

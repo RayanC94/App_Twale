@@ -40,13 +40,23 @@ export async function getLiveStreams(): Promise<LiveStreams> {
 }
 
 /**
- * Convertit une URL YouTube (watch, youtu.be, live, embed) en URL d'embed.
- * Renvoie null si ce n'est pas une vidéo YouTube identifiable
- * (auquel cas on affiche un simple lien au lieu d'un lecteur).
+ * Renvoie l'URL à placer dans l'iframe si le lien est intégrable :
+ *  - XbotGo (cloud.xbotgo.net) → la page de partage elle-même (autorise l'iframe) ;
+ *  - YouTube (watch, youtu.be, live, embed) → l'URL d'embed du lecteur.
+ * Renvoie null sinon : on affiche alors un simple bouton « regarder » au lieu
+ * d'un lecteur (pour éviter une iframe bloquée et restée blanche).
  */
-export function youTubeEmbedUrl(url: string): string | null {
-  const m = url.match(
+export function embedUrl(url: string): string | null {
+  // XbotGo : page de partage intégrable directement.
+  try {
+    const host = new URL(url).hostname;
+    if (host === "xbotgo.net" || host.endsWith(".xbotgo.net")) return url;
+  } catch {
+    return null;
+  }
+  // YouTube : conversion vers l'URL d'embed.
+  const yt = url.match(
     /(?:youtube\.com\/(?:watch\?(?:.*&)?v=|live\/|embed\/|v\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/,
   );
-  return m ? `https://www.youtube.com/embed/${m[1]}` : null;
+  return yt ? `https://www.youtube.com/embed/${yt[1]}` : null;
 }

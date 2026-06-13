@@ -45,7 +45,7 @@ export default function LiveLinksForm({ initial }: { initial: LiveStreams }) {
             type="url"
             inputMode="url"
             defaultValue={initial[f.name] ?? ""}
-            placeholder="https://www.youtube.com/watch?v=…"
+            placeholder="https://cloud.xbotgo.net/share?shareEventId=…"
             className="w-full rounded-2xl border border-[color:var(--color-border)] bg-white px-4 py-3 text-sm text-[color:var(--color-omas-navy)] placeholder:text-[color:var(--color-muted)]/50 focus:border-[color:var(--color-omas-teal)] focus:outline-none focus:ring-2 focus:ring-[color:var(--color-omas-teal)]/30"
           />
         </div>

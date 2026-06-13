@@ -1,5 +1,5 @@
 import LiveStreamBanner from "./LiveStreamBanner";
-import { youTubeEmbedUrl } from "@/lib/live";
+import { embedUrl } from "@/lib/live";
 
 type Props = {
   url: string | null;
@@ -15,7 +15,7 @@ type Props = {
 export default function LiveVideo({ url, label, sublabel }: Props) {
   if (!url) return null;
 
-  const embed = youTubeEmbedUrl(url);
+  const embed = embedUrl(url);
   if (!embed) {
     return <LiveStreamBanner href={url} label={label} sublabel={sublabel} />;
   }
@@ -37,10 +37,18 @@ export default function LiveVideo({ url, label, sublabel }: Props) {
           <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75" />
           <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-red-500" />
         </span>
-        <span className="min-w-0">
+        <span className="min-w-0 flex-1">
           <span className="block text-sm font-semibold leading-tight">{label}</span>
           {sublabel && <span className="block text-xs text-white/75">{sublabel}</span>}
         </span>
+        <a
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="shrink-0 rounded-full bg-white/15 px-3 py-1 text-xs font-medium text-white/90 transition hover:bg-white/25"
+        >
+          Plein écran ↗
+        </a>
       </figcaption>
     </figure>
   );
