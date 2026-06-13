@@ -25,8 +25,6 @@ type QuizRow = {
   created_at: string;
 };
 
-type SurveyRow = { id: string; rating: number | null; comment: string | null; created_at: string };
-
 const BAND_COLOR: Record<EcransBand["tone"], string> = {
   good: "#1F9E94",
   watch: "#D99A00",
@@ -48,13 +46,6 @@ async function getData() {
     .order("created_at", { ascending: false })
     .limit(5000);
 
-  // Sondage de satisfaction — colonnes de base uniquement (toujours présentes).
-  const { data: surveyData } = await supabase
-    .from("survey_responses")
-    .select("id,rating,comment,created_at")
-    .order("created_at", { ascending: false })
-    .limit(2000);
-
   const rows = (quizData ?? []) as QuizRow[];
   // Bannière « SQL non appliqué » uniquement si la table n'existe pas réellement
   // (42P01 = undefined_table Postgres, PGRST205 = relation absente du cache PostgREST).
@@ -63,7 +54,6 @@ async function getData() {
     tableMissing,
     bucco: rows.filter((r) => r.quiz_slug === "bucco"),
     ecrans: rows.filter((r) => r.quiz_slug === "ecrans"),
-    survey: (surveyData ?? []) as SurveyRow[],
   };
 }
 
@@ -164,44 +154,33 @@ function ecransStats(rows: QuizRow[]) {
   };
 }
 
-function surveyStats(rows: SurveyRow[]) {
-  const total = rows.length;
-  const rated = rows.filter((r) => typeof r.rating === "number");
-  const avgRating = rated.length
-    ? rated.reduce((acc, r) => acc + (r.rating ?? 0), 0) / rated.length
-    : 0;
-  const comments = rows.filter((r) => r.comment && r.comment.trim()).slice(0, 12);
-  return { total, avgRating, comments };
-}
-
 // =========================================================
 // Page
 // =========================================================
 
 export default async function AdminSondagePage() {
-  // Données de questionnaires (santé, dont auto-test écrans) + commentaires :
+  // Données de questionnaires (santé, dont auto-test écrans) :
   // réservées aux administrateurs, pas aux arbitres.
   await requireStaff({ role: "admin" });
-  const { tableMissing, bucco, ecrans, survey } = await getData();
+  const { tableMissing, bucco, ecrans } = await getData();
 
   const b = buccoStats(bucco);
   const e = ecransStats(ecrans);
-  const s = surveyStats(survey);
 
   return (
     <div className="space-y-6">
       <section className="rounded-3xl bg-omas-gradient p-6 text-white shadow-sm">
         <div className="text-3xl" aria-hidden>💬</div>
         <h1 className="mt-3 font-[family-name:var(--font-outfit)] text-2xl font-bold">
-          Sondage & questionnaires
+          Questionnaires du village santé
         </h1>
         <p className="mt-2 text-sm text-white/85">
-          Réponses anonymes collectées au village santé.
+          Réponses anonymes collectées au village santé. Les avis sur l’événement sont
+          recueillis via les questionnaires Google Forms (Sport &amp; Village santé).
         </p>
-        <div className="mt-4 grid grid-cols-3 gap-2">
+        <div className="mt-4 grid grid-cols-2 gap-2">
           <HeaderStat value={b.total} label="Quiz bucco" />
           <HeaderStat value={e.total} label="Test écrans" />
-          <HeaderStat value={s.total} label="Sondage" />
         </div>
       </section>
 
@@ -345,40 +324,6 @@ export default async function AdminSondagePage() {
                 })}
               </ul>
             </div>
-          </div>
-        )}
-      </SectionCard>
-
-      {/* ============== SONDAGE SATISFACTION ============== */}
-      <SectionCard emoji="⭐" title="Sondage de satisfaction">
-        {s.total === 0 ? (
-          <EmptyState />
-        ) : (
-          <div className="space-y-5">
-            <div className="grid grid-cols-2 gap-3">
-              <Kpi value={String(s.total)} label="Réponses" tint="teal" />
-              <Kpi value={`${s.avgRating.toFixed(1)} / 5`} label="Note moyenne" tint="navy" />
-            </div>
-            {s.comments.length > 0 && (
-              <div>
-                <SubTitle>Derniers commentaires</SubTitle>
-                <ul className="mt-2 space-y-2">
-                  {s.comments.map((c) => (
-                    <li
-                      key={c.id}
-                      className="rounded-xl bg-[color:var(--color-omas-cream)] p-3 text-sm text-[color:var(--color-foreground)]"
-                    >
-                      {c.rating != null && (
-                        <span className="mr-2 text-xs font-semibold text-[color:var(--color-omas-teal)]">
-                          {c.rating}/5
-                        </span>
-                      )}
-                      “{c.comment}”
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
           </div>
         )}
       </SectionCard>

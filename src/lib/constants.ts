@@ -26,6 +26,29 @@ export const VENUE_MAPS_URL = `https://www.google.com/maps/dir/?api=1&destinatio
 )}`;
 
 /**
+ * Questionnaires de satisfaction (Google Forms). Le public donne son avis
+ * via ces deux formulaires depuis la page /sondage.
+ */
+export const FEEDBACK_FORMS = [
+  {
+    key: "sport",
+    label: "Sport",
+    desc: "Tournoi, athlétisme, organisation des matchs",
+    emoji: "🏆",
+    accent: "var(--color-omas-teal)",
+    url: "https://docs.google.com/forms/d/e/1FAIpQLSd5fIG-mca2ornqqRkagdGsCts58EwUs4tBMJ26n4-oDFIBZQ/viewform",
+  },
+  {
+    key: "sante",
+    label: "Village santé",
+    desc: "Stands, ateliers et animations bien-être",
+    emoji: "💚",
+    accent: "var(--color-twale-purple)",
+    url: "https://docs.google.com/forms/d/e/1FAIpQLSc6bbi0JT8nfGXLH7llckFmKpuKFGuT066pt15cYaf0Qcucuw/viewform",
+  },
+] as const;
+
+/**
  * Fallback SOS — utilisé si app_settings.sos n'est pas accessible.
  * À synchroniser manuellement avec la valeur en base avant le jour J.
  */
