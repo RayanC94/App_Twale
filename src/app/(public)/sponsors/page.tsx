@@ -99,11 +99,15 @@ export default async function SponsorsPage() {
                   rel="noopener noreferrer"
                   className="flex items-center gap-3 rounded-2xl bg-white p-4 ring-1 ring-[color:var(--color-border)] shadow-sm transition active:scale-[0.99] hover:ring-[color:var(--color-omas-teal)]/40"
                 >
-                  <span
-                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[color:var(--color-omas-teal)]/10 text-xl"
-                    aria-hidden
-                  >
-                    🍽️
+                  <span className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-white ring-1 ring-[color:var(--color-border)]">
+                    <Image
+                      src={p.logo}
+                      alt={p.name}
+                      width={56}
+                      height={56}
+                      className="h-full w-full object-contain p-1"
+                      unoptimized
+                    />
                   </span>
                   <span className="min-w-0 flex-1">
                     <span className="block font-semibold text-[color:var(--color-foreground)]">{p.name}</span>

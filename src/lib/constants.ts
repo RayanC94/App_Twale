@@ -164,16 +164,16 @@ export const SPONSORS: readonly SponsorEntry[] = [
 
 /**
  * Établissements qui offrent les repas des bénévoles.
- * Pas de logo fourni : affichés par nom + adresse (lien Google Maps) dans
- * une section dédiée de /sponsors — distincts du bandeau de logos.
+ * Affichés (logo + nom + adresse, lien Google Maps) dans une section dédiée
+ * de /sponsors — distincts du bandeau de logos des partenaires de l'événement.
  */
-export type FoodPartner = { name: string; address: string };
+export type FoodPartner = { name: string; address: string; logo: string };
 
 export const VOLUNTEER_FOOD_PARTNERS: readonly FoodPartner[] = [
-  { name: "Abi Kebab", address: "29 Av. Gambetta, 94600 Choisy-le-Roi" },
-  { name: "Maison Braisée", address: "18 Av. Jean Monnet, 94450 Limeil-Brévannes" },
-  { name: "Afrik'N'Fusion — Créteil Soleil", address: "Centre Commercial Régional Créteil-Soleil, 94000 Créteil" },
-  { name: "Le Boostan", address: "97 Av. de Paris, 94380 Bonneuil-sur-Marne" },
+  { name: "Abi Kebab", address: "29 Av. Gambetta, 94600 Choisy-le-Roi", logo: "/sponsors/abi-kebab.png" },
+  { name: "Maison Braisée", address: "18 Av. Jean Monnet, 94450 Limeil-Brévannes", logo: "/sponsors/maison-braisee.png" },
+  { name: "Afrik'N'Fusion", address: "Centre Commercial Régional Créteil-Soleil, 94000 Créteil", logo: "/sponsors/afrik-n-fusion.png" },
+  { name: "Le Boostan", address: "97 Av. de Paris, 94380 Bonneuil-sur-Marne", logo: "/sponsors/boostan.png" },
 ];
 
 /**
