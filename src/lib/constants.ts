@@ -191,16 +191,16 @@ export type ScheduleEntry = {
 
 export const DAY_SCHEDULE: readonly ScheduleEntry[] = [
   { start: "08:00", end: "08:45", title: "Accueil des équipes & installation", category: "ouverture" },
-  { start: "08:45", end: "09:00", title: "Briefing général & ouverture officielle", category: "ouverture" },
+  { start: "08:45", end: "09:00", title: "Ouverture pour les participants & briefing", category: "ouverture" },
   { start: "09:00", end: "09:25", title: "Échauffement collectif (Kiné)", description: "Football & volley", category: "tournoi" },
   { start: "09:25", end: "12:35", title: "Phase de poules — Football & Volley", description: "Sur 3 terrains chacun. Athlétisme : inscriptions ouvertes.", category: "tournoi" },
-  { start: "10:00", end: null, title: "Ouverture du village santé", category: "sante" },
+  { start: "10:00", end: null, title: "Ouverture grand public", category: "ouverture" },
   { start: "12:35", end: "13:45", title: "Pause déjeuner", category: "pause" },
   { start: "13:15", end: "13:45", title: "Athlétisme — Course 3 km (Femmes)", category: "tournoi" },
   { start: "13:45", end: "14:15", title: "Athlétisme — Course 3 km (Hommes)", category: "tournoi" },
   { start: "14:15", end: "15:05", title: "Quarts de finale — Football & Volley", category: "tournoi" },
   { start: "15:05", end: "15:15", title: "Athlétisme — Finale 800 m (H/F)", category: "tournoi" },
-  { start: "15:15", end: "16:10", title: "Demi-finales — Football & Volley", description: "Football : 20 min · Volley : 20 min ou 21 points.", category: "tournoi" },
+  { start: "15:15", end: "16:10", title: "Demi-finales — Football & Volley", description: "Football : 20 min · Volley : 20 min.", category: "tournoi" },
   { start: "15:15", end: "15:40", title: "Athlétisme — Séries 400 m (H/F)", category: "tournoi" },
   { start: "16:10", end: "16:20", title: "Athlétisme — Séries 100 m (H/F)", category: "tournoi" },
   { start: "16:20", end: "16:30", title: "Athlétisme — Finale 4×100 m (H/F)", category: "tournoi" },
@@ -208,10 +208,44 @@ export const DAY_SCHEDULE: readonly ScheduleEntry[] = [
   { start: "16:30", end: "16:40", title: "Athlétisme — Finale 4×400 m (H/F)", category: "tournoi" },
   { start: "16:40", end: "16:50", title: "Athlétisme — Finales 400 m & 100 m (H/F)", category: "tournoi" },
   { start: "16:50", end: "17:15", title: "Football — Finale 🏆 (2×15 min)", category: "tournoi" },
-  { start: "16:50", end: "17:15", title: "Volley — Petite finale (20 min ou 21 points)", category: "tournoi" },
+  { start: "16:50", end: "17:15", title: "Volley — Petite finale (20 min)", category: "tournoi" },
   { start: "17:15", end: "17:45", title: "Volley — Finale 🏆 (25 points)", category: "tournoi" },
   { start: "17:45", end: "18:15", title: "Remise des prix 🏅", category: "podium" },
   { start: "18:00", end: null, title: "Fermeture du village santé", category: "sante" },
+];
+
+/**
+ * Épreuves d'athlétisme de l'après-midi (grille officielle du 13 juin 2026).
+ * Le matin (9h25–12h35) est réservé aux INSCRIPTIONS sur place, gérées par le staff.
+ * Affiché sur /tournoi/athle. Source statique : pas de dépendance DB.
+ * Le nom n'inclut pas le tour (Séries/Finales) : l'onglet l'indique déjà.
+ */
+export type AthleticsEvent = {
+  name: string;
+  gender: "H" | "F";
+  stage: "series" | "finale";
+  time: string; // "HH:MM" (Europe/Paris)
+};
+
+export const ATHLETICS_EVENTS: readonly AthleticsEvent[] = [
+  // Séries (après-midi)
+  { name: "400 m", gender: "H", stage: "series", time: "15:15" },
+  { name: "400 m", gender: "F", stage: "series", time: "15:15" },
+  { name: "100 m", gender: "H", stage: "series", time: "16:10" },
+  { name: "100 m", gender: "F", stage: "series", time: "16:10" },
+  // Finales (après-midi)
+  { name: "3 km", gender: "F", stage: "finale", time: "13:15" },
+  { name: "3 km", gender: "H", stage: "finale", time: "13:45" },
+  { name: "800 m", gender: "H", stage: "finale", time: "15:05" },
+  { name: "800 m", gender: "F", stage: "finale", time: "15:05" },
+  { name: "4×100 m", gender: "H", stage: "finale", time: "16:20" },
+  { name: "4×100 m", gender: "F", stage: "finale", time: "16:20" },
+  { name: "4×400 m", gender: "H", stage: "finale", time: "16:30" },
+  { name: "4×400 m", gender: "F", stage: "finale", time: "16:30" },
+  { name: "400 m", gender: "H", stage: "finale", time: "16:40" },
+  { name: "400 m", gender: "F", stage: "finale", time: "16:40" },
+  { name: "100 m", gender: "H", stage: "finale", time: "16:40" },
+  { name: "100 m", gender: "F", stage: "finale", time: "16:40" },
 ];
 
 /**

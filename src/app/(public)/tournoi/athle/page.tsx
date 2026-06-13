@@ -1,102 +1,18 @@
 import Link from "next/link";
-import { createServiceClient } from "@/lib/supabase/service";
+import { ATHLETICS_EVENTS, TOURNOI_DATE_ISO } from "@/lib/constants";
 
 export const dynamic = "force-dynamic";
 
-type Stage = "series" | "demi" | "finale";
+type Stage = "series" | "finale";
 type Gender = "H" | "F";
-type EventStatus = "scheduled" | "live" | "finished" | "cancelled";
 
-type EventRow = {
-  id: string;
-  name: string;
-  gender: Gender;
-  stage: Stage;
-  unit: string;
-  lower_is_better: boolean;
-  scheduled_at: string | null;
-  status: EventStatus;
-  position: number | null;
-};
-
-type ResultRow = {
-  event_id: string;
-  performance: number;
-  rank: number | null;
-  athlete: { full_name: string; bib_number: string | null } | { full_name: string; bib_number: string | null }[] | null;
-};
-
-type Podium = {
-  rank: number;
-  full_name: string;
-  bib_number: string | null;
-  performance: number;
-};
-
-function formatHour(iso: string | null) {
-  if (!iso) return "—";
-  return new Date(iso).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit", timeZone: "Europe/Paris" });
+/** Heure locale "HH:MM" → ISO daté (CEST, +02:00 le 14 juin 2026). */
+function toIso(time: string): string {
+  return `${TOURNOI_DATE_ISO}T${time}:00+02:00`;
 }
 
-function formatPerf(value: number, unit: string) {
-  if (unit === "s") {
-    if (value >= 60) {
-      const min = Math.floor(value / 60);
-      const sec = value - min * 60;
-      return `${min}:${sec.toFixed(2).padStart(5, "0")}`;
-    }
-    return `${value.toFixed(2)} s`;
-  }
-  return `${value.toFixed(2)} ${unit}`;
-}
-
-const STATUS_LABEL: Record<EventStatus, string> = {
-  scheduled: "À venir",
-  live: "En cours",
-  finished: "Terminé",
-  cancelled: "Annulé",
-};
-
-async function getEvents(stage: Stage, gender: Gender) {
-  const supabase = createServiceClient();
-  const { data: events } = await supabase
-    .from("athletics_events")
-    .select("id,name,gender,stage,unit,lower_is_better,scheduled_at,status,position")
-    .eq("stage", stage)
-    .eq("gender", gender)
-    .order("position", { ascending: true })
-    .order("scheduled_at", { ascending: true });
-
-  const rows = (events ?? []) as EventRow[];
-
-  const finishedFinaleIds = rows
-    .filter((e) => e.stage === "finale" && e.status === "finished")
-    .map((e) => e.id);
-
-  const podiumsByEvent = new Map<string, Podium[]>();
-  if (finishedFinaleIds.length > 0) {
-    const { data: results } = await supabase
-      .from("event_results")
-      .select("event_id,performance,rank,athlete:athletes(full_name,bib_number)")
-      .in("event_id", finishedFinaleIds);
-    const rs = (results ?? []) as ResultRow[];
-    rs.forEach((r) => {
-      if (r.rank == null || r.rank > 3) return;
-      const athleteRaw = Array.isArray(r.athlete) ? r.athlete[0] : r.athlete;
-      if (!athleteRaw) return;
-      const arr = podiumsByEvent.get(r.event_id) ?? [];
-      arr.push({
-        rank: r.rank,
-        full_name: athleteRaw.full_name,
-        bib_number: athleteRaw.bib_number,
-        performance: Number(r.performance),
-      });
-      podiumsByEvent.set(r.event_id, arr);
-    });
-    for (const arr of podiumsByEvent.values()) arr.sort((a, b) => a.rank - b.rank);
-  }
-
-  return { events: rows, podiumsByEvent };
+function formatHour(time: string): string {
+  return new Date(toIso(time)).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit", timeZone: "Europe/Paris" });
 }
 
 export const metadata = { title: "Athlétisme — Tournoi" };
@@ -107,14 +23,16 @@ export default async function AthlePage({
   searchParams: Promise<{ stage?: string; cat?: string }>;
 }) {
   const sp = await searchParams;
-  const stage: Stage = sp.stage === "finale" ? "finale" : sp.stage === "demi" ? "demi" : "series";
+  const stage: Stage = sp.stage === "finale" ? "finale" : "series";
   const gender: Gender = sp.cat === "F" ? "F" : "H";
-  const { events, podiumsByEvent } = await getEvents(stage, gender);
+  const now = new Date().getTime();
+
+  const events = ATHLETICS_EVENTS.filter((e) => e.stage === stage && e.gender === gender)
+    .slice()
+    .sort((a, b) => a.time.localeCompare(b.time));
 
   const stageHref = (s: Stage) => `/tournoi/athle?stage=${s}&cat=${gender}`;
   const catHref = (g: Gender) => `/tournoi/athle?stage=${stage}&cat=${g}`;
-
-  const MEDAL: Record<number, string> = { 1: "🥇", 2: "🥈", 3: "🥉" };
 
   return (
     <main className="min-h-dvh">
@@ -176,66 +94,51 @@ export default async function AthlePage({
       </header>
 
       <section className="mx-auto max-w-screen-sm px-4 py-6">
+        {/* Le matin : inscriptions sur place */}
+        <div className="flex items-start gap-3 rounded-2xl bg-[color:var(--color-omas-cream)] p-4 ring-1 ring-[color:var(--color-border)]">
+          <span className="text-xl" aria-hidden>📋</span>
+          <p className="text-sm text-[color:var(--color-foreground)]">
+            <strong>Inscriptions le matin sur place</strong> (9h25 – 12h35), au stand athlétisme. Les épreuves se
+            courent l’après-midi.
+          </p>
+        </div>
+
         {events.length === 0 ? (
-          <p className="rounded-2xl bg-white p-6 ring-1 ring-[color:var(--color-border)] text-center text-sm text-[color:var(--color-muted)]">
-            Les épreuves seront affichées dès que le programme aura été publié.
+          <p className="mt-4 rounded-2xl bg-white p-6 ring-1 ring-[color:var(--color-border)] text-center text-sm text-[color:var(--color-muted)]">
+            Aucune épreuve dans cette catégorie.
           </p>
         ) : (
-          <ul className="space-y-3">
-            {events.map((e) => {
-              const isLive = e.status === "live";
-              const isFinished = e.status === "finished";
-              const podium = podiumsByEvent.get(e.id);
+          <ul className="mt-4 space-y-3">
+            {events.map((e, i) => {
+              const start = new Date(toIso(e.time)).getTime();
+              const live = now >= start && now <= start + 15 * 60 * 1000;
+              const past = now > start + 15 * 60 * 1000;
               return (
                 <li
-                  key={e.id}
+                  key={`${e.name}-${e.time}-${i}`}
                   className={`rounded-2xl bg-white p-4 ring-1 ${
-                    isLive
+                    live
                       ? "ring-[color:var(--color-omas-teal)] shadow-lg shadow-[color:var(--color-omas-teal)]/10"
                       : "ring-[color:var(--color-border)]"
-                  }`}
+                  } ${past ? "opacity-60" : ""}`}
                 >
                   <div className="flex items-center justify-between gap-2">
                     <div className="flex items-center gap-3 min-w-0">
                       <div className="text-xs font-mono tabular-nums text-[color:var(--color-omas-navy)] shrink-0">
-                        {formatHour(e.scheduled_at)}
+                        {formatHour(e.time)}
                       </div>
                       <h3 className="font-semibold text-[color:var(--color-foreground)] truncate">{e.name}</h3>
                     </div>
-                    {isLive ? (
+                    {live ? (
                       <span className="inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wider rounded-full bg-[color:var(--color-omas-teal)] text-white px-2 py-0.5 shrink-0">
                         <span className="h-1.5 w-1.5 rounded-full bg-white animate-pulse" /> En cours
                       </span>
                     ) : (
                       <span className="text-[10px] font-semibold uppercase tracking-wider rounded-full bg-[color:var(--color-muted)]/15 text-[color:var(--color-muted)] px-2 py-0.5 shrink-0">
-                        {STATUS_LABEL[e.status]}
+                        {past ? "Passé" : "À venir"}
                       </span>
                     )}
                   </div>
-
-                  {e.stage === "finale" && isFinished && podium && podium.length > 0 && (
-                    <ul className="mt-3 space-y-1.5">
-                      {podium.map((p) => (
-                        <li
-                          key={p.rank}
-                          className="flex items-center gap-3 rounded-xl bg-[color:var(--color-omas-cream)] px-3 py-1.5"
-                        >
-                          <span className="text-base" aria-hidden>
-                            {MEDAL[p.rank] ?? p.rank}
-                          </span>
-                          <span className="flex-1 text-sm font-medium text-[color:var(--color-foreground)] truncate">
-                            {p.full_name}
-                            {p.bib_number && (
-                              <span className="ml-1.5 text-xs text-[color:var(--color-muted)]">#{p.bib_number}</span>
-                            )}
-                          </span>
-                          <span className="text-xs font-mono tabular-nums text-[color:var(--color-omas-navy)]">
-                            {formatPerf(p.performance, e.unit)}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
                 </li>
               );
             })}
