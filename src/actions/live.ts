@@ -5,6 +5,7 @@ import { createServiceClient } from "@/lib/supabase/service";
 
 export type LiveActionState = {
   success?: boolean;
+  cleared?: boolean;
   error?: string;
 };
 
@@ -37,6 +38,23 @@ export async function updateLiveStreams(
 ): Promise<LiveActionState> {
   await requireStaff({ role: "admin" });
 
+  const supabase = createServiceClient();
+
+  // Bouton « Supprimer tous les liens » : on efface la diffusion sans tenir
+  // compte des champs (la page Live publique repasse alors en « jour J »).
+  if (formData.get("intent") === "clear") {
+    const { error } = await supabase.from("app_settings").upsert(
+      {
+        key: "live_streams",
+        value: { foot: null, volley: null, sante: null },
+        updated_at: new Date().toISOString(),
+      },
+      { onConflict: "key" },
+    );
+    if (error) return { error: "Suppression impossible. Réessayez." };
+    return { success: true, cleared: true };
+  }
+
   const foot = cleanUrl(formData, "foot");
   const volley = cleanUrl(formData, "volley");
   const sante = cleanUrl(formData, "sante");
@@ -44,7 +62,6 @@ export async function updateLiveStreams(
     if (f.error) return { error: f.error };
   }
 
-  const supabase = createServiceClient();
   const { error } = await supabase.from("app_settings").upsert(
     {
       key: "live_streams",
