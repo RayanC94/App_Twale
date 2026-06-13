@@ -8,7 +8,8 @@ const NAV = [
   { href: "/tournoi",  label: "Tournoi",   icon: "🏆", match: (p: string) => p.startsWith("/tournoi") },
   { href: "/planning", label: "Planning",  icon: "📅", match: (p: string) => p.startsWith("/planning") },
   { href: "/sante",    label: "Santé",     icon: "💚", match: (p: string) => p.startsWith("/sante") },
-  { href: "/carte",    label: "Carte",     icon: "🗺️", match: (p: string) => p.startsWith("/carte") || p.startsWith("/galerie") || p.startsWith("/food") || p.startsWith("/sponsors") || p.startsWith("/sondage") || p.startsWith("/live") },
+  { href: "/food",     label: "Food",      icon: "🍔", match: (p: string) => p.startsWith("/food") },
+  { href: "/carte",    label: "Carte",     icon: "🗺️", match: (p: string) => p.startsWith("/carte") || p.startsWith("/galerie") || p.startsWith("/sponsors") || p.startsWith("/sondage") || p.startsWith("/live") },
 ];
 
 export default function BottomNav() {
@@ -27,14 +28,14 @@ export default function BottomNav() {
               <Link
                 href={item.href}
                 aria-current={active ? "page" : undefined}
-                className={`flex flex-col items-center gap-0.5 px-2 py-2.5 text-[11px] font-medium transition ${
+                className={`flex flex-col items-center gap-0.5 px-1 py-2.5 text-[11px] font-medium transition ${
                   active
                     ? "text-[color:var(--color-omas-teal)]"
                     : "text-[color:var(--color-muted)] hover:text-[color:var(--color-omas-navy)]"
                 }`}
               >
                 <span className="text-xl" aria-hidden>{item.icon}</span>
-                <span>{item.label}</span>
+                <span className="whitespace-nowrap">{item.label}</span>
               </Link>
             </li>
           );

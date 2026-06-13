@@ -91,6 +91,24 @@ export default function HomePage() {
           Accès rapide
         </h2>
         <ul className="mt-3 grid grid-cols-2 gap-3">
+          {/* Food trucks — mis en avant (élément important) */}
+          <li className="col-span-2">
+            <Link
+              href="/food"
+              className="flex items-center gap-4 rounded-2xl bg-[color:var(--color-omas-teal)]/10 p-4 ring-1 ring-[color:var(--color-omas-teal)]/30 shadow-sm transition active:scale-[0.99] hover:ring-[color:var(--color-omas-teal)]/50"
+            >
+              <span className="text-3xl" aria-hidden>🍔</span>
+              <span className="min-w-0 flex-1">
+                <span className="block font-semibold text-[color:var(--color-omas-navy)]">Food trucks · Les menus</span>
+                <span className="block text-xs text-[color:var(--color-muted)]">
+                  TanLy’ (100% halal) · Burgers &amp; gourmandises · café 1 €
+                </span>
+              </span>
+              <span className="shrink-0 text-sm font-semibold text-[color:var(--color-omas-teal)]" aria-hidden>
+                Voir →
+              </span>
+            </Link>
+          </li>
           {QUICK_LINKS.map((l) => (
             <li key={l.href}>
               <Link
