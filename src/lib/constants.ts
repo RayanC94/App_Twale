@@ -163,6 +163,20 @@ export const SPONSORS: readonly SponsorEntry[] = [
 ];
 
 /**
+ * Établissements qui offrent les repas des bénévoles.
+ * Pas de logo fourni : affichés par nom + adresse (lien Google Maps) dans
+ * une section dédiée de /sponsors — distincts du bandeau de logos.
+ */
+export type FoodPartner = { name: string; address: string };
+
+export const VOLUNTEER_FOOD_PARTNERS: readonly FoodPartner[] = [
+  { name: "Abi Kebab", address: "29 Av. Gambetta, 94600 Choisy-le-Roi" },
+  { name: "Maison Braisée", address: "18 Av. Jean Monnet, 94450 Limeil-Brévannes" },
+  { name: "Afrik'N'Fusion — Créteil Soleil", address: "Centre Commercial Régional Créteil-Soleil, 94000 Créteil" },
+  { name: "Le Boostan", address: "97 Av. de Paris, 94380 Bonneuil-sur-Marne" },
+];
+
+/**
  * Liens de diffusion vidéo en direct (caméras XbotGo) — un lien par sport.
  * Laisser à null tant que le lien n'est pas connu : le bandeau « en direct »
  * reste masqué sur les pages tournoi.

@@ -1,6 +1,10 @@
 import { createServiceClient } from "@/lib/supabase/service";
 import Image from "next/image";
-import { SPONSORS as FALLBACK_SPONSORS } from "@/lib/constants";
+import { SPONSORS as FALLBACK_SPONSORS, VOLUNTEER_FOOD_PARTNERS } from "@/lib/constants";
+
+function mapsSearchUrl(query: string) {
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+}
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Partenaires" };
@@ -77,6 +81,40 @@ export default async function SponsorsPage() {
             );
           })}
         </ul>
+
+        {/* Restauration des bénévoles — établissements sans logo (nom + adresse) */}
+        <div className="mt-8">
+          <h2 className="px-2 text-xs font-semibold uppercase tracking-widest text-[color:var(--color-muted)]">
+            Restauration des bénévoles
+          </h2>
+          <p className="mt-1 px-2 text-xs text-[color:var(--color-muted)]">
+            Merci à ces établissements qui régalent nos bénévoles tout au long de la journée.
+          </p>
+          <ul className="mt-3 space-y-2">
+            {VOLUNTEER_FOOD_PARTNERS.map((p) => (
+              <li key={p.name}>
+                <a
+                  href={mapsSearchUrl(`${p.name}, ${p.address}`)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 rounded-2xl bg-white p-4 ring-1 ring-[color:var(--color-border)] shadow-sm transition active:scale-[0.99] hover:ring-[color:var(--color-omas-teal)]/40"
+                >
+                  <span
+                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[color:var(--color-omas-teal)]/10 text-xl"
+                    aria-hidden
+                  >
+                    🍽️
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block font-semibold text-[color:var(--color-foreground)]">{p.name}</span>
+                    <span className="block text-xs text-[color:var(--color-muted)]">{p.address}</span>
+                  </span>
+                  <span className="shrink-0 text-[color:var(--color-omas-teal)]" aria-hidden>📍</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
       </section>
     </main>
   );
