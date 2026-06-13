@@ -136,10 +136,6 @@ export default async function LivePage() {
           <Link href="/tournoi" className="underline underline-offset-2 hover:text-[color:var(--color-omas-teal)]">
             Voir tout le tournoi
           </Link>
-          {" · "}
-          <Link href="/galerie" className="underline underline-offset-2 hover:text-[color:var(--color-omas-teal)]">
-            Galerie photo
-          </Link>
         </p>
       </section>
     </main>
