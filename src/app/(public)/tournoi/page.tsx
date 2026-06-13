@@ -2,6 +2,7 @@ import Link from "next/link";
 import { createServiceClient } from "@/lib/supabase/service";
 import LiveStreamBanner from "@/components/public/LiveStreamBanner";
 import { getLiveStreams } from "@/lib/live";
+import { ATHLETICS_EVENTS, TOURNOI_DATE_ISO } from "@/lib/constants";
 
 export const dynamic = "force-dynamic";
 
@@ -19,6 +20,19 @@ function formatHour(iso: string) {
   return new Date(iso).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit", timeZone: "Europe/Paris" });
 }
 
+/**
+ * Prochaine épreuve d'athlé. Le matin est réservé aux inscriptions sur place ;
+ * toutes les épreuves se courent l'après-midi (source : ATHLETICS_EVENTS).
+ */
+function nextAthleEvent(): { label: string; time: string } | null {
+  const now = Date.now();
+  const upcoming = ATHLETICS_EVENTS.map((e) => ({ name: e.name, iso: `${TOURNOI_DATE_ISO}T${e.time}:00+02:00` }))
+    .filter((e) => new Date(e.iso).getTime() >= now)
+    .sort((a, b) => a.iso.localeCompare(b.iso));
+  const first = upcoming[0];
+  return first ? { label: first.name, time: formatHour(first.iso) } : null;
+}
+
 async function getTournoiSummaries(): Promise<SportSummary[]> {
   const supabase = createServiceClient();
   const nowIso = new Date().toISOString();
@@ -26,14 +40,11 @@ async function getTournoiSummaries(): Promise<SportSummary[]> {
   const [
     { count: footCount },
     { count: volleyCount },
-    { count: athleCount },
     { data: footNext },
     { data: volleyNext },
-    { data: athleNext },
   ] = await Promise.all([
     supabase.from("teams").select("id", { count: "exact", head: true }).eq("sport", "foot"),
     supabase.from("teams").select("id", { count: "exact", head: true }).eq("sport", "volley"),
-    supabase.from("athletics_events").select("id", { count: "exact", head: true }),
     supabase
       .from("matches")
       .select("scheduled_at,team_home:teams!matches_team_home_id_fkey(name),team_away:teams!matches_team_away_id_fkey(name),placeholder_home,placeholder_away")
@@ -46,13 +57,6 @@ async function getTournoiSummaries(): Promise<SportSummary[]> {
       .from("matches")
       .select("scheduled_at,team_home:teams!matches_team_home_id_fkey(name),team_away:teams!matches_team_away_id_fkey(name),placeholder_home,placeholder_away")
       .eq("sport", "volley")
-      .in("status", ["scheduled", "live"])
-      .gte("scheduled_at", nowIso)
-      .order("scheduled_at", { ascending: true })
-      .limit(1),
-    supabase
-      .from("athletics_events")
-      .select("name,scheduled_at")
       .in("status", ["scheduled", "live"])
       .gte("scheduled_at", nowIso)
       .order("scheduled_at", { ascending: true })
@@ -98,11 +102,9 @@ async function getTournoiSummaries(): Promise<SportSummary[]> {
       href: "/tournoi/athle",
       icon: "🏃",
       title: "Athlétisme",
-      subtitle: "Séries & Finales",
-      count: athleCount ? `${athleCount} épreuves` : "Épreuves à confirmer",
-      next: athleNext?.[0]
-        ? { label: athleNext[0].name as string, time: formatHour(athleNext[0].scheduled_at as string) }
-        : null,
+      subtitle: "Inscriptions le matin · épreuves l'après-midi",
+      count: "",
+      next: nextAthleEvent(),
     },
   ];
 }
@@ -154,7 +156,7 @@ export default async function TournoiPage() {
                     <div className="font-[family-name:var(--font-outfit)] text-lg font-semibold text-[color:var(--color-omas-navy)]">
                       {s.title}
                     </div>
-                    <div className="text-xs text-[color:var(--color-muted)]">{s.subtitle} · {s.count}</div>
+                    <div className="text-xs text-[color:var(--color-muted)]">{s.count ? `${s.subtitle} · ${s.count}` : s.subtitle}</div>
                   </div>
                   <div className="text-[color:var(--color-muted)]" aria-hidden>›</div>
                 </div>
