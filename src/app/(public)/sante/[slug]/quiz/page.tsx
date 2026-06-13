@@ -5,7 +5,7 @@ import { QUIZ_BY_STAND, BUCCO_QUESTIONS, ECRANS_QUESTIONS } from "@/lib/quizzes"
 import BuccoQuizForm from "@/components/public/BuccoQuizForm";
 import EcransTestForm from "@/components/public/EcransTestForm";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
 
 const QUIZ_META: Record<
   string,

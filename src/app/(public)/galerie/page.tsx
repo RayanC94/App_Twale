@@ -1,7 +1,7 @@
 import { createServiceClient } from "@/lib/supabase/service";
 import Lightbox, { type LightboxPhoto } from "@/components/public/Lightbox";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 30;
 export const metadata = { title: "Galerie photo" };
 
 type Photo = {

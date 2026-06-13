@@ -2,8 +2,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createServiceClient } from "@/lib/supabase/service";
 import MatchCard, { type MatchCardData } from "@/components/public/MatchCard";
+import RealtimeRefresh from "@/components/public/RealtimeRefresh";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 30;
 export const metadata = { title: "Équipe — Tournoi" };
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -73,6 +74,7 @@ export default async function TeamPage({ params }: { params: Promise<{ id: strin
 
   return (
     <main className="min-h-dvh">
+      <RealtimeRefresh />
       <header className="bg-omas-gradient text-white">
         <div className="mx-auto max-w-screen-sm px-6 pt-8 pb-10">
           <Link href={backHref} className="inline-flex items-center gap-1 text-sm text-white/85 hover:text-white">

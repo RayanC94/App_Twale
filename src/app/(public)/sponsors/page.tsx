@@ -6,7 +6,7 @@ function mapsSearchUrl(query: string) {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
 }
 
-export const dynamic = "force-dynamic";
+export const revalidate = 600;
 export const metadata = { title: "Partenaires" };
 
 type Sponsor = {

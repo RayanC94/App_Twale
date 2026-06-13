@@ -3,10 +3,15 @@ import { notFound } from "next/navigation";
 import { createServiceClient } from "@/lib/supabase/service";
 import Lightbox from "@/components/public/Lightbox";
 import { HEALTH_DOCS, type HealthDoc } from "@/lib/health-docs";
-import type { HealthStandSlug } from "@/lib/constants";
+import { HEALTH_STANDS, type HealthStandSlug } from "@/lib/constants";
 import { QUIZ_BY_STAND, BUCCO_QUESTIONS, ECRANS_QUESTIONS } from "@/lib/quizzes";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
+
+/** Prérend les 5 fiches stand (slugs connus) → pages statiques instantanées. */
+export function generateStaticParams() {
+  return HEALTH_STANDS.map((s) => ({ slug: s.slug }));
+}
 
 /** Stands disposant d'un questionnaire numérique (CTA vers /sante/[slug]/quiz). */
 const QUIZ_CTA: Record<string, { label: string; sub: string; emoji: string }> = {

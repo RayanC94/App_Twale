@@ -2,9 +2,10 @@ import Link from "next/link";
 import { createServiceClient } from "@/lib/supabase/service";
 import MatchCard, { type MatchCardData } from "@/components/public/MatchCard";
 import LiveVideo from "@/components/public/LiveVideo";
+import RealtimeRefresh from "@/components/public/RealtimeRefresh";
 import { getLiveStreams } from "@/lib/live";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 15;
 export const metadata = { title: "Live" };
 
 type RawMatch = {
@@ -58,6 +59,7 @@ export default async function LivePage() {
 
   return (
     <main className="min-h-dvh">
+      <RealtimeRefresh />
       <header className="bg-mixte-gradient text-white">
         <div className="mx-auto max-w-screen-sm px-6 pt-8 pb-10">
           <p className="text-xs uppercase tracking-[0.22em] text-white/80">Dimanche 14 juin 2026</p>

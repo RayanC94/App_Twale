@@ -3,7 +3,7 @@ import { createServiceClient } from "@/lib/supabase/service";
 import LiveStreamBanner from "@/components/public/LiveStreamBanner";
 import { getLiveStreams } from "@/lib/live";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 type Stand = {
   slug: string;

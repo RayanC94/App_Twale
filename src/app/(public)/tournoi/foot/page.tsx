@@ -3,9 +3,10 @@ import { createServiceClient } from "@/lib/supabase/service";
 import PoolStandings from "@/components/public/PoolStandings";
 import MatchCard, { type MatchCardData } from "@/components/public/MatchCard";
 import LiveStreamBanner from "@/components/public/LiveStreamBanner";
+import RealtimeRefresh from "@/components/public/RealtimeRefresh";
 import { getLiveStreams } from "@/lib/live";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 15;
 
 const STAGES_BRACKET = ["qf", "sf", "final", "third"] as const;
 
@@ -81,6 +82,7 @@ export default async function FootPage() {
 
   return (
     <main className="min-h-dvh">
+      <RealtimeRefresh />
       <header className="bg-omas-gradient text-white">
         <div className="mx-auto max-w-screen-sm px-6 pt-8 pb-10">
           <Link href="/tournoi" className="inline-flex items-center gap-1 text-sm text-white/85 hover:text-white">

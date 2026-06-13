@@ -1,7 +1,7 @@
 import BottomNav from "@/components/public/BottomNav";
 
-// Rendu à la requête — données live (tournoi temps réel).
-export const dynamic = "force-dynamic";
+// Layout sans donnée : laissé cacheable pour que chaque page choisisse son
+// propre cache (ISR pour les pages d'info, temps réel pour le tournoi).
 
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
   return (
