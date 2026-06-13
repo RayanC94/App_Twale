@@ -83,8 +83,6 @@ export type FoodTruck = {
   name: string;
   kind: "Salé" | "Sucré";
   tagline: string;
-  phone_label?: string;
-  phone_href?: string;
   poster: string;
   note?: string;
   items: readonly FoodTruckMenuItem[];
@@ -98,8 +96,6 @@ export const FOOD_TRUCKS: readonly FoodTruck[] = [
     kind: "Salé",
     tagline: "100% halal (AVS) — croquettes, riz cantonnais, merguez, nems…",
     poster: "/food/menu-tanly.jpeg",
-    phone_label: "06 58 88 78 82",
-    phone_href: "tel:+33658887882",
     note: "100% halal · Produits frais et de qualité",
     items: [
       { name: "Croquettes de poulet frites", price: "7 €" },
@@ -118,8 +114,6 @@ export const FOOD_TRUCKS: readonly FoodTruck[] = [
     kind: "Sucré",
     tagline: "Plaisir, saveurs et gourmandise à chaque bouchée !",
     poster: "/food/menu-sucre.jpeg",
-    phone_label: "07 44 59 65 77",
-    phone_href: "tel:+33744596577",
     items: [
       { name: "Truc Berger", detail: "Avec frites", price: "7 €" },
       { name: "Sandwich frites", detail: "Avec boisson", price: "7 €" },
@@ -190,7 +184,7 @@ export type ScheduleEntry = {
 };
 
 export const DAY_SCHEDULE: readonly ScheduleEntry[] = [
-  { start: "08:00", end: "08:45", title: "Accueil des équipes & installation", category: "ouverture" },
+  { start: "08:00", end: "08:45", title: "Accueil des bénévoles & installation", category: "ouverture" },
   { start: "08:45", end: "09:00", title: "Ouverture pour les participants & briefing", category: "ouverture" },
   { start: "09:00", end: "09:25", title: "Échauffement collectif (Kiné)", description: "Football & volley", category: "tournoi" },
   { start: "09:25", end: "12:35", title: "Phase de poules — Football & Volley", description: "Sur 3 terrains chacun. Athlétisme : inscriptions ouvertes.", category: "tournoi" },

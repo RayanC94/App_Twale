@@ -61,15 +61,6 @@ export default function FoodPage() {
               </ul>
 
               {truck.note && <p className="mt-3 text-xs text-[color:var(--color-muted)]">{truck.note}</p>}
-
-              {truck.phone_href && truck.phone_label && (
-                <a
-                  href={truck.phone_href}
-                  className="mt-5 flex items-center justify-center gap-2 rounded-full bg-[color:var(--color-omas-teal)] px-5 py-2.5 text-sm font-semibold text-white transition active:scale-[0.98] hover:opacity-90"
-                >
-                  📞 Commandes au {truck.phone_label}
-                </a>
-              )}
             </article>
           );
         })}
