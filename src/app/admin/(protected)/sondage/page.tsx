@@ -25,6 +25,20 @@ type QuizRow = {
   created_at: string;
 };
 
+type FormRow = {
+  id: string;
+  form_key: "sport" | "sante";
+  form_title: string | null;
+  answers: Record<string, unknown> | null;
+  created_at: string;
+};
+
+/** Libellés des questionnaires Google Forms recopiés dans Supabase. */
+const FORM_META: Record<FormRow["form_key"], { label: string; emoji: string }> = {
+  sport: { label: "Sport", emoji: "🏆" },
+  sante: { label: "Village santé", emoji: "💚" },
+};
+
 const BAND_COLOR: Record<EcransBand["tone"], string> = {
   good: "#1F9E94",
   watch: "#D99A00",
@@ -46,7 +60,15 @@ async function getData() {
     .order("created_at", { ascending: false })
     .limit(5000);
 
+  // Réponses Google Forms recopiées par Apps Script (table 2026-06-13-form-responses.sql).
+  const { data: formData } = await supabase
+    .from("form_responses")
+    .select("id,form_key,form_title,answers,created_at")
+    .order("created_at", { ascending: false })
+    .limit(5000);
+
   const rows = (quizData ?? []) as QuizRow[];
+  const formRows = (formData ?? []) as FormRow[];
   // Bannière « SQL non appliqué » uniquement si la table n'existe pas réellement
   // (42P01 = undefined_table Postgres, PGRST205 = relation absente du cache PostgREST).
   const tableMissing = !!quizError && (quizError.code === "42P01" || quizError.code === "PGRST205");
@@ -54,6 +76,10 @@ async function getData() {
     tableMissing,
     bucco: rows.filter((r) => r.quiz_slug === "bucco"),
     ecrans: rows.filter((r) => r.quiz_slug === "ecrans"),
+    forms: {
+      sport: formRows.filter((r) => r.form_key === "sport"),
+      sante: formRows.filter((r) => r.form_key === "sante"),
+    },
   };
 }
 
@@ -162,7 +188,7 @@ export default async function AdminSondagePage() {
   // Données de questionnaires (santé, dont auto-test écrans) :
   // réservées aux administrateurs, pas aux arbitres.
   await requireStaff({ role: "admin" });
-  const { tableMissing, bucco, ecrans } = await getData();
+  const { tableMissing, bucco, ecrans, forms } = await getData();
 
   const b = buccoStats(bucco);
   const e = ecransStats(ecrans);
@@ -172,15 +198,17 @@ export default async function AdminSondagePage() {
       <section className="rounded-3xl bg-omas-gradient p-6 text-white shadow-sm">
         <div className="text-3xl" aria-hidden>💬</div>
         <h1 className="mt-3 font-[family-name:var(--font-outfit)] text-2xl font-bold">
-          Questionnaires du village santé
+          Sondage & questionnaires
         </h1>
         <p className="mt-2 text-sm text-white/85">
-          Réponses anonymes collectées au village santé. Les avis sur l’événement sont
-          recueillis via les questionnaires Google Forms (Sport &amp; Village santé).
+          Réponses anonymes : quiz du village santé et avis Google Forms (Sport &amp; Village santé),
+          recopiés ici automatiquement.
         </p>
         <div className="mt-4 grid grid-cols-2 gap-2">
           <HeaderStat value={b.total} label="Quiz bucco" />
           <HeaderStat value={e.total} label="Test écrans" />
+          <HeaderStat value={forms.sport.length} label="Avis Sport" />
+          <HeaderStat value={forms.sante.length} label="Avis Santé" />
         </div>
       </section>
 
@@ -327,6 +355,10 @@ export default async function AdminSondagePage() {
           </div>
         )}
       </SectionCard>
+
+      {/* ============== AVIS GOOGLE FORMS ============== */}
+      <FormSection formKey="sport" rows={forms.sport} />
+      <FormSection formKey="sante" rows={forms.sante} />
     </div>
   );
 }
@@ -334,6 +366,63 @@ export default async function AdminSondagePage() {
 // =========================================================
 // Sous-composants UI
 // =========================================================
+
+/** Avis recopiés depuis un Google Form (Sport ou Village santé). */
+function FormSection({ formKey, rows }: { formKey: FormRow["form_key"]; rows: FormRow[] }) {
+  const meta = FORM_META[formKey];
+  const recent = rows.slice(0, 20);
+  return (
+    <SectionCard emoji={meta.emoji} title={`Avis Google Forms · ${meta.label}`}>
+      {rows.length === 0 ? (
+        <EmptyState />
+      ) : (
+        <div className="space-y-4">
+          <Kpi value={String(rows.length)} label="Réponses reçues" tint="teal" />
+          <div>
+            <SubTitle>Dernières réponses</SubTitle>
+            <ul className="mt-2 space-y-3">
+              {recent.map((r) => {
+                const entries = Object.entries(r.answers ?? {});
+                return (
+                  <li key={r.id} className="rounded-xl bg-[color:var(--color-omas-cream)] p-3">
+                    {entries.length === 0 ? (
+                      <p className="text-xs text-[color:var(--color-muted)]">Réponse vide.</p>
+                    ) : (
+                      <dl className="space-y-1.5">
+                        {entries.map(([q, a]) => (
+                          <div key={q}>
+                            <dt className="text-[11px] font-semibold uppercase tracking-wide text-[color:var(--color-omas-navy)]">
+                              {q}
+                            </dt>
+                            <dd className="text-sm text-[color:var(--color-foreground)]">
+                              {formatAnswer(a)}
+                            </dd>
+                          </div>
+                        ))}
+                      </dl>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+            {rows.length > recent.length && (
+              <p className="mt-2 text-xs text-[color:var(--color-muted)]">
+                +{rows.length - recent.length} autres réponses.
+              </p>
+            )}
+          </div>
+        </div>
+      )}
+    </SectionCard>
+  );
+}
+
+/** Rend une réponse Google Forms (texte, nombre, ou choix multiples → liste). */
+function formatAnswer(a: unknown): string {
+  if (Array.isArray(a)) return a.join(", ");
+  if (a === null || a === undefined || a === "") return "—";
+  return String(a);
+}
 
 function HeaderStat({ value, label }: { value: number; label: string }) {
   return (
