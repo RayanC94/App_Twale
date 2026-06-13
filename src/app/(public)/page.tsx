@@ -22,6 +22,17 @@ export default function HomePage() {
         <div className="relative mx-auto max-w-screen-sm px-6 pt-10 pb-14 flex flex-col items-center text-center">
           {/* Co-branding : les 2 logos côte à côte */}
           <div className="flex items-center gap-4">
+            <div className="rounded-full bg-[color:var(--color-twale-cream)] p-2.5 ring-4 ring-white/15 shadow-xl">
+              <Image
+                src="/logo-twale.jpeg"
+                alt=""
+                width={88}
+                height={88}
+                className="rounded-full"
+                preload
+              />
+            </div>
+            <span aria-hidden className="text-white/40 text-2xl font-light select-none">×</span>
             <div className="rounded-full bg-white p-2.5 ring-4 ring-white/15 shadow-xl">
               <Image
                 src="/logo-omas.jpg"
@@ -33,9 +44,9 @@ export default function HomePage() {
               />
             </div>
             <span aria-hidden className="text-white/40 text-2xl font-light select-none">×</span>
-            <div className="rounded-full bg-[color:var(--color-twale-cream)] p-2.5 ring-4 ring-white/15 shadow-xl">
+            <div className="rounded-full bg-white p-2.5 ring-4 ring-white/15 shadow-xl">
               <Image
-                src="/logo-twale.jpeg"
+                src="/sponsors/ville-choisy.png"
                 alt=""
                 width={88}
                 height={88}

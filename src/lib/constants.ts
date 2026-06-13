@@ -131,12 +131,6 @@ export const FOOD_TRUCKS: readonly FoodTruck[] = [
 
 export const SPONSORS: readonly SponsorEntry[] = [
   {
-    name: "Ville de Choisy-le-Roi",
-    logo: "/sponsors/ville-choisy.png",
-    description: "Commune d'accueil du tournoi — mise à disposition du Stade Jean Bouin et soutien à l'organisation de la journée.",
-    website: null,
-  },
-  {
     name: "ASCR Choisy-le-Roi",
     logo: "/sponsors/ascr-choisy.png",
     description: "Club sportif partenaire — appui à l'encadrement et à la logistique du tournoi.",
