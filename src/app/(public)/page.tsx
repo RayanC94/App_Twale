@@ -1,6 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
-import { TOURNOI_DATE_LABEL, TOURNOI_HOURS, EVENT, TOURNAMENT_CONFIG, HEALTH_STANDS, SPONSORS, VENUE_MAPS_URL, SOS_FALLBACK } from "@/lib/constants";
+import { TOURNOI_DATE_LABEL, TOURNOI_HOURS, EVENT, TOURNAMENT_CONFIG, HEALTH_STANDS, SPONSORS, VOLUNTEER_FOOD_PARTNERS, VENUE_MAPS_URL, SOS_FALLBACK } from "@/lib/constants";
+
+/** Logos défilants de l'accueil : partenaires de l'événement + restaurants des bénévoles. */
+const MARQUEE_LOGOS: { logo: string; name: string }[] = [...SPONSORS, ...VOLUNTEER_FOOD_PARTNERS];
 
 const QUICK_LINKS = [
   { href: "/tournoi",  label: "Tournoi",       icon: "🏆", desc: "Foot · Volley · Athlé" },
@@ -177,14 +180,14 @@ export default function HomePage() {
           </h3>
           <div className="mt-3 overflow-hidden rounded-2xl bg-[color:var(--color-surface)] ring-1 ring-[color:var(--color-border)] py-4">
             <div className="flex w-max items-center gap-10 animate-marquee">
-              {[...SPONSORS, ...SPONSORS, ...SPONSORS, ...SPONSORS].map((s, i) => (
+              {[...MARQUEE_LOGOS, ...MARQUEE_LOGOS, ...MARQUEE_LOGOS, ...MARQUEE_LOGOS].map((s, i) => (
                 <div key={`${s.name}-${i}`} className="shrink-0 px-2">
                   <Image
                     src={s.logo}
                     alt={s.name}
                     width={64}
                     height={64}
-                    className="h-16 w-16 object-contain"
+                    className="h-16 w-16 rounded-lg object-contain"
                   />
                 </div>
               ))}
