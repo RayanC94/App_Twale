@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createServiceClient } from "@/lib/supabase/service";
-import { QUIZ_BY_STAND } from "@/lib/quizzes";
+import { QUIZ_BY_STAND, BUCCO_QUESTIONS, ECRANS_QUESTIONS } from "@/lib/quizzes";
 import BuccoQuizForm from "@/components/public/BuccoQuizForm";
 import EcransTestForm from "@/components/public/EcransTestForm";
 
@@ -14,13 +14,12 @@ const QUIZ_META: Record<
   bucco: {
     eyebrow: "Quiz",
     title: "La santé bucco-dentaire",
-    intro: "13 questions pour tester tes connaissances. Les bonnes réponses s'affichent à la fin.",
+    intro: `${BUCCO_QUESTIONS.length} questions pour tester tes connaissances. Les bonnes réponses s'affichent à la fin.`,
   },
   ecrans: {
     eyebrow: "Test",
     title: "Êtes-vous dépendant·e aux écrans ?",
-    intro:
-      "Téléphone, réseaux sociaux, jeux vidéo, séries, Internet… 10 questions pour faire le point sur votre usage.",
+    intro: `Téléphone, réseaux sociaux, jeux vidéo, séries, Internet… ${ECRANS_QUESTIONS.length} questions pour faire le point sur votre usage.`,
   },
 };
 

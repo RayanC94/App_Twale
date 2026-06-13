@@ -56,8 +56,11 @@ async function getData() {
     .limit(2000);
 
   const rows = (quizData ?? []) as QuizRow[];
+  // Bannière « SQL non appliqué » uniquement si la table n'existe pas réellement
+  // (42P01 = undefined_table Postgres, PGRST205 = relation absente du cache PostgREST).
+  const tableMissing = !!quizError && (quizError.code === "42P01" || quizError.code === "PGRST205");
   return {
-    tableMissing: !!quizError,
+    tableMissing,
     bucco: rows.filter((r) => r.quiz_slug === "bucco"),
     ecrans: rows.filter((r) => r.quiz_slug === "ecrans"),
     survey: (surveyData ?? []) as SurveyRow[],
@@ -176,7 +179,9 @@ function surveyStats(rows: SurveyRow[]) {
 // =========================================================
 
 export default async function AdminSondagePage() {
-  await requireStaff();
+  // Données de questionnaires (santé, dont auto-test écrans) + commentaires :
+  // réservées aux administrateurs, pas aux arbitres.
+  await requireStaff({ role: "admin" });
   const { tableMissing, bucco, ecrans, survey } = await getData();
 
   const b = buccoStats(bucco);

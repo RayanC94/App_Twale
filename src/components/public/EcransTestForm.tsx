@@ -20,6 +20,12 @@ const TONE: Record<EcransBand["tone"], { bg: string; text: string; ring: string 
 
 type ResultState = ReturnType<typeof gradeEcrans> | null;
 
+function scrollToTop() {
+  if (typeof window === "undefined") return;
+  const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+  window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
+}
+
 export default function EcransTestForm() {
   const [answers, setAnswers] = useState<EcransAnswers>({});
   const [result, setResult] = useState<ResultState>(null);
@@ -43,7 +49,7 @@ export default function EcransTestForm() {
     setResult(graded);
     formData.set("quiz_slug", "ecrans");
     formData.set("answers", JSON.stringify(answers));
-    if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
+    scrollToTop();
     startTransition(async () => {
       const res = await submitQuiz(formData);
       setSaved(!res.error);
@@ -74,20 +80,22 @@ export default function EcransTestForm() {
       {ECRANS_QUESTIONS.map((q, i) => {
         const current = answers[q.id];
         return (
-          <fieldset key={q.id} className="rounded-2xl bg-white p-5 ring-1 ring-[color:var(--color-border)]">
-            <legend className="px-1">
-              <span className="mr-2 inline-flex h-6 w-6 items-center justify-center rounded-md bg-[color:var(--color-omas-navy)] text-xs font-bold text-white align-middle">
+          <div key={q.id} className="rounded-2xl bg-white p-5 ring-1 ring-[color:var(--color-border)]">
+            <div className="flex items-start gap-2">
+              <span className="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-[color:var(--color-omas-navy)] text-xs font-bold text-white">
                 {i + 1}
               </span>
-              <span className="text-sm font-semibold text-[color:var(--color-omas-navy)]">{q.prompt}</span>
-            </legend>
-            <div className="mt-3 grid grid-cols-4 gap-2" role="radiogroup" aria-label={q.prompt}>
+              <h3 id={`${q.id}-label`} className="text-sm font-semibold text-[color:var(--color-omas-navy)]">
+                {q.prompt}
+              </h3>
+            </div>
+            <div className="mt-3 grid grid-cols-4 gap-2" role="radiogroup" aria-labelledby={`${q.id}-label`}>
               {ECRANS_SCALE.map((s) => {
                 const checked = current === s.value;
                 return (
                   <label
                     key={s.value}
-                    className={`flex cursor-pointer flex-col items-center gap-1 rounded-xl px-2 py-2.5 ring-1 transition ${
+                    className={`flex cursor-pointer flex-col items-center gap-1 rounded-xl px-2 py-2.5 ring-1 transition has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-[color:var(--color-omas-navy)] has-[:focus-visible]:ring-offset-1 ${
                       checked
                         ? "bg-[color:var(--color-omas-teal)] text-white ring-[color:var(--color-omas-teal)]"
                         : "text-[color:var(--color-foreground)] ring-[color:var(--color-border)] hover:ring-[color:var(--color-omas-teal)]/40"
@@ -109,7 +117,7 @@ export default function EcransTestForm() {
                 );
               })}
             </div>
-          </fieldset>
+          </div>
         );
       })}
 
@@ -156,7 +164,7 @@ function EcransResult({ result, saved }: { result: NonNullable<ResultState>; sav
         <p className="mt-3 text-sm text-balance text-[color:var(--color-foreground)]">{band.message}</p>
         {saved === false && (
           <p className="mt-2 text-[11px] text-[color:var(--color-muted)]">
-            (Réponse non enregistrée — connexion indisponible.)
+            (Votre réponse n’a pas pu être enregistrée — votre résultat reste affiché.)
           </p>
         )}
       </div>

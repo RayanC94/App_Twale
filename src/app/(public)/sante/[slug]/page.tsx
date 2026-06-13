@@ -4,14 +4,18 @@ import { createServiceClient } from "@/lib/supabase/service";
 import Lightbox from "@/components/public/Lightbox";
 import { HEALTH_DOCS, type HealthDoc } from "@/lib/health-docs";
 import type { HealthStandSlug } from "@/lib/constants";
-import { QUIZ_BY_STAND } from "@/lib/quizzes";
+import { QUIZ_BY_STAND, BUCCO_QUESTIONS, ECRANS_QUESTIONS } from "@/lib/quizzes";
 
 export const dynamic = "force-dynamic";
 
 /** Stands disposant d'un questionnaire numérique (CTA vers /sante/[slug]/quiz). */
 const QUIZ_CTA: Record<string, { label: string; sub: string; emoji: string }> = {
-  bucco: { label: "Teste tes connaissances", sub: "Quiz interactif · 13 questions", emoji: "🦷" },
-  addictologie: { label: "Êtes-vous dépendant·e aux écrans ?", sub: "Test interactif · 10 questions", emoji: "📱" },
+  bucco: { label: "Teste tes connaissances", sub: `Quiz interactif · ${BUCCO_QUESTIONS.length} questions`, emoji: "🦷" },
+  addictologie: {
+    label: "Êtes-vous dépendant·e aux écrans ?",
+    sub: `Test interactif · ${ECRANS_QUESTIONS.length} questions`,
+    emoji: "📱",
+  },
 };
 
 type StandRow = {

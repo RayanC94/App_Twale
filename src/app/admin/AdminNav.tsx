@@ -13,7 +13,7 @@ const ITEMS = [
   { href: "/admin/athle", label: "Athlé", icon: "🏃" },
   { href: "/admin/stands", label: "Stands", icon: "💚" },
   { href: "/admin/galerie", label: "Galerie", icon: "📷" },
-  { href: "/admin/sondage", label: "Sondage & quiz", icon: "💬" },
+  { href: "/admin/sondage", label: "Sondage & quiz", icon: "💬", adminOnly: true },
   { href: "/admin/parametres", label: "Paramètres", icon: "⚙️" },
 ];
 
@@ -160,7 +160,7 @@ export default function AdminNav({ displayName, role, sport }: Props) {
 
         <nav className="px-2">
           <ul className="space-y-0.5">
-            {ITEMS.map((item) => {
+            {ITEMS.filter((item) => !item.adminOnly || role === "admin").map((item) => {
               const active = isActive(item.href, item.exact);
               return (
                 <li key={item.href}>

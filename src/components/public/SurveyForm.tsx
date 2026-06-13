@@ -72,16 +72,16 @@ export default function SurveyForm({ stands }: { stands: Stand[] }) {
   return (
     <form action={handleSubmit} className="space-y-6">
       {/* Stand préféré */}
-      <fieldset className="rounded-2xl bg-white p-5 ring-1 ring-[color:var(--color-border)]">
-        <legend className="px-1 text-sm font-semibold text-[color:var(--color-omas-navy)]">
+      <div className="rounded-2xl bg-white p-5 ring-1 ring-[color:var(--color-border)]">
+        <h3 id="survey-stand" className="px-1 text-sm font-semibold text-[color:var(--color-omas-navy)]">
           Stand préféré du village santé
-        </legend>
+        </h3>
         {stands.length === 0 ? (
           <p className="mt-3 text-sm text-[color:var(--color-muted)]">
             Aucun stand disponible pour le moment.
           </p>
         ) : (
-          <ul className="mt-3 space-y-2">
+          <ul className="mt-3 space-y-2" role="radiogroup" aria-labelledby="survey-stand">
             {stands.map((s) => {
               const checked = selectedStand === s.id;
               return (
@@ -125,14 +125,14 @@ export default function SurveyForm({ stands }: { stands: Stand[] }) {
             })}
           </ul>
         )}
-      </fieldset>
+      </div>
 
       {/* Note */}
-      <fieldset className="rounded-2xl bg-white p-5 ring-1 ring-[color:var(--color-border)]">
-        <legend className="px-1 text-sm font-semibold text-[color:var(--color-omas-navy)]">
+      <div className="rounded-2xl bg-white p-5 ring-1 ring-[color:var(--color-border)]">
+        <h3 id="survey-note" className="px-1 text-sm font-semibold text-[color:var(--color-omas-navy)]">
           Note globale de la journée
-        </legend>
-        <div className="mt-3 flex items-center justify-center gap-2" role="radiogroup" aria-label="Note de 1 à 5">
+        </h3>
+        <div className="mt-3 flex items-center justify-center gap-2" role="radiogroup" aria-labelledby="survey-note">
           {[1, 2, 3, 4, 5].map((n) => {
             const active = (hoverRating || rating) >= n;
             return (
@@ -161,14 +161,14 @@ export default function SurveyForm({ stands }: { stands: Stand[] }) {
         <p className="mt-2 text-center text-xs text-[color:var(--color-muted)]">
           {rating > 0 ? `${rating}/5` : "Cliquez sur une étoile"}
         </p>
-      </fieldset>
+      </div>
 
       {/* Moment préféré */}
-      <fieldset className="rounded-2xl bg-white p-5 ring-1 ring-[color:var(--color-border)]">
-        <legend className="px-1 text-sm font-semibold text-[color:var(--color-omas-navy)]">
+      <div className="rounded-2xl bg-white p-5 ring-1 ring-[color:var(--color-border)]">
+        <h3 id="survey-moment" className="px-1 text-sm font-semibold text-[color:var(--color-omas-navy)]">
           Qu’avez-vous préféré dans la journée ?
-        </legend>
-        <ul className="mt-3 grid grid-cols-2 gap-2">
+        </h3>
+        <ul className="mt-3 grid grid-cols-2 gap-2" role="radiogroup" aria-labelledby="survey-moment">
           {MOMENTS.map((m) => {
             const checked = favoriteMoment === m.value;
             return (
@@ -195,14 +195,14 @@ export default function SurveyForm({ stands }: { stands: Stand[] }) {
             );
           })}
         </ul>
-      </fieldset>
+      </div>
 
       {/* Reviendrez-vous ? */}
-      <fieldset className="rounded-2xl bg-white p-5 ring-1 ring-[color:var(--color-border)]">
-        <legend className="px-1 text-sm font-semibold text-[color:var(--color-omas-navy)]">
+      <div className="rounded-2xl bg-white p-5 ring-1 ring-[color:var(--color-border)]">
+        <h3 id="survey-return" className="px-1 text-sm font-semibold text-[color:var(--color-omas-navy)]">
           Reviendrez-vous l’année prochaine ?
-        </legend>
-        <div className="mt-3 grid grid-cols-3 gap-2" role="radiogroup" aria-label="Reviendrez-vous l’année prochaine ?">
+        </h3>
+        <div className="mt-3 grid grid-cols-3 gap-2" role="radiogroup" aria-labelledby="survey-return">
           {RETURN_OPTIONS.map((o) => {
             const checked = wouldReturn === o.value;
             return (
@@ -227,15 +227,16 @@ export default function SurveyForm({ stands }: { stands: Stand[] }) {
             );
           })}
         </div>
-      </fieldset>
+      </div>
 
       {/* Commentaire */}
-      <fieldset className="rounded-2xl bg-white p-5 ring-1 ring-[color:var(--color-border)]">
-        <legend className="px-1 text-sm font-semibold text-[color:var(--color-omas-navy)]">
+      <div className="rounded-2xl bg-white p-5 ring-1 ring-[color:var(--color-border)]">
+        <h3 id="survey-comment" className="px-1 text-sm font-semibold text-[color:var(--color-omas-navy)]">
           Un commentaire ? (facultatif)
-        </legend>
+        </h3>
         <textarea
           name="comment"
+          aria-labelledby="survey-comment"
           value={comment}
           onChange={(e) => setComment(e.target.value.slice(0, 500))}
           maxLength={500}
@@ -246,7 +247,7 @@ export default function SurveyForm({ stands }: { stands: Stand[] }) {
         <p className="mt-1 text-right text-[11px] text-[color:var(--color-muted)] tabular-nums">
           {comment.length}/500
         </p>
-      </fieldset>
+      </div>
 
       {error && (
         <p className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700 ring-1 ring-red-200" role="alert">
@@ -263,7 +264,7 @@ export default function SurveyForm({ stands }: { stands: Stand[] }) {
       </button>
 
       <p className="text-center text-[11px] text-[color:var(--color-muted)]">
-        Réponses anonymes. Aucune donnée personnelle n'est stockée.
+        Réponses anonymes. Aucune donnée personnelle n’est stockée.
       </p>
     </form>
   );

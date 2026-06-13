@@ -42,6 +42,8 @@ export type BuccoQuestion =
       id: string;
       type: "match";
       prompt: string;
+      /** Schéma de référence affiché au-dessus de l'exercice. */
+      image?: { src: string; width: number; height: number; alt: string };
       pool: readonly string[];
       rows: readonly { id: string; label: string; correct: string }[];
       explain?: string;
@@ -77,6 +79,12 @@ export const BUCCO_QUESTIONS: readonly BuccoQuestion[] = [
     id: "q3",
     type: "match",
     prompt: "Complète le schéma de la dent : associe chaque partie à sa description.",
+    image: {
+      src: "/sante/bucco/anatomie-de-la-dent-thumb.jpg",
+      width: 600,
+      height: 849,
+      alt: "Schéma en coupe d'une dent : couronne, collet, racine, émail, dentine, pulpe, gencive, os.",
+    },
     pool: ["Couronne", "Racine", "Émail", "Dentine", "Pulpe", "Gencive", "Os"],
     rows: [
       { id: "r1", label: "Partie visible, au-dessus de la gencive", correct: "Couronne" },

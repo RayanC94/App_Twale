@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useMemo, useState, useTransition } from "react";
 import { submitQuiz } from "@/actions/quiz";
 import {
@@ -11,10 +12,17 @@ import {
 
 type ResultState = ReturnType<typeof gradeBucco> | null;
 
+function scrollToTop() {
+  if (typeof window === "undefined") return;
+  const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+  window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
+}
+
 export default function BuccoQuizForm() {
   const [answers, setAnswers] = useState<BuccoAnswers>({});
   const [result, setResult] = useState<ResultState>(null);
   const [saved, setSaved] = useState<boolean | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
 
   const total = useMemo(
@@ -23,9 +31,11 @@ export default function BuccoQuizForm() {
   );
 
   function setSingle(qid: string, value: string) {
+    setError(null);
     setAnswers((a) => ({ ...a, [qid]: value }));
   }
   function toggleMulti(qid: string, value: string) {
+    setError(null);
     setAnswers((a) => {
       const cur = Array.isArray(a[qid]) ? (a[qid] as string[]) : [];
       const next = cur.includes(value) ? cur.filter((v) => v !== value) : [...cur, value];
@@ -33,6 +43,7 @@ export default function BuccoQuizForm() {
     });
   }
   function setMatch(qid: string, rowId: string, value: string) {
+    setError(null);
     setAnswers((a) => {
       const cur = (a[qid] && typeof a[qid] === "object" && !Array.isArray(a[qid])
         ? a[qid]
@@ -41,15 +52,28 @@ export default function BuccoQuizForm() {
     });
   }
   function setText(qid: string, value: string) {
+    setError(null);
     setAnswers((a) => ({ ...a, [qid]: value }));
   }
 
   function handleSubmit(formData: FormData) {
+    const hasAny = BUCCO_QUESTIONS.some((q) => {
+      const a = answers[q.id];
+      if (a == null) return false;
+      if (typeof a === "string") return a.trim().length > 0;
+      if (Array.isArray(a)) return a.length > 0;
+      if (typeof a === "object") return Object.keys(a).length > 0;
+      return false;
+    });
+    if (!hasAny) {
+      setError("Réponds à au moins une question avant de valider.");
+      return;
+    }
     const graded = gradeBucco(answers);
     setResult(graded);
     formData.set("quiz_slug", "bucco");
     formData.set("answers", JSON.stringify(answers));
-    if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
+    scrollToTop();
     startTransition(async () => {
       const res = await submitQuiz(formData);
       setSaved(!res.error);
@@ -75,6 +99,12 @@ export default function BuccoQuizForm() {
         </QuestionCard>
       ))}
 
+      {error && (
+        <p className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700 ring-1 ring-red-200" role="alert">
+          {error}
+        </p>
+      )}
+
       <button
         type="submit"
         disabled={isPending}
@@ -98,19 +128,25 @@ function QuestionCard({
   q: BuccoQuestion;
   children: React.ReactNode;
 }) {
+  const labelId = `${q.id}-label`;
+  const role = q.type === "single" ? "radiogroup" : q.type === "text" ? undefined : "group";
   return (
-    <fieldset className="rounded-2xl bg-white p-5 ring-1 ring-[color:var(--color-border)]">
-      <legend className="px-1">
-        <span className="mr-2 inline-flex h-6 w-6 items-center justify-center rounded-md bg-[color:var(--color-omas-teal)] text-xs font-bold text-white align-middle">
+    <div className="rounded-2xl bg-white p-5 ring-1 ring-[color:var(--color-border)]">
+      <div className="flex items-start gap-2">
+        <span className="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-[color:var(--color-omas-teal)] text-xs font-bold text-white">
           {index}
         </span>
-        <span className="text-sm font-semibold text-[color:var(--color-omas-navy)]">{q.prompt}</span>
-      </legend>
+        <h3 id={labelId} className="text-sm font-semibold text-[color:var(--color-omas-navy)]">
+          {q.prompt}
+        </h3>
+      </div>
       {q.type === "multi" && q.hint && (
-        <p className="mt-2 px-1 text-xs text-[color:var(--color-muted)]">{q.hint}</p>
+        <p className="mt-2 text-xs text-[color:var(--color-muted)]">{q.hint}</p>
       )}
-      <div className="mt-3">{children}</div>
-    </fieldset>
+      <div className="mt-3" role={role} aria-labelledby={role ? labelId : undefined}>
+        {children}
+      </div>
+    </div>
   );
 }
 
@@ -138,7 +174,7 @@ function QuestionInputs({
           return (
             <label
               key={opt}
-              className={`cursor-pointer rounded-xl px-4 py-2.5 text-sm font-medium ring-1 transition ${
+              className={`cursor-pointer rounded-xl px-4 py-2.5 text-sm font-medium ring-1 transition has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-[color:var(--color-omas-navy)] has-[:focus-visible]:ring-offset-1 ${
                 checked
                   ? "bg-[color:var(--color-omas-teal)] text-white ring-[color:var(--color-omas-teal)]"
                   : "text-[color:var(--color-foreground)] ring-[color:var(--color-border)] hover:ring-[color:var(--color-omas-teal)]/40"
@@ -169,7 +205,7 @@ function QuestionInputs({
           return (
             <label
               key={opt}
-              className={`cursor-pointer rounded-xl px-4 py-2.5 text-sm font-medium ring-1 transition ${
+              className={`cursor-pointer rounded-xl px-4 py-2.5 text-sm font-medium ring-1 transition has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-[color:var(--color-omas-navy)] has-[:focus-visible]:ring-offset-1 ${
                 checked
                   ? "bg-[color:var(--color-omas-teal)] text-white ring-[color:var(--color-omas-teal)]"
                   : "text-[color:var(--color-foreground)] ring-[color:var(--color-border)] hover:ring-[color:var(--color-omas-teal)]/40"
@@ -196,13 +232,26 @@ function QuestionInputs({
       ? answers[q.id]
       : {}) as Record<string, string>;
     return (
-      <ul className="space-y-2">
-        {q.rows.map((row) => (
+      <>
+        {q.image && (
+          <Image
+            src={q.image.src}
+            width={q.image.width}
+            height={q.image.height}
+            alt={q.image.alt}
+            className="mx-auto mb-4 block h-auto w-full max-w-[240px] rounded-xl ring-1 ring-[color:var(--color-border)]"
+          />
+        )}
+        <ul className="space-y-2">
+          {q.rows.map((row) => (
           <li key={row.id} className="flex items-center gap-3">
-            <span className="flex-1 text-sm text-[color:var(--color-foreground)]">{row.label}</span>
+            <span id={`${q.id}-${row.id}-label`} className="flex-1 text-sm text-[color:var(--color-foreground)]">
+              {row.label}
+            </span>
             <select
               value={current[row.id] ?? ""}
               onChange={(e) => onMatch(q.id, row.id, e.target.value)}
+              aria-labelledby={`${q.id}-${row.id}-label`}
               className="shrink-0 rounded-lg border-0 bg-[color:var(--color-omas-cream)] px-3 py-2 text-sm font-medium text-[color:var(--color-foreground)] ring-1 ring-[color:var(--color-border)] focus:outline-none focus:ring-2 focus:ring-[color:var(--color-omas-teal)]"
             >
               <option value="">—</option>
@@ -213,8 +262,9 @@ function QuestionInputs({
               ))}
             </select>
           </li>
-        ))}
-      </ul>
+          ))}
+        </ul>
+      </>
     );
   }
 
@@ -227,6 +277,7 @@ function QuestionInputs({
       value={current}
       onChange={(e) => onText(q.id, e.target.value.slice(0, 200))}
       placeholder={q.placeholder}
+      aria-labelledby={`${q.id}-label`}
       className="w-full rounded-xl border-0 bg-[color:var(--color-omas-cream)] px-3 py-2.5 text-sm text-[color:var(--color-foreground)] ring-1 ring-[color:var(--color-border)] focus:outline-none focus:ring-2 focus:ring-[color:var(--color-omas-teal)]"
     />
   );
@@ -264,7 +315,7 @@ function BuccoResult({
         <p className="mt-2 text-sm text-balance text-[color:var(--color-foreground)]">{message}</p>
         {saved === false && (
           <p className="mt-2 text-[11px] text-[color:var(--color-muted)]">
-            (Réponse non enregistrée — connexion indisponible.)
+            (Ta réponse n’a pas pu être enregistrée, mais ton résultat reste affiché.)
           </p>
         )}
       </div>
