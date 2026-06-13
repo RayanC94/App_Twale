@@ -148,6 +148,12 @@ export const SPONSORS: readonly SponsorEntry[] = [
     description: "Créateur d'un système de gourde pour se laver et tout nettoyer sans gaspiller d'eau.",
     website: null,
   },
+  {
+    name: "Paramedic",
+    logo: "/sponsors/paramedic.svg",
+    description: "Donateur — merci pour son soutien à l'organisation de la journée.",
+    website: "https://www.paramedic.tech/",
+  },
 ];
 
 /**
@@ -162,6 +168,7 @@ export const VOLUNTEER_FOOD_PARTNERS: readonly FoodPartner[] = [
   { name: "Maison Braisée", address: "18 Av. Jean Monnet, 94450 Limeil-Brévannes", logo: "/sponsors/maison-braisee.png" },
   { name: "Afrik'N'Fusion", address: "Centre Commercial Régional Créteil-Soleil, 94000 Créteil", logo: "/sponsors/afrik-n-fusion.png" },
   { name: "Le Boostan", address: "97 Av. de Paris, 94380 Bonneuil-sur-Marne", logo: "/sponsors/boostan.png" },
+  { name: "Africano", address: "1 All. Costes et Bellonte, 94550 Chevilly-Larue", logo: "/sponsors/africano.jpeg" },
 ];
 
 /**
