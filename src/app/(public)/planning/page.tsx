@@ -1,4 +1,4 @@
-import { createServiceClient } from "@/lib/supabase/service";
+import { DAY_SCHEDULE, TOURNOI_DATE_ISO } from "@/lib/constants";
 
 export const dynamic = "force-dynamic";
 
@@ -12,6 +12,11 @@ type ScheduleItem = {
   category: string | null;
 };
 
+/** Heure locale "HH:MM" → ISO daté (CEST, +02:00 le 14 juin 2026). */
+function toIso(time: string): string {
+  return `${TOURNOI_DATE_ISO}T${time}:00+02:00`;
+}
+
 const CATEGORY_STYLE: Record<string, { label: string; color: string; bg: string }> = {
   ouverture: { label: "Ouverture",  color: "#1F9E94", bg: "rgba(31,158,148,0.10)" },
   tournoi:   { label: "Tournoi",    color: "#2B2C82", bg: "rgba(43,44,130,0.10)" },
@@ -21,14 +26,16 @@ const CATEGORY_STYLE: Record<string, { label: string; color: string; bg: string 
   cloture:   { label: "Clôture",    color: "#374151", bg: "rgba(55,65,81,0.10)" },
 };
 
-async function getSchedule(): Promise<ScheduleItem[]> {
-  const supabase = createServiceClient();
-  const { data, error } = await supabase
-    .from("schedule_items")
-    .select("id,title,description,starts_at,ends_at,location,category")
-    .order("starts_at", { ascending: true });
-  if (error || !data) return [];
-  return data;
+function getSchedule(): ScheduleItem[] {
+  return DAY_SCHEDULE.map((e, i) => ({
+    id: String(i),
+    title: e.title,
+    description: e.description ?? null,
+    starts_at: toIso(e.start),
+    ends_at: e.end ? toIso(e.end) : null,
+    location: null,
+    category: e.category,
+  }));
 }
 
 function formatHour(iso: string) {
@@ -37,8 +44,8 @@ function formatHour(iso: string) {
 
 export const metadata = { title: "Planning" };
 
-export default async function PlanningPage() {
-  const items = await getSchedule();
+export default function PlanningPage() {
+  const items = getSchedule();
   const now = new Date();
 
   return (

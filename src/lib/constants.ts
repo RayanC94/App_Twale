@@ -177,6 +177,44 @@ export const VOLUNTEER_FOOD_PARTNERS: readonly FoodPartner[] = [
 ];
 
 /**
+ * Programme officiel de la journée (grille reçue le 13 juin 2026), affiché sur /planning.
+ * Source de vérité statique : le déroulé ne dépend pas de la base — il s'affiche
+ * tel quel le jour J. Heures locales (Europe/Paris). `end: null` = repère ponctuel.
+ */
+export type ScheduleEntry = {
+  start: string; // "HH:MM"
+  end: string | null;
+  title: string;
+  description?: string;
+  category: "ouverture" | "tournoi" | "sante" | "pause" | "podium" | "cloture";
+};
+
+export const DAY_SCHEDULE: readonly ScheduleEntry[] = [
+  { start: "08:00", end: "08:45", title: "Accueil des équipes & installation", category: "ouverture" },
+  { start: "08:45", end: "09:00", title: "Briefing général & ouverture officielle", category: "ouverture" },
+  { start: "09:00", end: "09:25", title: "Échauffement collectif (Kiné)", description: "Football & volley", category: "tournoi" },
+  { start: "09:25", end: "12:35", title: "Phase de poules — Football & Volley", description: "Sur 3 terrains chacun. Athlétisme : inscriptions ouvertes.", category: "tournoi" },
+  { start: "10:00", end: null, title: "Ouverture du village santé", category: "sante" },
+  { start: "12:35", end: "13:45", title: "Pause déjeuner", category: "pause" },
+  { start: "13:15", end: "13:45", title: "Athlétisme — Course 3 km (Femmes)", category: "tournoi" },
+  { start: "13:45", end: "14:15", title: "Athlétisme — Course 3 km (Hommes)", category: "tournoi" },
+  { start: "14:15", end: "15:05", title: "Quarts de finale — Football & Volley", category: "tournoi" },
+  { start: "15:05", end: "15:15", title: "Athlétisme — Finale 800 m (H/F)", category: "tournoi" },
+  { start: "15:15", end: "16:10", title: "Demi-finales — Football & Volley", description: "Football : 20 min · Volley : 20 min ou 21 points.", category: "tournoi" },
+  { start: "15:15", end: "15:40", title: "Athlétisme — Séries 400 m (H/F)", category: "tournoi" },
+  { start: "16:10", end: "16:20", title: "Athlétisme — Séries 100 m (H/F)", category: "tournoi" },
+  { start: "16:20", end: "16:30", title: "Athlétisme — Finale 4×100 m (H/F)", category: "tournoi" },
+  { start: "16:30", end: "16:50", title: "Football — Petite finale", category: "tournoi" },
+  { start: "16:30", end: "16:40", title: "Athlétisme — Finale 4×400 m (H/F)", category: "tournoi" },
+  { start: "16:40", end: "16:50", title: "Athlétisme — Finales 400 m & 100 m (H/F)", category: "tournoi" },
+  { start: "16:50", end: "17:15", title: "Football — Finale 🏆 (2×15 min)", category: "tournoi" },
+  { start: "16:50", end: "17:15", title: "Volley — Petite finale (20 min ou 21 points)", category: "tournoi" },
+  { start: "17:15", end: "17:45", title: "Volley — Finale 🏆 (25 points)", category: "tournoi" },
+  { start: "17:45", end: "18:15", title: "Remise des prix 🏅", category: "podium" },
+  { start: "18:00", end: null, title: "Fermeture du village santé", category: "sante" },
+];
+
+/**
  * Liens de diffusion vidéo en direct (caméras XbotGo) — un lien par sport.
  * Laisser à null tant que le lien n'est pas connu : le bandeau « en direct »
  * reste masqué sur les pages tournoi.
