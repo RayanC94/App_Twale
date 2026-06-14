@@ -312,8 +312,71 @@ export async function updateMatchScore(formData: FormData): Promise<TournoiActio
 }
 
 /**
+ * Place une équipe dans un créneau (home/away) d'un match aval, en effaçant le
+ * libellé d'attente correspondant (« Vainqueur Quart 1 »…). Best-effort : sert
+ * la progression automatique du tableau, sans bloquer l'action principale.
+ */
+async function setBracketSlot(
+  supabase: ReturnType<typeof createServiceClient>,
+  matchId: string,
+  slot: "home" | "away",
+  teamId: string,
+) {
+  const teamCol = slot === "home" ? "team_home_id" : "team_away_id";
+  const phCol = slot === "home" ? "placeholder_home" : "placeholder_away";
+  await supabase
+    .from("matches")
+    .update({ [teamCol]: teamId, [phCol]: null, updated_at: new Date().toISOString() })
+    .eq("id", matchId);
+}
+
+/**
+ * Progression automatique du tableau final à la fin d'un match : le vainqueur
+ * monte dans `next_match_id`/`next_match_slot`, et — pour une demi-finale — le
+ * perdant descend dans la petite finale (même côté). L'arbitre n'a donc qu'à
+ * saisir le score puis « Terminer » : les demies/finales se remplissent seules.
+ */
+async function propagateBracket(
+  supabase: ReturnType<typeof createServiceClient>,
+  match: {
+    sport: string;
+    gender: string;
+    stage: string;
+    next_match_id: string | null;
+    next_match_slot: "home" | "away" | null;
+    team_home_id: string | null;
+    team_away_id: string | null;
+  },
+  winnerTeamId: string,
+) {
+  const slot = match.next_match_slot;
+  if (slot !== "home" && slot !== "away") return;
+
+  // 1) Vainqueur → match suivant
+  if (match.next_match_id) {
+    await setBracketSlot(supabase, match.next_match_id, slot, winnerTeamId);
+  }
+
+  // 2) Perdant d'une demi-finale → petite finale (même côté que dans la finale)
+  if (match.stage === "sf") {
+    const loserTeamId =
+      winnerTeamId === match.team_home_id ? match.team_away_id : match.team_home_id;
+    if (!loserTeamId) return;
+    const { data: third } = await supabase
+      .from("matches")
+      .select("id")
+      .eq("sport", match.sport)
+      .eq("gender", match.gender)
+      .eq("stage", "third")
+      .maybeSingle();
+    if (third?.id) await setBracketSlot(supabase, third.id, slot, loserTeamId);
+  }
+}
+
+/**
  * Changement de statut. À la fin d'un match (« finished »), le vainqueur est
- * calculé depuis le score (égalité → match nul, pas de vainqueur).
+ * calculé depuis le score (égalité → match nul, pas de vainqueur). En phase
+ * finale, le vainqueur (et le perdant d'une demi) sont propagés au tour suivant.
  */
 export async function setMatchStatus(formData: FormData): Promise<TournoiActionState> {
   const id = str(formData, "id");
@@ -325,7 +388,7 @@ export async function setMatchStatus(formData: FormData): Promise<TournoiActionS
   const supabase = createServiceClient();
   const { data: match } = await supabase
     .from("matches")
-    .select("sport,stage,score_home,score_away,team_home_id,team_away_id")
+    .select("sport,gender,stage,score_home,score_away,team_home_id,team_away_id,next_match_id,next_match_slot")
     .eq("id", id)
     .maybeSingle();
   if (!match) return { error: "Match introuvable." };
@@ -355,5 +418,11 @@ export async function setMatchStatus(formData: FormData): Promise<TournoiActionS
     })
     .eq("id", id);
   if (error) return { error: "Changement de statut impossible. Réessayez." };
+
+  // Progression auto du tableau final (best-effort, n'échoue pas l'action).
+  if (status === "finished" && winnerTeamId && match.stage !== "group") {
+    await propagateBracket(supabase, match, winnerTeamId);
+  }
+
   return { success: true };
 }
